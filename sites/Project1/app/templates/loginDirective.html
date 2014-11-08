@@ -1,0 +1,10 @@
+<div ng-show='!connected'>
+	<input type='text' placeholder="Username" name='username' id='username' ng-model='username' />
+	<input type='text' placeholder="Password" name='password' id='password' ng-model='password' />
+	<button class="btn btn-xs btn-info" ng-click='login()'>Log In</button>
+	<button class="btn btn-xs btn-success" ng-click='register()'>Register</button>
+</div>
+
+<div ng-show='connected'>
+	<button class="btn btn-danger" ng-click='logout()'>Log Out</button>
+</div>

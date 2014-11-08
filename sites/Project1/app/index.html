@@ -1,0 +1,33 @@
+<!doctype html>
+<html ng-app='myApp'>
+<head>
+	<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<title>Bonjour</title>
+</head>
+<body>
+
+	<div ng-view></div>
+
+	<!-- Angular -->
+	<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+	<script type="text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
+
+	<script type="text/javascript" src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+
+	<!-- RequireJS -->
+	<script type="text/javascript" src="bower_components/requirejs/require.js"></script>
+
+	<!-- App Source Files -->
+	<script type="text/javascript" src="scripts/app.js"></script>
+	<script type="text/javascript" src="scripts/config.js"></script>
+
+	<!-- Services -->
+	<script type="text/javascript" src="scripts/services/authService.js"></script>
+
+	<!-- Controllers -->
+	<script type="text/javascript" src="scripts/controllers/authCtrl.js"></script>
+
+	<!-- Directives -->
+	<script type="text/javascript" src="scripts/directives/loginDirective.js"></script>
+</body>
+</html>
