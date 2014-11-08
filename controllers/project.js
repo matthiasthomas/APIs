@@ -77,11 +77,17 @@ module.exports.controller = function(app, config, projects, models, middlewares,
 
 	// Add a new project
 	.post(function(req, res) {
+		var contacts = JSON.parse(req.body.contacts);
+
+		console.log('contacts: ' + contacts);
+
 		var project = new models.Project({
 			// Set project attributes
 			name: req.body.name,
-			contacts: req.body.contacts
+			contacts: contacts
 		});
+
+		console.log('project: ' + project);
 
 		// Save the project and check for errors
 		project.save(function(error, project) {

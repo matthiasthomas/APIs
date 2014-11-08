@@ -1,0 +1,1 @@
+var roleModule = angular.module('roleModule', []);

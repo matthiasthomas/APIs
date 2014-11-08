@@ -23,7 +23,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 			//Set user attributes
 			user.email = req.body.email;
-			user.password = req.body.password;
+			user.password = modules.bcrypt.hashSync(req.body.password, config.salt);
 			user._role = req.body._role;
 			user.updated = Date.now();
 
@@ -96,12 +96,14 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 				//Check if role was sent.
 				//!\\ Attention Faille //!\\
 				models.Role.findOne({
-					name: 'Guest'
+					name: 'guest'
 				}, function(error, role) {
+
+					var _role = '';
 					if (!req.body._role) {
 						_role = role._id;
 					} else {
-						_role: req.body._role;
+						_role = req.body._role;
 					}
 
 					var user = new models.User({
@@ -110,8 +112,6 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 						password: req.body.password,
 						_role: _role
 					});
-
-					console.log(user);
 
 					// Hash the password with the salt
 					user.password = modules.bcrypt.hashSync(user.password, config.salt);

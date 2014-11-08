@@ -11,9 +11,15 @@ var myApp = angular
     'xeditable',
     'flow',
 
-    //Added by Matthias 29/10/2014
+    //Added by Matthias
 
     'userModule',
+    'billModule',
+    'imageModule',
+    'messageModule',
+    'moduleModule',
+    'projectModule',
+    'roleModule',
     'LocalStorageModule',
 
     //End Added

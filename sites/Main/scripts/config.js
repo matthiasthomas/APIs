@@ -7,5 +7,6 @@ myApp.config(['localStorageServiceProvider',
 
 myApp.globals = {
 	serverUrl: "http://127.0.0.1:8080/",
-	projectName: "ecig"
+	projectName: "ecig",
+	
 }
