@@ -3,7 +3,9 @@ var Db = require('./Db.js').Db;
 
 var UserModel = Db.model('User', new mongoose.Schema({
 	email: String,
-	password: String,
+	password: {
+		type: String
+	},
 	_role: {
 		type: String,
 		required: true,

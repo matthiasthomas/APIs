@@ -1,0 +1,77 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a href="#/">Dashboard</a></li>
+    <li class="active">Edit a User</li>
+  </ol>
+
+  <h1> Edit a User</h1>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+
+      <form action class="form-horizontal row-border" name="editUserForm">
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Email</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id='email' name='email' ng-model='user.email' value='{{ user.email }}' required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Password</label>
+          <div class="col-sm-9">
+            <input type="password" class="form-control" id='password' name='password' ng-model='user.password' ng-required='' />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Repeat Password</label>
+          <div class="col-sm-9">
+            <input type="password" class="form-control" id="passwordRepeat" name="passwordRepeat" ng-model='passwordRepeat' ng-required='' password-verify='password'></input>
+          </div>
+        </div>
+
+        <!-- Display an error message when the passwords do not math -->
+        <div class="msg-block" ng-show="editUserForm.$error">
+          <span class="msg-error" ng-show="editUserForm.passwordRepeat.$error.pwmatch">
+            Passwords don't match.
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Role</label>
+          <div class="col-sm-9">
+            <select ng-model='user._role._id' required ng-options='role._id as role.name for role in roles' required></select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Projects</label>
+          <div class="col-sm-5">
+            <h4>Administrating</h4>
+            <div ng-repeat='project in administratingProjects' class="checkbox">
+              <label>
+              <input type="checkbox" checked="checked" ng-click='notAdministratingThisProject($index)'> {{ project.name }}
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-offset-7">
+            <h4>Not Administrating</h4>
+            <div ng-repeat='project in notAdministratingProjects' class="checkbox">
+              <label>
+                <input type="checkbox" ng-click='administratingThisProject($index)'> {{ project.name }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <a class="btn btn-primary col-sm-offset-2" ng-click=''>Submit</a>
+
+      </form>
+
+    </div>
+  </div>
+</div>

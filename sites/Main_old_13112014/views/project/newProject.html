@@ -1,0 +1,97 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a href="#/">Dashboard</a></li>
+    <li><a href="#/projects">Projects</a></li>
+    <li class="active">New Project</li>
+  </ol>
+
+  <h1>New Project</h1>
+</div>
+<div class="container-fluid">
+
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <panel panel-class="panel-sky" heading="Add A Project">
+        <form action="#" data-wizard="{finishButton: true, titleClick: true, block: true, validate: true}" class="form-horizontal">
+
+          <fieldset title="Step 1">
+            <legend>General Information</legend>
+            <div class="form-group">
+              <label for="fieldname" class="col-md-3 control-label">Name</label>
+              <div class="col-md-6">
+                <input id="fieldname" class="form-control" name="name" ng-model='project.name'  type="text" required>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset title="Step 2">
+            <legend>Contact(s)</legend>
+            <div ng-repeat='contact in project.contacts'>
+              <h4>Contact {{ $index + 1 }} <a ng-hide='$index == 0 && project.contacts.length == 1' class='btn btn-xs btn-danger' ng-click='removeContact($index)'><i class='fa fa-trash-o'></i></a></h4>
+              <div class="form-group">
+                <label for="fieldlabel" class="col-md-3 control-label">Label</label>
+                <div class="col-md-6"><input id="fieldlabel" class="form-control" ng-model='contact.label' name="label" type="text" required></div>
+              </div>
+              <div class="form-group">
+                <label for="fieldaddress" class="col-md-3 control-label">Address</label>
+                <div class="col-md-6"><input id="fieldaddress" class="form-control" name="address" ng-model='contact.address'  type="text" required></div>
+              </div>
+              <div class="form-group">
+                <label for="fieldcity" class="col-md-3 control-label">City</label>
+                <div class="col-md-6"><input id="fieldcity" class="form-control" name="city" ng-model='contact.city' type="text" required></div>
+              </div>
+              <div class="form-group">
+                <label for="fieldzipcode" class="col-md-3 control-label">Zip Code</label>
+                <div class="col-md-6"><input id="fieldzipcode" class="form-control" name="zipcode" ng-model='contact.zipcode'  type="text" required></div>
+              </div>
+              <div class="form-group">
+                <label for="fieldcountry" class="col-md-3 control-label">Country</label>
+                <div class="col-md-6"><input id="fieldcountry" class="form-control" name="country" ng-model='contact.country' type="text" required></div>
+              </div>
+              <div ng-repeat='phone in contact.phones'>
+                <h6>Phone {{ $index + 1 }} of Contact {{ $parent.$index + 1 }} <a ng-hide='$index == 0 && contact.phones.length == 1' class='btn btn-xs btn-danger' ng-click='removePhone($parent.$index, $index)'><i class='fa fa-trash-o'></i></a></h6>
+                <div class="form-group">
+                  <label for="fieldphonenumber" class="col-md-3 control-label">Phone Number</label>
+                  <div class="col-md-6"><input id="fieldphonenumber" class="form-control" name="number" ng-model='phone.number' type="text" required></div>
+                </div>    
+                <div class="form-group">
+                  <label for="fieldphonetype" class="col-md-3 control-label">Phone Type</label>
+                  <div class="col-md-6"><input id="fieldphonetype" class="form-control" name="type" ng-model='phone.type' type="text" required></div>
+                  <div class="col-md-3" ng-show='($index + 1) == contact.phones.length'><a class='btn btn-success' ng-click='addPhone($parent.$index)'>Add a Phone</a></div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-3 col-md-offset-9" ng-show='($index + 1) == project.contacts.length'>
+                  <a class="btn btn-success" ng-click='addContact()'>Add a Contact</a>
+                </div>
+              </div>
+
+            </div>
+
+          </fieldset>
+
+
+          <fieldset title="Step 3">
+            <legend>Validation</legend>
+            <div class="form-group">
+              <label for="" class="col-md-3 control-label">Terms and Conditions</label>
+              <div class="col-md-9">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, nemo, atque consequuntur officiis asperiores consectetur porro labore commodi esse error quisquam nihil illum sunt facere inventore possimus autem ab voluptates quibusdam non voluptatum suscipit architecto. Illo, facilis, corporis, veritatis dolores minus quasi iure cupiditate quis autem ducimus nisi obcaecati tenetur sed ea excepturi pariatur consequatur enim labore officia mollitia. Rerum, voluptatem numquam molestiae recusandae iusto ipsum inventore unde accusantium labore delectus? Doloremque, fugit, sunt libero laboriosam cupiditate sed sequi nostrum saepe. Mollitia, alias, expedita accusantium porro error autem dolore veniam commodi nesciunt provident vitae neque. Nostrum, sed, molestias itaque provident inventore natus animi quasi laborum laboriosam facere ratione aperiam iusto. Non ducimus facere sunt doloribus? Asperiores, natus distinctio quis iure!</p>
+              </div>
+            </div>
+          </fieldset>
+
+
+          <input type="submit" class="finish btn-success btn" value="Submit" />
+        </form>
+      </panel>
+
+
+    </div>
+  </div>
+
+
+</div> <!-- container -->

@@ -1,0 +1,50 @@
+        <div id="page-heading">
+            <ol class="breadcrumb">
+                <li><a href="#/">Dashboard</a></li>
+                <li class="active">Projects</li>
+            </ol>
+
+            <h1>Projects</h1>
+        </div>
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-sky">
+                        <div class="panel-heading">
+                            <h4>Projects</h4>
+
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-flipscroll">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th style="padding-right:100px">Project</th>
+                                            <th>Country</th>
+                                            <th>Date of Creation</th>
+                                            <th>Visits last month</th>
+                                            <th>Check it out!</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr ng-repeat="project in projects">
+                                            <td align="left">{{ project.name }}</td>
+                                            <td><span class="flagicon"><img alt="" src="http://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/320px-Flag_of_France.svg.png" width="23" height="12" srcset="http://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/320px-Flag_of_France.svg.png 2x">&nbsp;</span>France</a></td>
+                                            <td>{{ project.created }}</td>
+                                            <td>NB</td>
+                                            <td><a href="#/project/{{ project._id }}"><i class='fa fa-external-link-square'></i></a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <a class="btn btn-sm btn-primary" href="#/newProject">Add a Project</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- container -->

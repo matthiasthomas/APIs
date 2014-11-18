@@ -71,23 +71,21 @@ module.exports.controller = function(app, config, projects, models, middlewares,
 			if (error)
 				res.send(error);
 
-			res.json(projects);
+			res.json({
+				success: true,
+				projects: projects
+			});
 		});
 	})
 
 	// Add a new project
 	.post(function(req, res) {
-		var contacts = JSON.parse(req.body.contacts);
-
-		console.log('contacts: ' + contacts);
 
 		var project = new models.Project({
 			// Set project attributes
-			name: req.body.name,
-			contacts: contacts
+			name: req.body.project.name,
+			contacts: req.body.project.contacts
 		});
-
-		console.log('project: ' + project);
 
 		// Save the project and check for errors
 		project.save(function(error, project) {
@@ -95,9 +93,11 @@ module.exports.controller = function(app, config, projects, models, middlewares,
 				res.send(error);
 
 			res.json({
+				success: true,
 				message: 'Project was saved!',
 				project: project
 			});
 		});
+
 	});
 };

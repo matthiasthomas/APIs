@@ -1,0 +1,128 @@
+/**
+* Forza 1.0.0 (c) 2014
+* Ndevr Studios Ltd.
+*
+*/
+
+@import("http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+@import("../../assets/demo/variations/default.css");
+
+/* The following CSS are included as plugins and can be removed if unused */
+/* build:css assets/css/vendor.css */
+/* bower:css */
+@import("../../bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css");
+@import("../../bower_components/angular-ui-tree/dist/angular-ui-tree.min.css");
+@import("../../bower_components/angular-toggle-switch/angular-toggle-switch.css");
+@import("../../bower_components/ng-grid/ng-grid.css");
+@import("../../bower_components/angular-xeditable/dist/css/xeditable.css");
+@import("../../bower_components/select2/select2.css");
+@import("../../bower_components/jScrollPane/style/jquery.jscrollpane.css");
+@import("../../bower_components/pnotify/pnotify.core.css");
+@import("../../bower_components/pnotify/pnotify.buttons.css");
+@import("../../bower_components/pnotify/pnotify.history.css");
+/* endbower */
+@import("../../assets/fonts/glyphicons/css/glyphicons.min.css"); 
+@import("../../assets/plugins/icheck/all.css"); 
+@import("../../assets/plugins/form-multiselect/css/multi-select.css"); 
+@import("../../assets/plugins/form-fseditor/fseditor.css"); 
+@import("../../assets/plugins/form-tokenfield/bootstrap-tokenfield.css"); 
+@import("../../assets/plugins/datepaginator/bootstrap-datepaginator.css"); 
+@import("../../assets/plugins/jquery-fileupload/css/jquery.fileupload-ui.css"); 
+@import("../../assets/plugins/bootstro.js/bootstro.min.css"); 
+@import("../../assets/plugins/progress-skylo/skylo.css"); 
+@import("../../assets/plugins/jcrop/css/jquery.Jcrop.min.css"); 
+@import("../../assets/plugins/form-daterangepicker/daterangepicker-bs3.css"); 
+@import("../../assets/plugins/form-markdown/css/bootstrap-markdown.min.css"); 
+@import("../../assets/plugins/codeprettifier/prettify.css");
+@import("../../assets/plugins/form-select2/select2.css");
+@import("../../assets/plugins/fullcalendar/fullcalendar.css");
+/* endbuild */
+
+/* build:css({.tmp,app}) assets/css/main.css */
+@import("../../assets/css/main.css");
+@import("../../assets/css/styles.css");
+/* endbuild */
+
+
+[ng-cloak] {
+	display: none;
+}
+.topNegative1000 {
+	top: -1000px !important;
+}
+.topZero {
+	top: 0 !important;
+}
+
+.mainview-animation {
+	position: relative;
+}
+.mainview-animation.ng-enter {
+	-webkit-transition: .3s linear all; /* Safari/Chrome */
+	-moz-transition: .3s linear all; /* Firefox */
+	-o-transition: .3s linear all; /* Opera */
+	transition: .3s linear all; /* IE10+ and Future Browsers */
+}
+
+.mainview-animation.ng-enter{
+	opacity: 0;
+}
+
+.mainview-animation.ng-enter.ng-enter-active { 
+	opacity: 1;
+}
+
+.navbar.navbar-default.ng-hide {
+	display: none;
+}
+#page-rightbar .jspHorizontalBar {
+	/*display: none !important;*/
+}
+.fc-grid .fc-day-number {
+	padding: 5px 6px;
+}
+.large-icons-nav #top-nav > li > ul {
+	top: 85px;
+}
+#top-nav li > ul {
+	display: none;
+	position: absolute;
+	top: 40px;
+	left: 0;
+	padding-left: 0;
+	min-width: 200px;
+}
+@media (max-width: 768px) {
+	#top-nav li > ul {
+		position: inherit !important;
+		top: 0px !important;
+		padding-left: 20px !important;
+	}
+}
+#top-nav li > ul li {
+	list-style-type: none;
+}
+#top-nav li > ul li ul{
+	left: 100%;
+}
+#top-nav li > ul li a {
+	width: 100%;
+	display: inline-block;
+}
+#top-nav li > ul li a:hover {
+	text-decoration: none;
+}
+#top-nav li:hover > ul {
+	display: block;
+}
+#horizontal-navbar .navbar-nav li.active a:before {
+	display: none;
+}
+
+.msg-block {
+	margin-top:5px;
+}
+.msg-error {
+	color:#F00;
+	font-size:14px;
+}

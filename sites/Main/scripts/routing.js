@@ -13,10 +13,34 @@ myApp.config(['$provide', '$routeProvider',
 			templateUrl: 'views/extras-inbox.html'
 		}).
 		when('/users', {
-			templateUrl: 'views/users.html'
+			templateUrl: 'views/user/users.html',
+			controller: 'UsersController'
+		}).
+		when('/editUser/:id', {
+			templateUrl: 'views/user/editUser.html',
+			controller: 'EditUserController'
+		}).
+		when('/addUser', {
+			templateUrl: 'views/user/editUser.html',
+			controller: 'AddUserController'
 		}).
 		when('/projects', {
-			templateUrl: 'views/projects.html'
+			templateUrl: 'views/project/projects.html',
+			controller: 'ProjectsController'
+		}).
+		when('/newProject', {
+			templateUrl: 'views/project/newProject.html',
+			controller: 'NewProjectController',
+			resolve: {
+				lazyLoad: ['lazyLoad',
+					function(lazyLoad) {
+						return lazyLoad.load([
+							'bower_components/jquery-validation/dist/jquery.validate.js',
+							'bower_components/stepy/lib/jquery.stepy.js'
+						]);
+					}
+				]
+			}
 		}).
 		when('/signup', {
 			templateUrl: 'views/extras-signupform.html',

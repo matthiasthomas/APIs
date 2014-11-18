@@ -95,4 +95,21 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 			});
 		});
 	});
+
+	// --------------------------------------------
+	// Routes to /api/usersProjects/:_user
+	// --------------------------------------------
+	router.route('/usersProjects/_user/:_user')
+
+	// Get all usersProjects
+	.get(function(req, res) {
+		models.UsersProject.find({
+			_user: req.params._user
+		}).populate('_project', 'name').exec(function(error, usersProjects) {
+			if (error)
+				res.send(error);
+
+			res.json(usersProjects);
+		});
+	});
 };

@@ -102,25 +102,25 @@ angular
       }
     };
   })
-//Check password match
-.directive("passwordVerify", function() {
-  return {
-    require: 'ngModel',
-    link: function(scope, elem, attrs, ctrl) {
-      //fetch the id of the first password
-      var firstPassword = '#' + attrs.passwordVerify;
-      elem.add(firstPassword).on('keyup', function() {
-        scope.$apply(function() {
-          var result = elem.val() === $(firstPassword).val();
-          if (elem.val() === '') {
-            result = false;
-          }
-          ctrl.$setValidity('pwmatch', result);
+  //Check password match
+  .directive("passwordVerify", function() {
+    return {
+      require: 'ngModel',
+      link: function(scope, elem, attrs, ctrl) {
+        //fetch the id of the first password
+        var firstPassword = '#' + attrs.passwordVerify;
+        elem.add(firstPassword).on('keyup', function() {
+          scope.$apply(function() {
+            var result = elem.val() === $(firstPassword).val();
+            if (elem.val() === '') {
+              result = false;
+            }
+            ctrl.$setValidity('pwmatch', result);
+          });
         });
-      });
-    }
-  };
-})
+      }
+    };
+  })
   .directive('backgroundSwitcher', function() {
     return {
       restrict: 'EA',
@@ -288,33 +288,33 @@ angular
       };
     }
   ])
-// specific to app
-.directive('stickyScroll', function() {
-  return {
-    restrict: 'A',
-    link: function(scope, element, attr) {
-      function stickyTop() {
-        var topMax = parseInt(attr.stickyScroll);
-        var headerHeight = $('header').height();
-        if (headerHeight > topMax) topMax = headerHeight;
-        if ($('body').hasClass('static-header') == false)
-          return element.css('top', topMax + 'px');
-        var window_top = $(window).scrollTop();
-        var div_top = element.offset().top;
-        if (window_top < topMax) {
-          element.css('top', (topMax - window_top) + 'px');
-        } else {
-          element.css('top', 0 + 'px');
+  // specific to app
+  .directive('stickyScroll', function() {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attr) {
+        function stickyTop() {
+          var topMax = parseInt(attr.stickyScroll);
+          var headerHeight = $('header').height();
+          if (headerHeight > topMax) topMax = headerHeight;
+          if ($('body').hasClass('static-header') == false)
+            return element.css('top', topMax + 'px');
+          var window_top = $(window).scrollTop();
+          var div_top = element.offset().top;
+          if (window_top < topMax) {
+            element.css('top', (topMax - window_top) + 'px');
+          } else {
+            element.css('top', 0 + 'px');
+          }
         }
-      }
 
-      $(function() {
-        $(window).scroll(stickyTop);
-        stickyTop();
-      });
+        $(function() {
+          $(window).scroll(stickyTop);
+          stickyTop();
+        });
+      }
     }
-  }
-})
+  })
   .directive('rightbarRightPosition', function() {
     return {
       restrict: 'A',

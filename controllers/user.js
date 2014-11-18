@@ -7,7 +7,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get a user from its id
 	.get(function(req, res) {
-		models.User.findById(req.params.user_id, function(error, user) {
+		models.User.findById(req.params.user_id).select('-password').populate('_role', 'name').exec(function(error, user) {
 			if (error)
 				res.send(error);
 
@@ -68,7 +68,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get all users
 	.get(function(req, res) {
-		models.User.find(function(error, users) {
+		models.User.find().select('-password').populate('_role', 'name').exec(function(error, users) {
 			if (error)
 				res.send(error);
 
