@@ -52,23 +52,29 @@
           <label class="col-sm-2 control-label">Projects</label>
           <div class="col-sm-5">
             <h4>Administrating</h4>
-            <div ng-repeat='project in administratingProjects' class="checkbox">
-              <label>
-              <input type="checkbox" checked="checked" ng-click='notAdministratingThisProject($index)'> {{ project.name }}
-              </label>
+            <div class="scroll-200">
+              <div ng-repeat='project in administratingProjects' class="checkbox">
+                <label>
+                  <input type="checkbox" checked="checked" ng-click='notAdministratingThisProject($index)'> {{ project.name }}
+                </label>
+              </div>
             </div>
           </div>
-          <div class="col-sm-offset-7">
+          <div class="col-sm-5">
             <h4>Not Administrating</h4>
-            <div ng-repeat='project in notAdministratingProjects' class="checkbox">
-              <label>
-                <input type="checkbox" ng-click='administratingThisProject($index)'> {{ project.name }}
-              </label>
+            <div class="scroll-200">
+              <div ng-repeat='project in notAdministratingProjects' class="checkbox">
+                <label>
+                  <input type="checkbox" ng-click='administratingThisProject($index)'> {{ project.name }}
+                </label>
+              </div>
             </div>
           </div>
         </div>
 
-        <a class="btn btn-primary col-sm-offset-2" ng-click=''>Submit</a>
+        <div class="form-group">
+          <a class="btn btn-primary col-sm-offset-2" ng-click='saveUser()'>Submit</a>
+        </div>
 
       </form>
 

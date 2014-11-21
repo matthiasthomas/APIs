@@ -7,11 +7,17 @@ module.exports.controller = function(app, config, moduleForProjects, models, mid
 
 	// Get a moduleForProject from its id
 	.get(function(req, res) {
-		models.ModuleForProject.findById(req.params.moduleForProject_id, function(error, moduleForProject) {
+		models.ModuleForProject.findOne({
+			_id: req.params.moduleForProject_id,
+			archived: false
+		}, function(error, moduleForProject) {
 			if (error)
 				res.send(error);
 
-			res.json(moduleForProject);
+			res.json({
+				success: true,
+				moduleForProject: moduleForProject
+			});
 		});
 	})
 
@@ -31,6 +37,7 @@ module.exports.controller = function(app, config, moduleForProjects, models, mid
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'ModuleForProject was updated',
 					moduleForProject: moduleForProject
 				});
@@ -52,6 +59,7 @@ module.exports.controller = function(app, config, moduleForProjects, models, mid
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'ModuleForProject was deleted',
 					moduleForProject: moduleForProject
 				});
@@ -67,11 +75,16 @@ module.exports.controller = function(app, config, moduleForProjects, models, mid
 
 	// Get all moduleForProjects
 	.get(function(req, res) {
-		models.ModuleForProject.find(function(error, moduleForProjects) {
+		models.ModuleForProject.find({
+			archived: false
+		}).exec(function(error, moduleForProjects) {
 			if (error)
 				res.send(error);
 
-			res.json(moduleForProjects);
+			res.json({
+				success: true,
+				moduleForProjects: moduleForProjects
+			});
 		});
 	})
 
@@ -89,6 +102,7 @@ module.exports.controller = function(app, config, moduleForProjects, models, mid
 				res.send(error);
 
 			res.json({
+				success: true,
 				message: 'ModuleForProject was saved!',
 				moduleForProject: moduleForProject
 			});

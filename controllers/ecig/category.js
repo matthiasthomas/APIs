@@ -7,11 +7,17 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get a category from its id
 	.get(function(req, res) {
-		models.ecig.Category.findById(req.params.category_id, function(error, category) {
+		models.ecig.Category.findOne({
+			_id: req.params.category_id,
+			archived: false
+		}, function(error, category) {
 			if (error)
 				res.send(error);
 
-			res.json(category);
+			res.json({
+				success: true,
+				category: category
+			});
 		});
 	})
 
@@ -29,6 +35,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'Category was updated',
 					category: category
 				});
@@ -48,6 +55,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'Category was deleted',
 					category: category
 				});
@@ -63,11 +71,16 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get all categories
 	.get(function(req, res) {
-		models.ecig.Category.find(function(error, categories) {
+		models.ecig.Category.find({
+			archived: false
+		}).exec(function(error, categories) {
 			if (error)
 				res.send(error);
 
-			res.json(categories);
+			res.json({
+				success: true,
+				categories: categories
+			});
 		});
 	})
 
@@ -83,6 +96,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 				res.send(error);
 
 			res.json({
+				success: true,
 				message: 'Category was saved!',
 				category: category
 			});

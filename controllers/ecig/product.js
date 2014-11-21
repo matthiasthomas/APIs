@@ -7,11 +7,17 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get a product from its id
 	.get(function(req, res) {
-		models.ecig.Product.findById(req.params.product_id, function(error, product) {
+		models.ecig.Product.findOne({
+			_id: req.params.product_id,
+			archived: false
+		}, function(error, product) {
 			if (error)
 				res.send(error);
 
-			res.json(product);
+			res.json({
+				success: true,
+				product: product
+			});
 		});
 	})
 
@@ -31,6 +37,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'Product was updated',
 					product: product
 				});
@@ -51,6 +58,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'Product was deleted',
 					product: product
 				});
@@ -66,11 +74,16 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get all products
 	.get(function(req, res) {
-		models.ecig.Product.find(function(error, products) {
+		models.ecig.Product.find({
+			archived: false
+		}).exec(function(error, products) {
 			if (error)
 				res.send(error);
 
-			res.json(products);
+			res.json({
+				success: true,
+				products: products
+			});
 		});
 	})
 
@@ -88,6 +101,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 				res.send(error);
 
 			res.json({
+				success: true,
 				message: 'Product was saved!',
 				product: product
 			});

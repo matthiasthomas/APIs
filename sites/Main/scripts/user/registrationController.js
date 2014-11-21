@@ -12,7 +12,8 @@ userModule.controller('RegistrationController', ['$scope', '$rootScope', '$globa
 		$scope.checking = false;
 		$scope.checked = false;
 		$scope.checkAvailability = function() {
-			if ($scope.reg_form.username.$dirty == false) return;
+			if ($scope.reg_form.username.$dirty === false)
+				return;
 			$scope.checking = true;
 			$timeout(function() {
 				$scope.checking = false;

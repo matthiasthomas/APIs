@@ -7,11 +7,17 @@ module.exports.controller = function(app, config, projects, models, middlewares,
 
 	// Get a project from its id
 	.get(function(req, res) {
-		models.Project.findById(req.params.project_id, function(error, project) {
+		models.Project.findOne({
+			_id: req.params.project_id,
+			archived: false
+		}, function(error, project) {
 			if (error)
 				res.send(error);
 
-			res.json(project);
+			res.json({
+				success: true,
+				project: project
+			});
 		});
 	})
 
@@ -31,6 +37,7 @@ module.exports.controller = function(app, config, projects, models, middlewares,
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'Project was updated',
 					project: project
 				});
@@ -52,6 +59,7 @@ module.exports.controller = function(app, config, projects, models, middlewares,
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'Project was deleted',
 					project: project
 				});
@@ -67,7 +75,9 @@ module.exports.controller = function(app, config, projects, models, middlewares,
 
 	// Get all projects
 	.get(function(req, res) {
-		models.Project.find(function(error, projects) {
+		models.Project.find({
+			archived: false
+		}).exec(function(error, projects) {
 			if (error)
 				res.send(error);
 

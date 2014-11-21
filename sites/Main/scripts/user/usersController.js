@@ -1,19 +1,23 @@
 userModule.controller('UsersController', ['$scope', '$rootScope', '$global', '$timeout', '$location', 'UserService', 'RoleService',
 	function($scope, $rootScope, $global, $timeout, $location, UserService, RoleService) {
 		UserService.all().success(function(data) {
-			$scope.users = data;
+			$scope.users = data.users;
 		});
 
 		RoleService.all().success(function(data) {
-			$scope.roles = data;
+			$scope.roles = data.roles;
 		});
 
-		$scope.saveUser = function(data, id) {
-			console.log(data);
-			console.log(id);
-			var email = data.email;
-			var _role = data.role;
-
+		$scope.deleteUser = function(id) {
+			
+			UserService.delete(id).success(function(data) {
+				if (data.success) {
+					$scope.users = $scope.users.filter(function(user) {
+						return user._id !== id;
+					});
+				}
+				console.log(data);
+			});
 		};
 	}
 ]);

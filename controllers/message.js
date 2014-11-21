@@ -7,11 +7,17 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get a message from its id
 	.get(function(req, res) {
-		models.Message.findById(req.params.message_id, function(error, message) {
+		models.Message.findOne({
+			_id: req.params.message_id,
+			archived: false
+		}, function(error, message) {
 			if (error)
 				res.send(error);
 
-			res.json(message);
+			res.json({
+				success: true,
+				message: message
+			});
 		});
 	})
 
@@ -32,6 +38,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'Message was updated',
 					messageObj: message
 				});
@@ -53,6 +60,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'Message was deleted',
 					messageObj: message
 				});
@@ -68,11 +76,16 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get all messages
 	.get(function(req, res) {
-		models.Message.find(function(error, messages) {
+		models.Message.find({
+			archived: false
+		}).exec(function(error, messages) {
 			if (error)
 				res.send(error);
 
-			res.json(messages);
+			res.json({
+				success: true,
+				messages: messages
+			});
 		});
 	})
 
@@ -91,6 +104,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 				res.send(error);
 
 			res.json({
+				success: true,
 				message: 'Message was saved!',
 				messageObj: message
 			});

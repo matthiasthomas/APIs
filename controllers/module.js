@@ -7,11 +7,17 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get a module from its id
 	.get(function(req, res) {
-		models.module.findById(req.params.module_id, function(error, module) {
+		models.module.findOne({
+			_id: req.params.module_id,
+			archived: false
+		}, function(error, module) {
 			if (error)
 				res.send(error);
 
-			res.json(module);
+			res.json({
+				success: true,
+				module: module
+			});
 		});
 	})
 
@@ -33,6 +39,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'module was updated',
 					module: module
 				});
@@ -54,6 +61,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'module was deleted',
 					module: module
 				});
@@ -69,11 +77,16 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get all modules
 	.get(function(req, res) {
-		models.module.find(function(error, modules) {
+		models.module.find({
+			archived: false
+		}).exec(function(error, modules) {
 			if (error)
 				res.send(error);
 
-			res.json(modules);
+			res.json({
+				success: true,
+				modules: modules
+			});
 		});
 	})
 
@@ -93,6 +106,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 				res.send(error);
 
 			res.json({
+				success: true,
 				message: 'module was saved!',
 				module: module
 			});

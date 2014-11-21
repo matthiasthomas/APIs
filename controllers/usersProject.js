@@ -7,11 +7,17 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get a usersProject from its id
 	.get(function(req, res) {
-		models.UsersProject.findById(req.params.usersProject_id, function(error, usersProject) {
+		models.UsersProject.findOne({
+			_id: req.params.usersProject_id,
+			archived: false
+		}, function(error, usersProject) {
 			if (error)
 				res.send(error);
 
-			res.json(usersProject);
+			res.json({
+				success: true,
+				usersProject: usersProject
+			});
 		});
 	})
 
@@ -31,6 +37,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'UsersProject was updated',
 					usersProject: usersProject
 				});
@@ -52,6 +59,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'UsersProject was deleted',
 					usersProject: usersProject
 				});
@@ -67,17 +75,21 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get all usersProjects
 	.get(function(req, res) {
-		models.UsersProject.find(function(error, usersProjects) {
+		models.UsersProject.find({
+			archived: false
+		}).exec(function(error, usersProjects) {
 			if (error)
 				res.send(error);
 
-			res.json(usersProjects);
+			res.json({
+				success: true,
+				usersProjects: usersProjects
+			});
 		});
 	})
 
 	// Add a new usersProject
 	.post(function(req, res) {
-		console.log(req.params);
 		var usersProject = new models.UsersProject({
 			// Set usersProject attributes
 			_user: req.body._user,
@@ -90,6 +102,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 				res.send(error);
 
 			res.json({
+				success: true,
 				message: 'UsersProject was saved!',
 				usersProject: usersProject
 			});
@@ -104,12 +117,47 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 	// Get all usersProjects
 	.get(function(req, res) {
 		models.UsersProject.find({
-			_user: req.params._user
-		}).populate('_project', 'name').exec(function(error, usersProjects) {
+			_user: req.params._user,
+			archived: false
+		}).exec(function(error, usersProjects) {
 			if (error)
 				res.send(error);
 
-			res.json(usersProjects);
+			res.json({
+				success: true,
+				usersProjects: usersProjects
+			});
+		});
+	});
+
+	// --------------------------------------------
+	// Routes to /api/usersProjects/:_user/:_project
+	// --------------------------------------------
+	router.route('/usersProjects/:_user/:_project')
+
+	//Delete by user and project
+	.delete(function(req, res) {
+		models.UsersProject.findOne({
+			_user: req.params._user,
+			_project: req.params._project,
+			archived: false
+		}, function(error, usersProject) {
+			if (error)
+				res.send(error);
+
+			//Set usersProject attributes
+			usersProject.archived = true;
+
+			usersProject.save(function(error) {
+				if (error)
+					res.send(error);
+
+				res.json({
+					success: true,
+					message: 'UsersProject was deleted',
+					usersProject: usersProject
+				});
+			});
 		});
 	});
 };

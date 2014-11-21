@@ -54,6 +54,16 @@
 	top: 0 !important;
 }
 
+.scroll-300 {
+    max-height:300px;
+    overflow-y:auto;  
+}
+
+.scroll-200 {
+    max-height:200px;
+    overflow-y:auto;  
+}
+
 .mainview-animation {
 	position: relative;
 }

@@ -7,11 +7,17 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get a image from its id
 	.get(function(req, res) {
-		models.Image.findById(req.params.image_id, function(error, image) {
+		models.Image.findOne({
+			_id: req.params.image_id,
+			archived: false
+		}, function(error, image) {
 			if (error)
 				res.send(error);
 
-			res.json(image);
+			res.json({
+				success: true,
+				image: image
+			});
 		});
 	})
 
@@ -31,6 +37,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'Image was updated',
 					image: image
 				});
@@ -52,6 +59,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'Image was deleted',
 					image: image
 				});
@@ -67,11 +75,16 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get all images
 	.get(function(req, res) {
-		models.Image.find(function(error, images) {
+		models.Image.find({
+			archived: false
+		}).exec(function(error, images) {
 			if (error)
 				res.send(error);
 
-			res.json(images);
+			res.json({
+				success: true,
+				images: images
+			});
 		});
 	})
 
@@ -88,12 +101,14 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: "The image has been saved successfully!",
 					image: image
 				});
 			});
 		} else {
 			res.json({
+				success: false,
 				message: 'There was an error with the information you sent!'
 			});
 		}

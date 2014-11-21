@@ -7,11 +7,17 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get a token from its id
 	.get(function(req, res) {
-		models.Token.findById(req.params.token_id, function(error, token) {
+		models.Token.findOne({
+			_id: req.params.token_id,
+			archived: false
+		}, function(error, token) {
 			if (error)
 				res.send(error);
 
-			res.json(token);
+			res.json({
+				success: true,
+				token: token
+			});
 		});
 	})
 
@@ -31,6 +37,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'Token was updated',
 					token: token
 				});
@@ -52,6 +59,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'Token was deleted',
 					token: token
 				});
@@ -67,11 +75,16 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get all tokens
 	.get(function(req, res) {
-		models.Token.find(function(error, tokens) {
+		models.Token.find({
+			archived: false
+		}).exec(function(error, tokens) {
 			if (error)
 				res.send(error);
 
-			res.json(tokens);
+			res.json({
+				success: true,
+				tokens: tokens
+			});
 		});
 	})
 
@@ -89,6 +102,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 				res.send(error);
 
 			res.json({
+				success: true,
 				message: 'Token was saved!',
 				token: token
 			});

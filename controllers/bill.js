@@ -7,11 +7,17 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get a bill from its id
 	.get(function(req, res) {
-		models.Bill.findById(req.params.bill_id, function(error, bill) {
+		models.Bill.findOne({
+			_id: req.params.bill_id,
+			archived: false
+		}, function(error, bill) {
 			if (error)
 				res.send(error);
 
-			res.json(bill);
+			res.json({
+				success: true,
+				bill: bill
+			});
 		});
 	})
 
@@ -31,6 +37,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'Bill was updated',
 					bill: bill
 				});
@@ -52,6 +59,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'Bill was deleted',
 					bill: bill
 				});
@@ -67,11 +75,16 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get all bills
 	.get(function(req, res) {
-		models.Bill.find(function(error, bills) {
+		models.Bill.find({
+			archived: false
+		}).exec(function(error, bills) {
 			if (error)
 				res.send(error);
 
-			res.json(bills);
+			res.json({
+				success: true,
+				bills: bills
+			});
 		});
 	})
 
@@ -89,6 +102,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 				res.send(error);
 
 			res.json({
+				success: true,
 				message: 'Bill was saved!',
 				bill: bill
 			});

@@ -7,11 +7,17 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get a role from its id
 	.get(function(req, res) {
-		models.Role.findById(req.params.role_id, function(error, role) {
+		models.Role.findOne({
+			_id: req.params.role_id,
+			archived: false
+		}, function(error, role) {
 			if (error)
 				res.send(error);
 
-			res.json(role);
+			res.json({
+				success: true,
+				role: role
+			});
 		});
 	})
 
@@ -30,6 +36,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'Role was updated',
 					role: role
 				});
@@ -51,6 +58,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'Role was deleted',
 					role: role
 				});
@@ -66,11 +74,16 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get all roles
 	.get(function(req, res) {
-		models.Role.find(function(error, roles) {
+		models.Role.find({
+			archived: false
+		}).exec(function(error, roles) {
 			if (error)
 				res.send(error);
 
-			res.json(roles);
+			res.json({
+				success: true,
+				roles: roles
+			});
 		});
 	})
 
@@ -88,6 +101,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 				res.send(error);
 
 			res.json({
+				success: true,
 				message: 'Role was saved!',
 				role: role
 			});

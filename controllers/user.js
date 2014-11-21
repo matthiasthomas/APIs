@@ -7,11 +7,17 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get a user from its id
 	.get(function(req, res) {
-		models.User.findById(req.params.user_id).select('-password').populate('_role', 'name').exec(function(error, user) {
+		models.User.findOne({
+			_id: req.params.user_id,
+			archived: false
+		}).select('-password').populate('_role', 'name').exec(function(error, user) {
 			if (error)
 				res.send(error);
 
-			res.json(user);
+			res.json({
+				success: true,
+				user: user
+			});
 		});
 	})
 
@@ -21,9 +27,12 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 			if (error)
 				res.send(error);
 
+			console.log(user);
 			//Set user attributes
 			user.email = req.body.email;
-			user.password = modules.bcrypt.hashSync(req.body.password, config.salt);
+			if (req.body.password && req.body.password !== '') {
+				user.password = modules.bcrypt.hashSync(req.body.password, config.salt);
+			}
 			user._role = req.body._role;
 			user.updated = Date.now();
 
@@ -32,6 +41,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'User was updated',
 					user: user
 				});
@@ -53,6 +63,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					res.send(error);
 
 				res.json({
+					success: true,
 					message: 'User was deleted',
 					user: user
 				});
@@ -68,11 +79,16 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get all users
 	.get(function(req, res) {
-		models.User.find().select('-password').populate('_role', 'name').exec(function(error, users) {
+		models.User.find({
+			archived: false
+		}).select('-password').populate('_role', 'name').exec(function(error, users) {
 			if (error)
 				res.send(error);
 
-			res.json(users);
+			res.json({
+				success: true,
+				users: users
+			});
 		});
 	})
 
@@ -98,7 +114,6 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 				models.Role.findOne({
 					name: 'guest'
 				}, function(error, role) {
-
 					var _role = '';
 					if (!req.body._role) {
 						_role = role._id;
