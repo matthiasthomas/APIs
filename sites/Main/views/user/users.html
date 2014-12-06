@@ -28,7 +28,7 @@
             </td>
             <td>
               <ul ng-repeat='project in user.projects'>
-                <li>{{ projects._project }}</li>
+                <li>{{ project }}</li>
               </ul>
             </td>
             <td>
@@ -36,7 +36,7 @@
             </td>
             <td>
               <a class="btn btn-primary btn-sm" href="#/editUser/{{ user._id }}">Edit</a>
-              <a class="btn btn-danger btn-sm" ng-click='deleteUser(user._id)' >Delete</a>
+              <a class="btn btn-danger btn-sm" confirm-click='' confirm-click-function='deleteUser(user._id)' confirm-click-class='btn btn-orange btn-sm'>Delete</a>
             </td>
           </tr>
         </table>

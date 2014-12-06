@@ -11,9 +11,41 @@ angular
             $animate.enabled(!value, $element);
           });
         }
-      }
+      };
     }
   ])
+  //This is a directive to confirm a click,
+  //It takes another attribute which is 'confirmClickFunction' => the function to be called once it's been confirmed
+  .directive('confirmClick', ['$timeout', function($timeout) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attr) {
+        var msg = attr.confirmClick || "Sure ?";
+        var msgInit = element.html();
+        var classInit = element.attr('class');
+        var confirmClickClass = attr.confirmClickClass;
+        var confirmed = false;
+        element.on('click', function(event) {
+          if (!confirmed) {
+            event.preventDefault();
+            element.html(msg);
+            element.removeClass();
+            element.addClass(confirmClickClass);
+            confirmed = 1;
+            $timeout(function() {
+              confirmed = 0;
+              element.removeClass();
+              element.addClass(classInit);
+              element.html(msgInit);
+            }, 2000);
+          } else {
+            scope.$apply(attr.confirmClickFunction);
+          }
+        });
+
+      }
+    };
+  }])
   .directive('slideOut', function() {
     return {
       restrict: 'A',
@@ -32,7 +64,7 @@ angular
           }
         });
       }
-    }
+    };
   })
   .directive('slideOutNav', ['$timeout',
     function($t) {
@@ -44,32 +76,32 @@ angular
         link: function(scope, element, attr) {
           scope.$watch('show', function(newVal, oldVal) {
             if ($('body').hasClass('collapse-leftbar')) {
-              if (newVal == true)
+              if (newVal === true)
                 element.css('display', 'block');
               else
                 element.css('display', 'none');
               return;
             }
-            if (newVal == true) {
+            if (newVal === true) {
               element.slideDown({
                 complete: function() {
                   $t(function() {
-                    scope.$apply()
-                  })
+                    scope.$apply();
+                  });
                 }
               });
-            } else if (newVal == false) {
+            } else if (newVal === false) {
               element.slideUp({
                 complete: function() {
                   $t(function() {
-                    scope.$apply()
-                  })
+                    scope.$apply();
+                  });
                 }
               });
             }
           });
         }
-      }
+      };
     }
   ])
   .directive('panel', function() {
@@ -82,7 +114,7 @@ angular
         panelIcon: '@'
       },
       templateUrl: 'templates/panel.html',
-    }
+    };
   })
   .directive('pulsate', function() {
     return {
@@ -360,7 +392,7 @@ angular
           var resetHeight = function() {
             scope.docHeight = $(document).height();
             $timeout(resetHeight, 1000);
-          }
+          };
           $timeout(resetHeight, 1000);
         }
       };
@@ -375,7 +407,7 @@ angular
         },
         link: function(scope, element, attr) {
           scope.$watch('applyon', function(newVal) {
-            if (newVal == false) {
+            if (newVal === false) {
               var api = element.data('jsp');
               if (api) api.destroy();
               return;

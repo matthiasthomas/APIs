@@ -44,36 +44,38 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">Role</label>
           <div class="col-sm-9">
-            <select ng-model='user._role._id' required ng-options='role._id as role.name for role in roles' required></select>
+            <select ng-model='user._role' required ng-options='role as role.name for role in roles' required></select>
+          </div>
+        </div>
+        
+        <div ng-show='user._role.name === "administrator"'>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Projects</label>
+            <div class="col-sm-5">
+              <h4>Administrating</h4>
+              <div class="scroll-200">
+                <div ng-repeat='project in administratingProjects' class="checkbox">
+                  <label>
+                    <input type="checkbox" checked="checked" ng-click='notAdministratingThisProject($index)'> {{ project.name }}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-5">
+              <h4>Not Administrating</h4>
+              <div class="scroll-200">
+                <div ng-repeat='project in notAdministratingProjects' class="checkbox">
+                  <label>
+                    <input type="checkbox" ng-click='administratingThisProject($index)'> {{ project.name }}
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="col-sm-2 control-label">Projects</label>
-          <div class="col-sm-5">
-            <h4>Administrating</h4>
-            <div class="scroll-200">
-              <div ng-repeat='project in administratingProjects' class="checkbox">
-                <label>
-                  <input type="checkbox" checked="checked" ng-click='notAdministratingThisProject($index)'> {{ project.name }}
-                </label>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-5">
-            <h4>Not Administrating</h4>
-            <div class="scroll-200">
-              <div ng-repeat='project in notAdministratingProjects' class="checkbox">
-                <label>
-                  <input type="checkbox" ng-click='administratingThisProject($index)'> {{ project.name }}
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <a class="btn btn-primary col-sm-offset-2" ng-click='saveUser()'>Submit</a>
+          <a class="btn btn-primary col-sm-offset-2" ng-click='saveUser(); form.$setPristine();'>Submit</a>
         </div>
 
       </form>

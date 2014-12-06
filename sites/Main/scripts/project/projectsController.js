@@ -6,6 +6,11 @@ userModule.controller('ProjectsController', ['$scope', '$rootScope', '$global', 
 			} else {
 				console.log(data);
 				$scope.projects = data.projects;
+				angular.forEach($scope.projects, function(project) {
+					console.log(project.created);
+					project.created = new Date(project.created);
+					console.log(project.created);
+				});
 			}
 		});
 	}

@@ -27,7 +27,6 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 			if (error)
 				res.send(error);
 
-			console.log(user);
 			//Set user attributes
 			user.email = req.body.email;
 			if (req.body.password && req.body.password !== '') {
@@ -79,6 +78,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get all users
 	.get(function(req, res) {
+		console.log('bonsoir');
 		models.User.find({
 			archived: false
 		}).select('-password').populate('_role', 'name').exec(function(error, users) {

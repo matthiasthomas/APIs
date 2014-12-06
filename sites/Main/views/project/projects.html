@@ -22,7 +22,7 @@
                                     <thead>
                                         <tr>
                                             <th style="padding-right:100px">Project</th>
-                                            <th>Country</th>
+                                            <!--<th>Country</th>-->
                                             <th>Date of Creation</th>
                                             <th>Visits last month</th>
                                             <th>Check it out!</th>
@@ -32,7 +32,7 @@
 
                                         <tr ng-repeat="project in projects">
                                             <td align="left">{{ project.name }}</td>
-                                            <td><span class="flagicon"><img alt="" src="http://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/320px-Flag_of_France.svg.png" width="23" height="12" srcset="http://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/320px-Flag_of_France.svg.png 2x">&nbsp;</span>France</a></td>
+                                            <!--<td><span class="flagicon"><img alt="" src="http://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/320px-Flag_of_France.svg.png" width="23" height="12" srcset="http://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/320px-Flag_of_France.svg.png 2x">&nbsp;</span>France</a></td>-->
                                             <td>{{ project.created }}</td>
                                             <td>NB</td>
                                             <td><a href="#/project/{{ project._id }}"><i class='fa fa-external-link-square'></i></a></td>

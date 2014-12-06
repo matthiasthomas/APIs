@@ -119,7 +119,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 		models.UsersProject.find({
 			_user: req.params._user,
 			archived: false
-		}).exec(function(error, usersProjects) {
+		}).populate('_project', 'name').exec(function(error, usersProjects) {
 			if (error)
 				res.send(error);
 
@@ -145,19 +145,26 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 			if (error)
 				res.send(error);
 
-			//Set usersProject attributes
-			usersProject.archived = true;
+			if (usersProject) {
+				//Set usersProject attributes
+				usersProject.archived = true;
 
-			usersProject.save(function(error) {
-				if (error)
-					res.send(error);
+				usersProject.save(function(error) {
+					if (error)
+						res.send(error);
 
+					res.json({
+						success: true,
+						message: 'UsersProject was deleted',
+						usersProject: usersProject
+					});
+				});
+			} else {
 				res.json({
 					success: true,
-					message: 'UsersProject was deleted',
-					usersProject: usersProject
+					message: 'UsersProject was deleted'
 				});
-			});
+			}
 		});
 	});
 };

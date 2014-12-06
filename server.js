@@ -10,7 +10,7 @@ var modules = {
 	fs: require("fs"),
 	bcrypt: require("bcrypt-nodejs"),
 	crypto: require("crypto")
-	//mail: config.smtpTransport
+		//mail: config.smtpTransport
 };
 
 /**
@@ -70,8 +70,7 @@ app.use(express.static(__dirname + "/sites/Main"));
  * MIDDLEWARES
  **/
 var middlewares = require("./middlewares.js");
-middlewares.controller(app, config, modules, models, middlewares, router);
-app.all("*", middlewares.header);
+app.all("*", middlewares.header, middlewares.authenticate(config, models));
 
 /**
  * CONTROLLERS

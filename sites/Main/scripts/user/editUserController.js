@@ -2,12 +2,16 @@ userModule.controller('EditUserController', ['$scope', '$q', '$routeParams', '$r
 	function($scope, $q, $routeParams, $rootScope, $global, $timeout, $location, UserService, RoleService, UsersProjectService, ProjectService) {
 		var userId = $routeParams.id;
 
-		$scope.administratingProjectsInit = [];
-		$scope.notAdministratingProjectsInit = [];
-
+		//Declare useful variables
 		$scope.administratingProjects = [];
 		$scope.notAdministratingProjects = [];
 
+		var administratingProjectsNew = [];
+		var notAdministratingProjectsNew = [];
+
+		var userInit = {};
+
+		//Create our first deferred object which will get our user
 		var firstDeferred = $q.defer();
 		var promise = firstDeferred.promise;
 
@@ -19,12 +23,46 @@ userModule.controller('EditUserController', ['$scope', '$q', '$routeParams', '$r
 			}
 		});
 
+		$scope.administratingThisProject = function(index) {
+			$scope.administratingProjects.push($scope.notAdministratingProjects[index]);
+			administratingProjectsNew.push($scope.notAdministratingProjects[index]);
+			deleteObjectFromArray($scope.notAdministratingProjects[index], notAdministratingProjectsNew);
+			$scope.notAdministratingProjects.splice(index, 1);
+		};
+
+		$scope.notAdministratingThisProject = function(index) {
+			$scope.notAdministratingProjects.push($scope.administratingProjects[index]);
+			notAdministratingProjectsNew.push($scope.administratingProjects[index]);
+			deleteObjectFromArray($scope.administratingProjects[index], administratingProjectsNew);
+			$scope.administratingProjects.splice(index, 1);
+		};
+
+		deleteObjectFromArray = function(object, array) {
+			for (var i = 0; i < array.length; i++) {
+				if (array[i] === object) {
+					array.splice(i, 1);
+					break;
+				}
+			}
+		};
+
 		promise
 		//Once we retrieved our user from first promise
 			.then(function(first) {
-				console.log(first);
 				$scope.user = first.user;
+				userInit = jQuery.extend({}, $scope.user);
+				//Get the roles, once we've our user
+				RoleService.all().success(function(data) {
+					$scope.roles = data.roles;
+					//Little twik to make things work
+					angular.forEach(data.roles, function(role) {
+						if (role._id === $scope.user._role._id) {
+							$scope.user._role = role;
+						}
+					});
+				});
 				var secondDeferred = $q.defer();
+				//Create our second deferred which will get usersProjects for active user
 				UsersProjectService.getByUser($scope.user._id).success(function(data) {
 					if (data.success) {
 						secondDeferred.resolve(data);
@@ -36,9 +74,10 @@ userModule.controller('EditUserController', ['$scope', '$q', '$routeParams', '$r
 			})
 			//Once we retrieved our user's projects from second promise
 			.then(function(second) {
-				console.log(second);
+				//Set usersProjects
 				$scope.usersProjects = second.usersProjects;
 				var thirdDeferred = $q.defer();
+				//Create our third deferred which will get all projects
 				ProjectService.all().success(function(data) {
 					if (data.success) {
 						thirdDeferred.resolve(data);
@@ -50,105 +89,68 @@ userModule.controller('EditUserController', ['$scope', '$q', '$routeParams', '$r
 			})
 			//Once we retrieved our projects from third promise
 			.then(function(third) {
-				console.log(third);
-
+				//If our user has projects
 				if ($scope.usersProjects.length > 0) {
-					$scope.notAdministratingProjectsInit = third.projects;
-					$scope.administratingProjectsInit = third.projects;
+					$scope.notAdministratingProjects = third.projects;
+					$scope.administratingProjects = third.projects;
 
 					angular.forEach($scope.usersProjects, function(usersProject) {
-						$scope.notAdministratingProjectsInit = $scope.notAdministratingProjectsInit.filter(function(obj) {
-							return obj._id !== usersProject._project;
+						$scope.notAdministratingProjects = $scope.notAdministratingProjects.filter(function(obj) {
+							return obj._id !== usersProject._project._id;
 						});
 					});
-					angular.forEach($scope.notAdministratingProjectsInit, function(project) {
-						$scope.administratingProjects = $scope.administratingProjectsInit.filter(function(obj) {
+					angular.forEach($scope.notAdministratingProjects, function(project) {
+						$scope.administratingProjects = $scope.administratingProjects.filter(function(obj) {
 							return obj._id !== project._id;
 						});
 					});
+					//Else we set the notAdministratingProjects as all of the projects and the other one is empty
 				} else {
-					$scope.notAdministratingProjectsInit = third.projects;
-					$scope.administratingProjectsInit = [];
+					$scope.notAdministratingProjects = third.projects;
+					$scope.administratingProjects = [];
 				}
-				//Keep an init version to compare before saving user 
-				$scope.notAdministratingProjects = $scope.notAdministratingProjectsInit;
-				$scope.administratingProjects = $scope.administratingProjectsInit;
 			})
 			.catch(function(error) {
 				console.log(error);
 			});
 
-		RoleService.all().success(function(data) {
-			$scope.roles = data.roles;
-		});
-
-		$scope.administratingThisProject = function(index) {
-			$scope.administratingProjects.push($scope.notAdministratingProjects[index]);
-			$scope.notAdministratingProjects.splice(index, 1);
-		};
-
-		$scope.notAdministratingThisProject = function(index) {
-			$scope.notAdministratingProjects.push($scope.administratingProjects[index]);
-			$scope.administratingProjects.splice(index, 1);
-		};
 
 		$scope.saveUser = function() {
 			//Because we're using the same template for add and edit
-			$scope.user._role = $scope.user._role._id;
-			var firstDeferred = $q.defer();
-			var promise = deferred.promise;
+			$scope.userToSave = jQuery.extend({}, $scope.user);
+			$scope.user.password = '';
+			$scope.passwordRepeat = '';
+			$scope.userToSave._role = $scope.userToSave._role._id;
 
 			UserService.put($scope.user).success(function(data) {
+				console.log(data);
 				if (data.success) {
-					deferred.resolve();
-				} else {
-					deferred.reject();
-				}
-			});
-
-			promise
-				.then(function(first) {
-					var secondDeferred = $q.defer();
-
-
-
-					return secondDeferred.promise;
-				})
-				.then(function(second) {
-
-				})
-				.catch(function(error) {
-
-				});
-
-			/*UserService.put($scope.user).success(function(data) {
-				if (data.success) {
-					if ($scope.notAdministratingProjects.length > 0) {
-						angular.forEach($scope.notAdministratingProjects, function(project) {
-							UsersProjectService.deleteByUserAndProject(data.user._id, project._id).success(function(data) {
+					//If his role changed from administrator to another, delete his usersProjects
+					if ((userInit._role._id !== data.user._role) && (userInit._role.name === "administrator") && ($scope.usersProjects.length > 0)) {
+						angular.forEach($scope.usersProjects, function(project) {
+							UsersProjectService.deleteByUserAndProject($scope.userToSave._id, project._project._id).success(function(data) {
 								console.log(data);
 							});
 						});
-					}
-					//Theere is no administrating projects
-					if ($scope.administratingProjects.length > 0) {
-						angular.forEach($scope.administratingProjects, function(project) {
+					} else {
+						angular.forEach(administratingProjectsNew, function(project) {
 							UsersProjectService.post({
-								_project: project._id,
-								_user: data.user._id
+								_user: $scope.userToSave._id,
+								_project: project._id
 							}).success(function(data) {
 								console.log(data);
 							});
 						});
-						$location.path('/users');
-						//redirect directly
-					} else {
-						$location.path('/users');
+
+						angular.forEach(notAdministratingProjectsNew, function(project) {
+							UsersProjectService.deleteByUserAndProject($scope.userToSave._id, project._id).success(function(data) {
+								console.log(data);
+							});
+						});
 					}
-				} else {
-					console.log(data.message);
+					$location.path('/users');
 				}
-			});*/
+			});
 		};
 	}
 ]);

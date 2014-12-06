@@ -1,1 +1,0 @@
-var usersProjectModule = angular.module('usersProjectModule', []);
