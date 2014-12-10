@@ -1,0 +1,1 @@
+var pagesControllersModule = angular.module('pagesControllersModule', []);

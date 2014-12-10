@@ -21,11 +21,11 @@ var TokenSchema = new mongoose.Schema({
 
 TokenSchema.methods.hasExpired = function() {
 	var now = new Date();
-	var dateToBeChecked = created;
-	if (updated) {
-		dateToBeChecked = updated;
+	var dateToBeChecked = this.created;
+	if (this.updated) {
+		dateToBeChecked = this.updated;
 	}
-	return (now - dateToBeChecked) > 7; //token is a week old
+	return (now - dateToBeChecked) > 1 * 3600 * 1000; //token is 1h old
 };
 
 var TokenModel = Db.model('Token', TokenSchema);

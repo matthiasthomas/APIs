@@ -22,6 +22,7 @@ var myApp = angular
     'roleModule',
     'LocalStorageModule',
     'usersProjectModule',
+    'pagesControllersModule',
 
     //End Added
 

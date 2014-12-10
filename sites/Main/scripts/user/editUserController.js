@@ -123,13 +123,12 @@ userModule.controller('EditUserController', ['$scope', '$q', '$routeParams', '$r
 			$scope.userToSave._role = $scope.userToSave._role._id;
 
 			UserService.put($scope.user).success(function(data) {
-				console.log(data);
 				if (data.success) {
 					//If his role changed from administrator to another, delete his usersProjects
 					if ((userInit._role._id !== data.user._role) && (userInit._role.name === "administrator") && ($scope.usersProjects.length > 0)) {
 						angular.forEach($scope.usersProjects, function(project) {
 							UsersProjectService.deleteByUserAndProject($scope.userToSave._id, project._project._id).success(function(data) {
-								console.log(data);
+
 							});
 						});
 					} else {

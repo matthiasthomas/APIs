@@ -2,7 +2,7 @@ var bcrypt = require("bcrypt-nodejs");
 
 var config = {
 
-	securedPaths: ['/api/users/isLoggedIn', '/api/users/login'],
+	unsecuredPaths: ['/api/users/isLoggedIn', '/api/users/login'],
 	smtpTransport: '',
 	server: {
 		address: '127.0.0.1',

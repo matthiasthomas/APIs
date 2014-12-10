@@ -1,5 +1,5 @@
-userModule.controller('LoginController', ['$scope', '$rootScope', '$location', '$global', 'UserService', 'localStorageService',
-	function($scope, $rootScope, $location, $global, UserService, localStorageService) {
+userModule.controller('LoginController', ['$http', '$scope', '$rootScope', '$location', '$global', 'UserService', 'localStorageService',
+	function($http, $scope, $rootScope, $location, $global, UserService, localStorageService) {
 		//Login using UserService
 
 		// -- Taken From Forza2 Theme -- //
@@ -23,6 +23,8 @@ userModule.controller('LoginController', ['$scope', '$rootScope', '$location', '
 					console.log(data.message);
 				} else {
 					localStorageService.set('token', data.token);
+					//Set headers for all $http requests
+					$http.defaults.headers.common['x-access-token'] = localStorageService.get('token');
 					$rootScope.isLoggedIn = true;
 					console.log(data.message);
 					$location.path('/');

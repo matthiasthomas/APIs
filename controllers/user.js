@@ -1,6 +1,135 @@
 module.exports.controller = function(app, config, modules, models, middlewares, router) {
 
 	// --------------------------------------------
+	// Routes to /api/users/login
+	// --------------------------------------------
+	router.route('/users/login')
+
+	.post(function(req, res) {
+		var email = req.body.email;
+		var password = req.body.password;
+
+		//Look for a user with this email
+		models.User.findOne({
+			email: req.body.email
+		}, function(error, user) {
+			if (error)
+				res.send(error);
+
+			//If we didn't find any user with this email
+			if (!user) {
+				res.json({
+					success: false,
+					message: 'There are no register user with the email: ' + email
+				});
+			} else {
+
+				//Compare the given password with the stored hash
+				modules.bcrypt.compare(password, user.password, function(error, ok) {
+					if (error)
+						res.send(error);
+
+					//Password and Username do not match
+					if (!ok) {
+						res.json({
+							success: false,
+							message: 'Username and Password do not match!'
+						});
+
+						//Password and Username matches, a token is created
+					} else {
+						modules.crypto.randomBytes(48, function(err, randomKey) {
+							var key = randomKey.toString("hex");
+
+							var token = new models.Token({
+								//Set token attributes
+								key: key,
+								_user: user._id
+							});
+
+							token.save(function(error) {
+								if (error)
+									res.send(error);
+
+								res.json({
+									success: true,
+									message: 'Connection established',
+									token: token.key
+								});
+							});
+						});
+					}
+				});
+			}
+		});
+	});
+
+	// --------------------------------------------
+	// Routes to /api/users/logout
+	// --------------------------------------------
+	router.route('/users/logout')
+
+	.get(function(req, res) {
+		var token_key = req.headers['x-access-token'];
+		//Look for the user associated to this token
+		models.Token.findOne({
+			key: token_key
+		}, function(error, token) {
+			if (error)
+				res.send(error);
+
+			//If we found an associated token
+			if (token) {
+				models.Token.remove({
+					_id: token._id
+				}, function(error, token) {
+					if (error)
+						res.send(error);
+
+					res.json({
+						success: true,
+						message: 'You have been successfully disconnected!'
+					});
+				});
+			} else {
+				res.json({
+					success: true,
+					message: 'You have been successfully disconnected!'
+				});
+			}
+		});
+	});
+
+	// --------------------------------------------
+	// Routes to /api/users/isLoggedIn
+	// --------------------------------------------
+	router.route('/users/isLoggedIn')
+
+	.post(function(req, res) {
+		var token_key = req.body.token;
+		models.Token.findOne({
+			key: token_key
+		}, function(error, token) {
+			if (error)
+				res.send(error);
+
+			//If we found an associated token
+			if (token && !token.hasExpired()) {
+				res.json({
+					success: true,
+					isLoggedIn: true
+				});
+			} else {
+				res.json({
+					success: false,
+					isLoggedIn: false
+				});
+			}
+		});
+	});
+
+
+	// --------------------------------------------
 	// Routes to /api/users/:user_id 
 	// --------------------------------------------
 	router.route('/users/:user_id')
@@ -78,18 +207,68 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get all users
 	.get(function(req, res) {
-		console.log('bonsoir');
-		models.User.find({
-			archived: false
-		}).select('-password').populate('_role', 'name').exec(function(error, users) {
-			if (error)
-				res.send(error);
+		//If it's the superhero who's trying to access
+		if (req.mydata.user._role.name === 'superhero') {
+			models.User.find({
+				archived: false
+			}).select('-password').populate('_role', 'name').exec(function(error, users) {
+				if (error)
+					res.send(error);
 
-			res.json({
-				success: true,
-				users: users
+				res.json({
+					success: true,
+					users: users
+				});
 			});
-		});
+			//If it's an administrator
+		} else if (req.mydata.user._role.name === 'administrator') {
+			models.UsersProject.find({
+				archived: false,
+				_user: req.mydata.user._id
+			}, function(error, usersProjects) {
+				var usersArray = [];
+				usersProjects.forEach(function(usersProject, index, array) {
+					models.UsersProject.find({
+						archived: false,
+						_project: usersProject._project
+						// Here we use lean() to get an array of plain javascript objects, no need for class instance objects
+						//  here, as we need to modify the results anyway
+					}).populate('_user').select('-password').lean().exec(function(error, usersProjects2) {
+						if (error) {
+							res.send(error);
+							return;
+						}
+						usersProjects2.forEach(function(usersProject2, index2, array2) {
+							models.Role.findOne({
+								_id: usersProject2._user._role
+							}).exec(function(error, role) {
+								if (error) {
+									res.send(error);
+									return;
+								}
+								usersProject2._user._role = role;
+								console.log(usersProject2);
+								usersArray.push(usersProject2._user);
+
+								if ((index2 === (usersProjects2.length - 1)) && (index === (usersProjects.length - 1))) {
+									res.json({
+										success: true,
+										users: usersArray
+									});
+								}
+							});
+						});
+					});
+				});
+			});
+			//If it's just a guest or else
+		} else {
+			res.status = 403;
+			res.json({
+				'status': 403,
+				'message': 'You cannot access this content'
+			});
+		}
 	})
 
 	// Add a new user
@@ -142,136 +321,6 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 							user: user
 						});
 					});
-				});
-			}
-		});
-	});
-
-
-	// --------------------------------------------
-	// Routes to /api/users/login
-	// --------------------------------------------
-	router.route('/users/login')
-
-	.post(function(req, res) {
-		var email = req.body.email;
-		var password = req.body.password;
-
-		//Look for a user with this email
-		models.User.findOne({
-			email: req.body.email
-		}, function(error, user) {
-			if (error)
-				res.send(error);
-
-			//If we didn't find any user with this email
-			if (!user) {
-				res.json({
-					success: false,
-					message: 'There are no register user with the email: ' + email
-				});
-			} else {
-
-				//Compare the given password with the stored hash
-				modules.bcrypt.compare(password, user.password, function(error, ok) {
-					if (error)
-						res.send(error);
-
-					//Password and Username do not match
-					if (!ok) {
-						res.json({
-							success: false,
-							message: 'Username and Password do not match!'
-						});
-
-						//Password and Username matches, a token is created
-					} else {
-						modules.crypto.randomBytes(48, function(err, randomKey) {
-							var key = randomKey.toString("hex");
-
-							var token = new models.Token({
-								//Set token attributes
-								key: key,
-								_user: user._id
-							});
-
-							token.save(function(error) {
-								if (error)
-									res.send(error);
-
-								res.json({
-									success: true,
-									message: 'Connection established',
-									token: token.key
-								});
-							});
-						});
-					}
-				});
-			}
-		});
-	});
-
-	// --------------------------------------------
-	// Routes to /api/users/logout
-	// --------------------------------------------
-	router.route('/users/logout')
-
-	.post(function(req, res) {
-		var token_key = req.body.token;
-		//Look for the user associated to this token
-		models.Token.findOne({
-			key: token_key
-		}, function(error, token) {
-			if (error)
-				res.send(error);
-
-			//If we found an associated token
-			if (token) {
-				models.Token.remove({
-					_id: token._id
-				}, function(error, token) {
-					if (error)
-						res.send(error);
-
-					res.json({
-						success: true,
-						message: 'You have been successfully disconnected!'
-					});
-				});
-			} else {
-				res.json({
-					success: true,
-					message: 'You have been successfully disconnected!'
-				});
-			}
-		});
-	});
-
-	// --------------------------------------------
-	// Routes to /api/users/isLoggedIn
-	// --------------------------------------------
-	router.route('/users/isLoggedIn')
-
-	.post(function(req, res) {
-		var token_key = req.body.token;
-
-		models.Token.findOne({
-			key: token_key
-		}, function(error, token) {
-			if (error)
-				res.send(error);
-
-			//If we found an associated token
-			if (token) {
-				res.json({
-					success: true,
-					isLoggedIn: true
-				});
-			} else {
-				res.json({
-					success: false,
-					isLoggedIn: false
 				});
 			}
 		});

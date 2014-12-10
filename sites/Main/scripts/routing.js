@@ -2,7 +2,8 @@ myApp.config(['$provide', '$routeProvider',
 	function($provide, $routeProvider) {
 		$routeProvider.
 		when('/', {
-			templateUrl: 'views/index.html'
+			templateUrl: 'views/index.html',
+			controller: 'IndexController'
 		}).
 		when('/login', {
 			templateUrl: 'views/extras-login2.html',
@@ -152,7 +153,7 @@ myApp.config(['$provide', '$routeProvider',
 		}).
 		when('/:templateFile', {
 			templateUrl: function(param) {
-				return 'views/' + param.templateFile + '.html'
+				return 'views/' + param.templateFile + '.html';
 			}
 		}).
 		otherwise({
@@ -162,8 +163,10 @@ myApp.config(['$provide', '$routeProvider',
 ]);
 
 //Check if user's connected
-myApp.run(['$rootScope', '$location', '$route', 'UserService', 'progressLoader',
-	function($rootScope, $location, $route, UserService, progressLoader) {
+myApp.run(['$http', 'localStorageService', '$rootScope', '$location', '$route', 'UserService', 'progressLoader',
+	function($http, localStorageService, $rootScope, $location, $route, UserService, progressLoader) {
+		//Set headers for all $http requests
+		$http.defaults.headers.common['x-access-token'] = localStorageService.get('token');
 		var routesOpenToPublic = [];
 		angular.forEach($route.routes, function(route, path) {
 			// push route onto routesOpenToPublic if it has a truthy publicAccess value
@@ -180,11 +183,11 @@ myApp.run(['$rootScope', '$location', '$route', 'UserService', 'progressLoader',
 				UserService.isLoggedIn().success(function(data) {
 					if (!data.success) {
 						$location.path('/login');
-						isLoggedIn = false;
+						$rootScope.isLoggedIn = false;
 					} else {
-						isLoggedIn = true;
+						$rootScope.isLoggedIn = true;
 					}
-					console.log('isLoggedIn: ' + isLoggedIn);
+					console.log('isLoggedIn: ' + $rootScope.isLoggedIn);
 				});
 			}
 		});

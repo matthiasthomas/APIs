@@ -30,6 +30,7 @@ userModule.controller('AddUserController', ['$scope', '$q', '$routeParams', '$ro
 		$scope.saveUser = function() {
 			//Because we're using the same template for add and edit
 			$scope.user._role = $scope.user._role._id;
+			console.log($scope.user);
 			UserService.register($scope.user).success(function(data) {
 				console.log(data);
 				if (data.success) {

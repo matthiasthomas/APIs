@@ -5,14 +5,14 @@ userModule.factory('UserService', ['$http', 'localStorageService',
 				return $http.post(myApp.globals.serverUrl + "api/users/login", inputs);
 			},
 			logout: function(inputs) {
-				return $http.post(myApp.globals.serverUrl + "api/users/logout", inputs);
+				return $http.get(myApp.globals.serverUrl + "api/users/logout");
 			},
 			register: function(user) {
-				return $http.post(myApp.globals.serverUrl + "api/users", inputs);
+				return $http.post(myApp.globals.serverUrl + "api/users", user);
 			},
 			isLoggedIn: function() {
 				return $http.post(myApp.globals.serverUrl + "api/users/isLoggedIn", {
-					'token': localStorageService.get('token')
+					token: localStorageService.get('token')
 				});
 			},
 			all: function() {
