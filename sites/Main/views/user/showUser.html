@@ -1,0 +1,56 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a href="#/">Dashboard</a></li>
+    <li class="active">Show a User</li>
+  </ol>
+
+  <h1> Show a User</h1>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="col-md-12">
+        <label class="col-sm-3 control-label">Email</label>
+        <div class="col-sm-9">
+          {{ user.email }}
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <label class="col-sm-3 control-label">Role</label>
+        <div class="col-sm-9">
+          {{ user._role.name }}
+        </div>
+      </div>
+
+      <div ng-show='user._role.name === "administrator"'>
+        <div class="col-md-12">
+          <label class="col-sm-3 control-label">Projects</label>
+          <div class="col-sm-4">
+            <h4>Administrating</h4>
+            <div class="scroll-200">
+              <div ng-repeat='project in administratingProjects'>
+                <label>
+                  {{ project.name }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <h4>Not Administrating</h4>
+            <div class="scroll-200">
+              <div ng-repeat='project in notAdministratingProjects'>
+                <label>
+                  {{ project.name }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

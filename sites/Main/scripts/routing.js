@@ -17,6 +17,10 @@ myApp.config(['$provide', '$routeProvider',
 			templateUrl: 'views/user/users.html',
 			controller: 'UsersController'
 		}).
+		when('/showUser/:id', {
+			templateUrl: 'views/user/showUser.html',
+			controller: 'ShowUserController'
+		}).
 		when('/editUser/:id', {
 			templateUrl: 'views/user/editUser.html',
 			controller: 'EditUserController'

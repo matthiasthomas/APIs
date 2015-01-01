@@ -3,7 +3,6 @@ userModule.controller('UsersController', ['$scope', '$rootScope', '$global', '$t
 		UserService.all().success(function(data) {
 			$scope.users = data.users;
 			angular.forEach($scope.users, function(user) {
-				console.log(user);
 				user.projects = [];
 				UsersProjectService.getByUser(user._id).success(function(data) {
 					if (data.success) {

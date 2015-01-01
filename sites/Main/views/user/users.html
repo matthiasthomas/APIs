@@ -35,11 +35,13 @@
               <span> {{ user._role.name }} </span>
             </td>
             <td>
-              <a class="btn btn-primary btn-sm" href="#/editUser/{{ user._id }}">Edit</a>
-              <a class="btn btn-danger btn-sm" confirm-click='' confirm-click-function='deleteUser(user._id)' confirm-click-class='btn btn-orange btn-sm'>Delete</a>
+              <a class="btn btn-success btn-sm" href="#/showUser/{{ user._id }}">Show</a>
+
+              <a ng-show='(user._role.name !== "administrator") || (activeUser._role.name === "superhero")' class="btn btn-primary btn-sm" href="#/editUser/{{ user._id }}">Edit</a>
+              <a ng-show='(user._role.name !== "administrator") || (activeUser._role.name === "superhero")' class="btn btn-danger btn-sm" confirm-click='' confirm-click-function='deleteUser(user._id)' confirm-click-class='btn btn-orange btn-sm'>Delete</a>
             </td>
           </tr>
         </table>
-        <a class="btn btn-default" href="#/addUser">Add a new User</a>
+        <a ng-show='activeUser._role.name === "superhero"' class="btn btn-default" href="#/addUser">Add a new User</a>
       </panel>
     </div> 

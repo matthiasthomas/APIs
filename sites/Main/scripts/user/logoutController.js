@@ -1,5 +1,5 @@
-userModule.controller('LogoutController', ['$scope', '$rootScope', 'UserService', 'localStorageService',
-	function($scope, $rootScope, UserService, localStorageService) {
+userModule.controller('LogoutController', ['$scope', '$rootScope', 'UserService', 'localStorageService', '$location',
+	function($scope, $rootScope, UserService, localStorageService, $location) {
 		//Logout using UserService
 		$scope.logout = function() {
 			console.log('logout');

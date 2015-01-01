@@ -50,6 +50,11 @@ userModule.controller('EditUserController', ['$scope', '$q', '$routeParams', '$r
 		//Once we retrieved our user from first promise
 			.then(function(first) {
 				$scope.user = first.user;
+				//A user cannot update an admin unless he is superhero, or that he is trying to update himself
+				if (($scope.user._role.name === 'administrator') && $rootScope.activeUser._role.name !== 'superhero' && $rootScope.activeUser._id !== $scope.user._id) {
+					$location.path('/users');
+					return;
+				}
 				userInit = jQuery.extend({}, $scope.user);
 				//Get the roles, once we've our user
 				RoleService.all().success(function(data) {
@@ -148,6 +153,8 @@ userModule.controller('EditUserController', ['$scope', '$q', '$routeParams', '$r
 						});
 					}
 					$location.path('/users');
+				} else {
+					console.log(data.message);
 				}
 			});
 		};
