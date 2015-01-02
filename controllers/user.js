@@ -113,8 +113,10 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 		models.Token.findOne({
 			key: token_key
 		}, function(error, token) {
-			if (error)
+			if (error) {
 				res.send(error);
+				return;
+			}
 
 			//If we found an associated token
 			if (token && !token.hasExpired()) {
@@ -122,11 +124,13 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					success: true,
 					isLoggedIn: true
 				});
+				return;
 			} else {
 				res.json({
 					success: false,
 					isLoggedIn: false
 				});
+				return;
 			}
 		});
 	});
@@ -153,6 +157,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					success: true,
 					user: user
 				});
+				return;
 			});
 		} else if (req.mydata.user._role.name === 'administrator') {
 			models.UsersProject.find({
@@ -209,11 +214,13 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 											success: true,
 											user: wantedUser
 										});
+										return;
 									} else {
 										res.json({
 											success: false,
 											message: 'User wasn\'t found'
 										});
+										return;
 									}
 								}
 							});

@@ -13,12 +13,13 @@ getRole = function(user) {
 var middlewares = {
 	authenticate: function(config, models) {
 		return function(req, res, next) {
+
 			if (req.method === 'OPTIONS') {
 				next();
 				return;
 			}
 
-			if (config.unsecuredPaths.indexOf(req.path) >= 0) {
+			if (config.unsecuredPaths.indexOf(req.path) >= 0 || req.path == '/api' || req.path == '/api/') {
 				next();
 				return;
 			}

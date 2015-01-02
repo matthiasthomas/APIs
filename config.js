@@ -5,7 +5,7 @@ var config = {
 	unsecuredPaths: ['/api/users/isLoggedIn', '/api/users/login'],
 	smtpTransport: '',
 	server: {
-		address: '127.0.0.1',
+		address: '37.187.183.128',
 		port: '8080'
 	},
 	hardDebug: false,

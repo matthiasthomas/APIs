@@ -64,7 +64,7 @@ if (true === config.hardDebug) {
 	app.use(morgan('combined', {}));
 }
 
-app.use(express.static(__dirname + "/sites/Main"));
+app.use('/admin', express.static(__dirname + "/sites/Admin"));
 
 /**
  * MIDDLEWARES
