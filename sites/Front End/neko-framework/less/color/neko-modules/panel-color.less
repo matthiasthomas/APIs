@@ -1,0 +1,58 @@
+.panel-body, .panel-title {
+	color:@body-text-color;
+}
+
+.main-color {
+	.panel-body, .panel-title {
+		color:@main-text-color;
+	}
+}
+
+.dark-main-color {
+	.panel-body, .panel-title {
+		color:@dark-main-text-color;
+	}
+}
+
+.light-main-color {
+	.panel-body, .panel-title {
+		color:@light-main-text-color;
+	}
+}
+
+.dark-color {
+	.panel-body, .panel-title {
+		color:@dark-text-color;
+	}
+}
+
+.light-color {
+	.panel-body, .panel-title {
+		color:@light-text-color;
+	}
+}
+
+
+.panel-group.accordion-minimal {
+	.panel-heading {
+
+		.accordion-toggle{
+			color:@main-bg-color;
+			&:after{
+
+				background:@main-bg-color;
+			}
+
+			&.collapsed {
+				color:@body-text-color;
+				&:hover{
+					color:@body-text-color;
+					&:after{ 
+						background:@body-text-color;
+					}
+
+				}
+			}
+		}
+	}
+}

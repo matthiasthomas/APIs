@@ -1,0 +1,102 @@
+// Boxes
+// --------------------------------------------------
+.box {
+	padding:@padding-default;
+	border:1px solid transparent;
+	&.padding-large{
+		padding:@padding-lg;
+		@media (max-width: @screen-sm-min){
+			padding:@padding-default;
+		}
+	}
+	&.padding-medium{
+		padding:@padding-md;
+		@media (max-width: @screen-sm-min){
+			padding:@padding-default;
+		}
+	}
+	&.padding-small{
+		padding:@padding-sm;
+	}
+	h1, h2, h3, h4, h5, h6, p{
+		&:first-child{
+			margin-top:0; 
+		}
+		&:last-child{
+			margin-bottom:0; 
+		}
+	}
+	&.inline{
+    	// ie: used for titles in slider
+    	display:inline-block;
+    }
+    
+}
+
+.box.circle {
+	border-radius:50%;
+}
+
+.box.rounded {
+	border-radius:@border-radius-base;
+}
+
+
+//call to action
+.cta-box
+{
+	padding:@padding-default;
+	h1, h2, h3, h4, h5, h6, p, blockquote{
+		text-align: center;
+		&:first-child{
+			margin-top:0; 
+		}
+		&:last-child{
+			margin-bottom:0; 
+		}
+	}
+	.cta-box-btn {
+		text-align: center;
+		margin-top: @margin-default;
+	}
+	.cta-box-btn a {
+		margin-bottom: 0;
+	}
+
+} 
+
+
+.team-box {
+	figcaption.box {
+		border: none;
+	}
+}
+
+//MEDIA QUERIES
+@media(min-width: @screen-md-min){
+
+	.cta-box.cta-box-2cols {
+		display: table;
+		width: 100%;
+		.cta-box-text, .cta-box-btn {
+			display: table-cell;
+			vertical-align: top;
+		}
+		.cta-box-btn {
+			margin-top: 0;
+		}
+		h1, h2, h3, h4, h5, p, blockquote{
+			text-align: left;
+		}
+		.cta-box-btn { text-align: right; padding-left: 22px;}
+	}
+}
+@media(max-width: @screen-sm-max){
+	/** edge case ctabox with medium or large padding **/
+	.cta-box.padding-medium {
+		padding:@margin-default;
+	}
+	.cta-box .btn{
+		white-space: normal;
+	}
+}

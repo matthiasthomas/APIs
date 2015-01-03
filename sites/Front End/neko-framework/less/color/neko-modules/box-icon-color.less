@@ -1,0 +1,116 @@
+// Icon box
+// --------------------------------------------------
+
+//link
+.box-icon a {
+	h1, h2, h3, h4, h5, h6, p {
+		color:@body-text-color;
+	}
+	&:hover {
+		h1, h2, h3, h4, h5, p {
+
+			color:@link-color;
+		}
+		i{
+			&.rounded:before,&.squared:before,&.circle:before{
+				background-color: lighten(@main-bg-color, 10%);
+				.neko-border-darken (lighten(@main-bg-color, 10%));
+			}
+		}
+	} 
+}
+
+
+
+.icon.circle {
+   background-color:@main-bg-color;
+   .neko-border-darken (@main-bg-color);
+   &.main-color{
+    background-color:@main-bg-color;
+    .neko-border-darken (@main-bg-color);
+}
+&.dark-main-color{
+    background-color:@dark-main-bg-color;
+    .neko-border-darken (@dark-main-bg-color);
+}
+&.light-main-color{
+    background-color:@light-main-bg-color;
+    .neko-border-darken (@light-main-bg-color);
+}
+&.dark-color{
+    background-color:@dark-bg-color;
+    .neko-border-darken (@dark-bg-color);
+}
+&.light-color{
+    background-color:@light-bg-color;
+    .neko-border-darken (@light-bg-color);
+}
+
+}
+
+a:hover .icon.circle {
+    background-color:lighten(@main-bg-color, 5%);
+    .neko-border-darken (lighten(@main-bg-color, 5%));
+    &.main-color{
+        background-color:lighten(@main-bg-color, 5%); 
+        .neko-border-darken (lighten(@main-bg-color, 5%));
+    }
+    &.dark-main-color{
+        background-color:lighten(@dark-main-bg-color, 5%);
+        .neko-border-darken (lighten(@dark-main-bg-color, 5%));
+    }
+    &.light-main-color{
+        background-color:lighten(@light-main-bg-color, 5%); 
+        .neko-border-darken (lighten(@light-main-bg-color, 5%));
+    }
+    &.dark-color{
+        background-color:lighten(@dark-bg-color, 5%);
+        .neko-border-darken (lighten(@dark-bg-color, 5%)); 
+    }
+    &.light-color{
+        background-color:darken(@light-bg-color, 3%); 
+        .neko-border-darken (darken(@light-bg-color, 3%));
+    }
+}
+
+
+.box-icon.main-color{
+    .box-icon-variant-color( darken(@main-bg-color, 25%), @main-text-color);
+}
+
+.box-icon.dark-main-color{
+    .box-icon-variant-color( lighten(@dark-main-bg-color, 25%), @dark-main-text-color);
+}
+
+.box-icon.light-main-color{
+    .box-icon-variant-color( darken(@light-main-bg-color, 25%), @light-main-text-color);
+}
+
+.box-icon.light-color{
+    .box-icon-variant-color( darken(@light-bg-color, 50%), @light-text-color);
+}
+
+.box-icon.dark-color{
+    .box-icon-variant-color( lighten(@dark-bg-color, 35%), @dark-text-color);
+}
+
+
+.main-color .box-icon{
+    .box-icon-variant-color( @main-text-color, lighten(@main-bg-color, 25%) );
+}
+
+.dark-main-color .box-icon{
+    .box-icon-variant-color( @dark-main-text-color, lighten(@dark-main-bg-color, 25%) );
+}
+
+.light-main-color .box-icon{
+    .box-icon-variant-color(  @light-main-text-color, @main-bg-color );
+}
+
+.light-color .box-icon{
+    .box-icon-variant-color( @light-text-color, darken(@light-bg-color, 50%) );
+}
+
+.dark-color .box-icon{
+    .box-icon-variant-color( @dark-text-color, lighten(@dark-bg-color, 35%) );
+}

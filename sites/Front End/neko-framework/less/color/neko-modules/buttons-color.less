@@ -1,0 +1,310 @@
+/* BUTTONS
+================================================== */
+
+.btn {
+	color: @btn-default-color;
+	:active, .active {
+		box-shadow:none;
+	}
+
+}
+
+.main-color, .dark-main-color, .light-main-color, .dark-color, .light-color{
+	.btn, .btn:hover{
+		color: @btn-default-color;
+	}
+}
+
+
+// Alternate buttons
+// --------------------------------------------------
+/*** NEKO default ***/
+.btn-default {
+	color:red;
+	.button-variant(@btn-default-color; @btn-default-bg; @btn-default-border);
+}
+.btn-primary {
+	.button-variant(@btn-primary-color; @btn-primary-bg; @btn-primary-border);
+}
+
+// Success appears as green
+.btn-success {
+	.button-variant(@btn-success-color; @btn-success-bg; @btn-success-border);
+}
+// Info appears as blue-green
+.btn-info {
+	.button-variant(@btn-info-color; @btn-info-bg; @btn-info-border);
+}
+// Warning appears as orange
+.btn-warning {
+	.button-variant(@btn-warning-color; @btn-warning-bg; @btn-warning-border);
+}
+// Danger and error appear as red
+.btn-danger {
+	.button-variant(@btn-danger-color; @btn-danger-bg; @btn-danger-border);
+}
+
+.neko-border-mixin(@text, @over-bg, @over-text) {
+	background:none;
+	color:@text;
+	border-color:@text;
+	&:hover{
+		color: @over-text;
+		background:@over-bg;
+		border-color:@over-bg;
+	}
+	&.white{
+		color:#fff;
+		border-color:#fff;
+		opacity:0.9;
+		&:hover{
+			opacity:1;
+
+		}
+	}
+}
+
+.btn.border, .btn-icon.border{
+	.neko-border-mixin(@body-text-color; @body-text-color; @body-bg-color);
+	
+}
+
+.main-color .btn.border, .btn-icon.border{
+	.neko-border-mixin (@main-text-color; @main-text-color; @main-bg-color);
+}
+
+.btn.border, .btn-icon.border{
+	i {
+		.neko-border-mixin(@body-text-color; @body-text-color; @body-bg-color);
+		&:before{
+			color:@body-text-color;
+		}	
+	}
+	&:hover i:before{ 
+		color:@body-bg-color;
+	}
+}
+
+
+
+// Alternate buttons
+// --------------------------------------------------
+
+.btn-default:active {
+	.btn-variant-active(@btn-default-bg);
+}
+.btn-primary:active {
+	.btn-variant-active(@btn-primary-bg);
+}
+// Success appears as green
+.btn-success:active {
+	.btn-variant-active(@btn-success-bg);
+}
+// Info appears as blue-green
+.btn-info:active {
+	.btn-variant-active(@btn-info-bg);
+}
+// Warning appears as orange
+.btn-warning:active {
+	.btn-variant-active(@btn-warning-bg);
+}
+// Danger and error appear as red
+.btn-danger:active {
+	.btn-variant-active(@btn-danger-bg);
+}
+
+
+
+.btn.rss, ul.social-icons-bar a.rss {
+	.social-color(@rss-color; @social-text-color;);
+}
+.btn.facebook, ul.social-icons-bar a.facebook {
+	.social-color(@facebook-color; @social-text-color;);
+}
+.btn.twitter, ul.social-icons-bar a.twitter {
+	.social-color(@twitter-color; @social-text-color;);
+}
+.btn.gplus, ul.social-icons-bar a.gplus {
+	.social-color(@gplus-color; @social-text-color;);
+}
+.btn.dribbble, ul.social-icons-bar a.dribbble {
+	.social-color(@dribbble-color; @social-text-color;);
+}
+.btn.linkedin, ul.social-icons-bar a.linkedin {
+	.social-color(@linkedin-color; @social-text-color;);
+}
+
+
+
+
+/*** social icons buttons ***/
+
+/*** Social icons ***/
+
+
+ul.social-icons {
+	a {
+		background:none;
+	}
+}
+
+
+ul.social-icons {
+	&.main-color, &.dark-main-color, &.light-main-color, &.dark-color, &.light-color{
+		background:transparent;
+	}	
+	&.dark-main-color i:before { color:@dark-main-bg-color;}
+	&.light-main-color i:before { color:@light-main-bg-color;}
+	&.dark-color i:before { color:@dark-bg-color;}
+	&.light-color i:before { color:@light-bg-color;}
+
+	/* filled icon colors */
+	&.squared, &.circle, &.rounded {
+		&.main-color{
+			a {
+				&.rss, &.facebook, &.twitter, &.gplus, &.dribbble, &.linkedin {
+					.neko-social-icons-color(@main-bg-color; @social-text-color;);
+				} 	
+			}
+		}
+
+		&.dark-main-color{
+			a {
+				&.rss, &.facebook, &.twitter, &.gplus, &.dribbble, &.linkedin {
+					.neko-social-icons-color(@dark-main-bg-color; @social-text-color;);
+				} 	
+			}
+		}
+
+		&.light-main-color{
+			a {
+				&.rss, &.facebook, &.twitter, &.gplus, &.dribbble, &.linkedin {
+					.neko-social-icons-color(@light-main-bg-color; @social-text-color;);
+				} 	
+			}
+		}
+
+		&.dark-color{
+			a {
+				&.rss, &.facebook, &.twitter, &.gplus, &.dribbble, &.linkedin {
+					.neko-social-icons-color(@dark-bg-color; @social-text-color;);
+				} 	
+			}
+		}
+
+		&.light-color{
+			a {
+				&.rss, &.facebook, &.twitter, &.gplus, &.dribbble, &.linkedin {
+					.neko-social-icons-color(@light-bg-color; @body-text-color;);
+				} 	
+			}
+		}
+		
+	}
+
+	/* social colors */
+
+	&.squared, &.circle, &.rounded {
+		a, &.social-hover a:hover {
+			&.rss {
+				.neko-social-icons-color(@rss-color; @social-text-color;);
+			}
+			&.facebook {
+				.neko-social-icons-color(@facebook-color; @social-text-color;);
+			}
+			&.twitter {
+				.neko-social-icons-color(@twitter-color; @social-text-color;);
+			}
+			&.gplus {
+				.neko-social-icons-color(@gplus-color; @social-text-color;);
+			}
+			&.dribbble {
+				.neko-social-icons-color(@dribbble-color; @social-text-color;);
+			}
+			&.linkedin {
+				.neko-social-icons-color(@linkedin-color; @social-text-color;);
+			}
+			
+		}
+	}
+}
+
+
+/*fix align issue on facebook icon*/
+ul.social-icons a.facebook, ul.social-icons-2 a.facebook{
+	&.rounded>i:before,&.squared>i:before,&.circle>i:before {
+		width: 6px; 
+	}
+}
+
+
+/*** link icons ***/
+
+a.link-icon {
+	background:@main-bg-color;
+	&.squared, &.circle, &.rounded {
+		>i:before {
+			color:white;
+		}
+	}
+}
+
+
+
+/*** icon buttons ***/
+.btn i:before {
+	color:@main-text-color!important;
+}
+
+
+/** V2 **/
+.btn-icon{
+
+	i:before{
+		color:white;
+	}
+	i, span {
+		.neko-border-darken(@main-bg-color);
+		color:@main-text-color;
+	}
+
+	i, &.large i, &.medium i, &.small i {
+		background-color:darken(@main-bg-color, 5%);
+	}
+
+	span, &.large span, &.medium span, &.small span {
+		background-color:@main-bg-color;
+	}
+
+	&:hover i, &:hover span {
+		background-color:darken(@main-bg-color,10%);
+		.neko-border-darken (@main-bg-color);
+	} 
+
+	&:hover span{
+		border-left-color:darken(@main-bg-color, 5%);
+	}
+}
+
+
+
+
+/** V2 color variants **/
+.btn-icon.default {
+	.btn-icon-variant(@btn-default-bg;);
+}
+.btn-icon.primary {
+	.btn-icon-variant(@btn-primary-bg;);
+}
+.btn-icon.success {
+	.btn-icon-variant(@btn-success-bg;);
+}
+.btn-icon.info {
+	.btn-icon-variant(@btn-info-bg;);
+}
+.btn-icon.warning {
+	.btn-icon-variant(@btn-warning-bg;);
+}
+.btn-icon.danger {
+	.btn-icon-variant(@btn-danger-bg;);
+}

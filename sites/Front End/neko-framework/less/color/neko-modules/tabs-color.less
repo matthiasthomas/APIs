@@ -1,0 +1,118 @@
+/* TABS
+================================================== */
+.tab-content{
+	border-color: @panel-inner-border;
+	h1, h2, h3, h4, h5, h6, p{
+	}
+}
+
+.nav.nav-tabs > li > a {
+	color:@body-text-color;	
+	i[class^="icon-"]:before,
+	i[class*=" icon-"]:before{ 
+		color:@body-text-color;
+	}
+
+	&:hover {
+		background-color:@main-bg-color;
+		color:@main-text-color;
+		border-color:@main-text-color;
+		i[class^="icon-"]:before,
+		i[class*=" icon-"]:before{
+			color:@main-text-color;
+		} 
+	}
+}
+
+.nav-tabs > li.active > a {
+  i[class^="icon-"]:before,
+  i[class*=" icon-"]:before{
+    color:@body-text-color;
+  }
+}
+
+@media (max-width: @screen-sm-min) {
+  .nav.nav-tabs > li {
+    border-bottom-color: @panel-inner-border;
+  }
+}
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+	border-color:@main-text-color;
+}
+
+
+/*** tabs position ***/
+
+.tabs-left, .tabs-right {
+  .tab-content {
+  	border-top-color:@panel-inner-border;
+  }
+  .nav.nav-tabs {
+    > li > a {
+      border-color:@panel-inner-border;
+    }
+  }
+}
+
+.tabs-left > .nav-tabs {
+  > li.active > a {
+
+  	&:hover{
+
+  	}
+  }
+
+}
+
+.tabs-right > .nav-tabs {
+  > li.active > a {
+
+  	&:hover{
+
+  	}
+  }
+}
+
+/* minimal tab colors mixin */
+.neko-minimal-tab (@border-top-color, @color-active, @color-hover, @tabs-color ) {  
+  .nav.nav-tabs {
+    border-color: @border-top-color;
+
+    > li > a {
+      &:after{
+        background-color:@color-active;
+      }
+      &:hover{
+        background-color: transparent;
+        color:@color-hover;
+        &:after{
+          background-color: @color-hover;
+        }
+      }
+    }
+    > li.active > a {
+      background-color: transparent;
+      color:@color-active;
+      &:focus {
+        background-color: transparent;
+      }
+      &:hover{
+        color:@color-active;
+        &:after{
+          background-color:@color-active;
+        }
+      }
+    }
+  }
+}
+
+.tabs-minimal {
+  .neko-minimal-tab (@panel-inner-border; @main-bg-color; @body-text-color; @body-text-color );
+}
+
+.dark-main-color {
+  .tabs-minimal {
+    .neko-minimal-tab (@light-main-bg-color; @dark-main-text-color; @light-main-text-color; @dark-main-text-color );
+  }
+}

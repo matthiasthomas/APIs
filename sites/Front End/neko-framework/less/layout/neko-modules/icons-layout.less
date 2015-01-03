@@ -1,0 +1,146 @@
+// Icons
+// --------------------------------------------------
+
+/* standard */
+
+i[class^="icon-"], i[class*=" icon-"]
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		border:1px solid transparent;
+	}
+}
+
+
+i[class^="icon-"]:before,
+i[class*=" icon-"]:before
+{
+	font-family: @font-family-icon;
+	text-align: left;
+	padding: 0;
+	margin:0;
+	margin-right: 5px;
+	display:inline-block;
+	line-height:1em;
+	font-size: 14px;
+}
+
+/* sizes */
+
+i[class^="icon-"].x-large:before,
+i[class*=" icon-"].x-large:before
+{
+	font-size: 80px;
+}
+
+i[class^="icon-"].large:before,
+i[class*=" icon-"].large:before
+{
+	font-size: 40px;
+}
+
+
+i[class^="icon-"].medium:before,
+i[class*=" icon-"].medium:before
+{
+	font-size: 22px;
+}
+
+i[class^="icon-"].small:before,
+i[class*=" icon-"].small:before
+{
+	font-size: 10px;
+}
+
+
+
+
+/*** icons sizes (for rounded, circle and square) ***/
+.icon-sizes(@height, @width, @line-height, @font-size){
+	&.rounded:before,&.squared:before,&.circle:before {
+		height:@height;
+		width:@width;
+		line-height: @line-height;
+		font-size: @font-size;
+	}
+}
+
+
+/*** icon squared ***/
+i[class^="icon-"].squared:before, i[class*=" icon-"].squared:before{
+	display:inline-block;
+	text-align: center;
+	margin-right: 0;
+}
+
+/*** icon circle ***/
+i[class^="icon-"].circle:before, i[class*=" icon-"].circle:before{
+	display:inline-block;
+	text-align: center;
+	margin-right: 0;
+	border-radius: 50%;
+
+}
+
+/*** icon rounded ***/
+i[class^="icon-"].rounded:before, i[class*=" icon-"].rounded:before{
+	display:inline-block;
+	text-align: center;
+	margin-right: 0;
+	border-radius: @border-radius-base;
+}
+
+
+
+/* standard */
+
+i[class^="icon-"], i[class*=" icon-"]{
+	.icon-sizes(40px; 40px; 40px; 14px;)
+}
+
+/* x-large */
+i[class^="icon-"].x-large, i[class*=" icon-"].x-large
+{
+	.icon-sizes(120px; 120px; 120px; 60px;)
+}
+
+/* large */
+i[class^="icon-"].large, i[class*=" icon-"].large
+{
+	.icon-sizes(75px; 75px; 75px; 40px;)
+}
+
+/* medium */
+i[class^="icon-"].medium, i[class*=" icon-"].medium
+{
+	.icon-sizes(56px; 56px; 56px; 22px;)
+}
+
+/* small */
+i[class^="icon-"].small, i[class*=" icon-"].small
+{
+	.icon-sizes(22px; 22px; 23px; 8px;)
+}
+
+/*** icon rounded/squared/circle colors ***/
+
+
+/*** icons animated ***/
+i.animated:before{
+	-webkit-transition: all 0.8s;
+	-moz-transition: all 0.8s;
+	-o-transition: all 0.8s;
+	-ms-transition: all 0.8s;
+	transition: all 0.8s;
+}
+
+i.animated:hover:before{
+	-moz-transform: rotate(360deg);
+	-webkit-transform: rotate(360deg);
+	-ms--transform: rotate(360deg);
+	transform: rotate(360deg);
+	-webkit-transition: all 0.2s;
+	-moz-transition: all 0.2s;
+	-o-transition: all 0.2s;
+	-ms-transition: all 0.2s;
+	transition: all 0.2s;
+}

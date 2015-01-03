@@ -1,0 +1,90 @@
+/* FORMS
+================================================== */
+.form-control {
+	box-shadow:none;
+}
+
+.form-control:focus {
+	border-color: @main-bg-color;
+	-webkit-box-shadow: none;
+	box-shadow:none;
+}
+
+
+.main-color{
+	.form-control {
+		&:focus {
+			border-color: @light-main-bg-color;
+		}
+	}
+	
+}
+
+.dark-main-color{
+	.form-control {
+		.neko-border-darken (@dark-main-bg-color);
+		&:focus {
+			border-color: @light-main-bg-color;
+		}
+	}
+	.help-block {
+		color:@dark-main-text-color;
+	}
+}
+
+
+.light-main-color{
+	.form-control {
+		.neko-border-darken (@light-main-bg-color);
+		
+		&:focus {
+			border-color: @main-bg-color;
+		}
+	}
+	
+}
+
+
+.dark-color {
+	.form-control {
+		.neko-border-darken (@dark-bg-color);
+		&:focus {
+			border-color: @main-bg-color;
+		}
+	}
+	
+}
+
+
+.light-color {
+	.form-control {
+		.neko-border-darken (@light-bg-color);
+
+		&:focus {
+			border-color: @main-bg-color;
+		}
+	}
+	
+}
+
+/** form-minimal **/
+
+.form-minimal {
+	.form-line {
+		background-color: @main-bg-color;
+	}
+	.form-control {
+		border-bottom-color: #ddd;
+		background-color: transparent;
+		&:focus{
+			border-color: #ddd;
+		}
+	}
+	.has-error .form-control {
+		 	box-shadow: none;
+		 	border-bottom-color: #A94442;
+		 }
+		 &:focus{
+			border-bottom:none !important;
+		}
+}

@@ -1,0 +1,69 @@
+/*** Common to all royal sliders ***/
+.rsPreloader{
+	.neko-preloader;
+}
+/*** Common to all royal sliders ***/
+
+/*** video gallery ***/
+.video-gallery{
+	&.royalSlider {
+		width: 100%;
+		&.rsDefault .rsThumbsVer{
+			width: 220px;
+		}
+
+		.rsThumb {
+			width: 220px;
+			height: auto;
+			.rsTmb{
+				padding:@padding-sm;
+				h5 {
+					font-size:@font-size-small;
+				}
+			}
+		}
+	}
+}
+/*** video gallery ***/
+
+
+/*** gallery fullscreen ***/
+.gallery-fullscreen {
+	width: 100%;
+	-webkit-user-select: none;
+	-moz-user-select: none;  
+	user-select: none;
+}
+/*** gallery fullscreen ***/
+
+
+.animated-fullwidth {
+	width: 100%;
+
+	.rsABlock {
+		position: relative;
+		display: block;
+		left: auto;
+		top: auto;
+
+		&.rsaAbsolute{
+			position: absolute !important;
+		}
+	}
+
+	.rsContent {
+		float: left;
+	}
+
+	.rs-container-relative{
+		position:relative;
+	}
+
+	.rs-container-absolute{
+		position:absolute;
+		left: 0;
+		width: 100%;
+		height: auto;
+	}
+}
+

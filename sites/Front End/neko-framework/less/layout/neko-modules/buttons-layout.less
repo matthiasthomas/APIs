@@ -1,0 +1,313 @@
+// Buttons
+// --------------------------------------------------
+.btn {
+	font-weight: @btn-font-weight;
+	text-transform: @btn-uppercase;
+	border: 1px solid transparent;
+	.neko-transition-out;
+	.button-size(@padding-btn-vertical-default; @padding-btn-horizontal-default;  @btn-font-size; @line-height-large; @border-radius-large);
+	@media (max-width: @screen-xs-max){
+		white-space: normal;
+	}
+	&:hover{
+		.neko-transition-in;
+	}
+	&:active, &.active{
+		outline:none;
+		box-shadow:none;
+
+	}
+}
+
+.btn-lg {
+	font-size: @font-size-large; 
+	.button-size(@padding-btn-vertical-lg; @padding-btn-horizontal-lg; @btn-font-size-lg; @line-height-large; @border-radius-large);
+}
+
+.btn-sm {
+	font-size: @font-size-small;
+	.button-size(@padding-btn-vertical-sm; @padding-btn-horizontal-sm; @btn-font-size-sm; @line-height-small; @border-radius-small);
+}
+
+.btn-xs {
+	font-size: @font-size-small;
+	.button-size(@padding-btn-vertical-xs; @padding-btn-horizontal-xs; @btn-font-size-xs; @line-height-small; @border-radius-small);
+}
+
+
+
+
+//Responsive buttons group
+@media (max-width: @screen-sm-max) {
+	.btn-group.responsive {
+		.btn {
+			.btn-block(); // Reuse btn-block code
+			margin-bottom: 10px;
+		}
+		.pull-left, .pull-right {
+			float: none !important;
+		}
+	}
+}
+
+
+//fix the margin for facebook icon
+.btn.facebook {
+	i:before{
+		margin-right: 0;
+	}
+}
+
+
+/*** social icons buttons ***/
+
+/*** Social icons ***/
+ul.social-icons {
+	padding:0;
+	margin:0;
+	li{
+		display:inline-block;
+	}
+}
+
+
+ul.social-icons {
+	a {
+		font-size: 14px;
+		display:inline-block;
+		&:hover, &:focus, &:active{
+			text-decoration: none;
+		}
+	}
+
+	//style
+	&.squared, &.circle, &.rounded {
+		a {
+			height: 40px;
+			width: 40px;
+			line-height: 40px;
+			text-align: center;
+			i[class^="icon-"]:before, i[class*=" icon-"]:before {
+				text-align: center;
+				margin-right: 0;
+			}
+		}
+	}
+
+	/*** icon squared ***/
+	&.squared a{
+		border-radius: 0;
+	}
+	/*** icon circle ***/
+	&.circle a{
+		border-radius: 50%;
+	}
+	/*** icon rounded ***/
+	&.rounded a{
+		border-radius: @border-radius-base;
+	}
+
+}
+
+
+/* sizes */
+ul.social-icons {
+	&.medium {
+		a {
+			.neko-transition-out
+			i:before{
+				font-size: 22px;
+			}
+		}
+		&.squared, &.circle, &.rounded {
+			.neko-social-icon-sizes(56px; 56px; 56px; 22px;)
+		}
+
+	}
+
+	&.large{
+		a {
+			.neko-transition-out
+			i:before{
+				font-size: 40px;
+			}
+		}
+		&.squared, &.circle, &.rounded {
+			.neko-social-icon-sizes(75px; 75px; 75px; 40px;);	
+		}
+	}
+
+	&.x-large {
+		a {
+			.neko-transition-out
+			i:before{
+				font-size: 80px;
+			}
+		}
+		&.squared, &.circle, &.rounded {
+			.neko-social-icon-sizes(120px; 120px; 120px; 60px;)
+		}
+	}
+}
+
+
+/*fix align issue on facebook icon*/
+ul.social-icons a.facebook, ul.social-icons-2 a.facebook{
+	&.rounded>i:before,&.squared>i:before,&.circle>i:before {
+		width: 6px; 
+	}
+}
+
+
+
+ul.social-icons-bar{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+
+/*** link icons ***/
+
+a.link-icon {
+
+	font-size: 14px;
+	display:inline-block;
+	text-decoration: none;
+	
+	&.squared, &.circle, &.rounded {
+		height: 40px;
+		width: 40px;
+		line-height: 40px;
+		text-align: center;
+
+		>i:before {
+			margin-right: 0;
+			.text-center
+		}
+	}
+
+
+	/*** icon squared ***/
+	&.squared{
+		border-radius: 0;
+	}
+	/*** icon circle ***/
+	&.circle {
+		border-radius: 50%;
+	}
+	/*** icon rounded ***/
+	&.rounded {
+		border-radius: @border-radius-base;
+	}
+
+}
+
+
+
+/*** icon buttons ***/
+.btn i:before {
+	margin-right:0;
+}
+
+/** sizes variants  **/
+.btn.large, .btn.btn-lg{
+	i:before {
+		font-size: 24px;
+	}
+}
+
+.btn.small, .btn.btn-sm{
+	i:before {
+		font-size: 9px;
+	}
+}
+
+/** V2 **/
+.btn-icon{
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	.neko-transition-out;
+	&:hover {
+		.neko-transition-in;
+	}
+	i, span {
+		position: relative;
+		float: left;
+		.button-size(@padding-base-vertical; @padding-base-horizontal; @btn-font-size; @line-height-base; @border-radius-base);
+		border:1px solid transparent;
+	}
+	&.large i, &.large span {
+		.button-size(@padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @border-radius-large);
+	}
+	&.medium i, &.medium span {
+		.button-size(@padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base; @border-radius-base);
+	}
+	&.small i, &.small span {
+		.button-size(@padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @border-radius-small);
+	}
+
+	i, &.large i, &.medium i, &.small i {
+		border-bottom-right-radius: 0;
+		border-top-right-radius: 0;
+		padding-right: 0;
+	}
+
+	span, &.large span, &.medium span, &.small span {
+		border-bottom-left-radius: 0;
+		border-top-left-radius: 0;
+		text-transform: @btn-uppercase;
+		font-weight: @btn-font-weight;
+		margin-left: -1px;
+	}
+
+	&:hover i, &:hover span {
+		border:1px solid transparent;
+		cursor:pointer;
+	} 
+
+
+	&.large,  &.medium,  &.small{
+		padding:0;
+		border-radius: 0;
+	}
+
+}
+
+/** V2 sizes variants **/
+.btn-icon {
+	i[class^="icon-"]:before, i[class*=" icon-"]:before{
+		margin-right: 9px;
+	}
+}
+
+.btn-icon.large i:before {
+	font-size: 24px;
+	margin-right: 18px;
+}
+
+
+.btn-icon.medium i:before {
+	margin-right: 11px;
+}
+
+.btn-icon.small i{
+	padding-left: 8px;
+	&:before {
+		font-size: 9px;
+		margin-right: 8px;
+	}
+}
+
+
+/** btn block **/
+.btn-block{
+	white-space: normal;
+}
+
+.btn.border, .btn-icon.border{
+	i {
+		.neko-transition-in;
+	}
+}

@@ -1,0 +1,225 @@
+/* TYPOGRAPHY
+================================================== */
+
+body{
+	background: @body-bg-color;
+	color:@body-text-color;
+}
+/** headings **/
+
+h1, h2, h3, h4, h5, h6{
+	color: @headings-color;
+	small, .small {
+		color: inherit;
+	}
+}
+
+.lead{
+	color: @headings-color;
+}
+
+.text-light {
+	h1, h2, h1 span, h2 span, h3, h4, h5, h6, p, p.lead, blockquote, cite{
+		color:@text-light;
+	}
+}
+
+h1, h2, h1 span, h2 span, h3, h4, h5, h6, p, p.lead, blockquote, cite{
+	&.text-main-color, .text-main-color {
+		color:@main-bg-color;
+	}
+}
+
+
+h1, h2, h1 span, h2 span, h3, h4, h5, h6, p, p.lead {
+	&.text-light {
+		color:@text-light;
+	}
+}
+
+mark, .mark{
+	background-color: @main-bg-color;
+	color: @main-text-color;
+}
+
+.main-color mark, .main-color .mark{
+	background-color: @light-main-bg-color;
+}
+
+/** links **/
+a, a:hover, a:focus, a:active {
+	color:@main-bg-color;
+}
+.main-color{
+	a, a:hover, a:focus{
+		color: lighten(@main-bg-color, 35%);
+	}
+}
+
+.light-main-color{
+	a, a:hover, a:focus{
+		color: darken(@main-bg-color, 10%);
+	}
+}
+
+/** link color neutral (used for block of text as link with body font color **/
+
+	a.box-link {
+		.neko-box-link-variant(@body-text-color; @main-bg-color)
+	}
+
+	.main-color a.box-link {
+		.neko-box-link-variant(@main-text-color; darken(@main-bg-color,15%))
+	}
+
+	.dark-main-color a.box-link {
+		.neko-box-link-variant(@dark-main-text-color; lighten(@dark-main-bg-color,15%));
+	}
+
+	.light-main-color a.box-link {
+		.neko-box-link-variant(@light-main-text-color; darken(@light-main-bg-color,15%))
+	}
+
+	.light-color a.box-link {
+		.neko-box-link-variant(@light-text-color; @main-bg-color)
+	}
+
+	.dark-color a.box-link {
+		.neko-box-link-variant(@dark-text-color; @main-bg-color)
+	}
+
+	/** Blockquotes **/
+	blockquote {
+		.neko-border-darken (@light-bg-color);
+
+		/** blockquote icon **/
+		&:before {
+			color:#eee;
+		}
+	}
+
+	.blockquote-reverse {
+		border-left-color: darken(@blockquote-background-color,15%);
+	}
+
+	/* blockquote color dark main */
+	.dark-main-color blockquote {
+		.box-color(@main-bg-color; @main-text-color; darken(@main-bg-color, 15%););
+		&:before {
+			color:@main-text-color;
+		}
+	}
+
+	/* blockquote color main */
+	.main-color blockquote {
+		.box-color( @light-main-bg-color; @light-main-text-color; darken(@light-main-bg-color, 20%););
+		&:before {
+			color:darken(@light-main-bg-color, 10%);
+		}
+	}
+
+
+	/* blockquote color light main */
+	.light-main-color blockquote {
+		.box-color(@main-bg-color; @main-text-color; darken(@main-bg-color, 15%););
+		&:before {
+			color:@dark-main-bg-color;
+		}
+	}
+
+
+	/* blockquote color dark */
+	.dark-color blockquote {
+		.box-color(lighten(@dark-bg-color, 5%); @dark-text-color; lighten(@dark-bg-color, 25%););
+		&:before {
+			color:@dark-bg-color;
+		}
+	}
+
+
+	/* blockquote color light */
+	.light-color blockquote {
+		.box-color(darken(@light-bg-color, 5%); @light-text-color; darken(@light-bg-color, 25%););
+		&:before {
+			color:darken(@light-bg-color, 15%);
+		}
+	}
+
+	.dark-main-color,
+	.main-color,
+	.light-main-color,
+	.dark-color,
+	.light-color
+	{
+		blockquote{
+			&.main-color{
+				.box-color(@main-bg-color; @main-text-color;  darken(@main-bg-color, 15%););
+			}
+			&.dark-main-color {
+				.box-color(@dark-main-bg-color; @dark-main-text-color; darken(@dark-main-bg-color, 15%););
+			}
+			&.light-main-color {
+				.box-color(@light-main-bg-color; @light-main-text-color; darken(@light-main-bg-color, 20%););
+			}
+			&.dark-color{
+				.box-color(@dark-bg-color; @dark-text-color; lighten(@dark-bg-color, 15%););
+			}
+			&.light-color
+			{
+				.box-color(@light-bg-color; @light-text-color; darken(@light-bg-color, 25%););
+			}
+			&.white{
+				.box-color(@white; @body-text-color; darken(@white, 25%););
+			}
+		}
+	}
+
+
+	/** border list **/
+	ul.border li{
+		border-bottom-color: lighten(@body-text-color, 50%);
+	}
+
+
+	.light-color ul.border li{
+		border-bottom-color: darken(@light-bg-color, 15%);
+	}
+	.dark-color ul.border li{
+		border-bottom-color: lighten(@light-bg-color, 15%);
+	}
+	.dark-main-color ul.border li{
+		border-bottom-color:@main-bg-color ;
+	}
+	.light-main-color ul.border  li{
+		border-bottom-color: darken(@light-main-bg-color, 15%);
+	}
+	.main-color ul.border li{
+		border-bottom-color: @dark-main-bg-color;
+	}
+
+
+
+	.list-icon li:before, li>i {color:@main-bg-color;}
+
+	.main-color .list-icon li:before{color:@main-text-color;}
+
+	.light-main-color .list-icon li:before,
+	.dark-main-color .list-icon li:before,
+	{
+		color:inherit;
+	}
+
+	.list-icon.rounded li:before,
+	li>i[class^="icon-"].rounded:before,
+	li>i[class*=" icon-"].rounded:before
+	{
+		background-color: @main-bg-color;
+		color:@main-text-color;
+	}
+
+	.main-color .list-icon.rounded li:before,
+	.main-color li>i[class^="icon-"].rounded:before, 
+	.main-color li>i[class*=" icon-"].rounded:before
+	{
+		background-color: @light-main-bg-color;
+	}

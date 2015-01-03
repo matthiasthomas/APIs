@@ -1,0 +1,37 @@
+/* PAGINATION
+================================================== */
+.pagination{
+	> li > a, > li > span {
+		color:@main-bg-color;
+		&:hover,
+		&:focus{
+			color:@dark-main-bg-color;
+		}
+	}
+	> .active > a,
+	> .active > span {
+		&,
+		&:hover,
+		&:focus {
+			color: @pagination-active-color;
+			background-color: @pagination-active-bg;
+			border-color: @pagination-active-border;
+		}
+	}
+}
+
+
+.pagination.pagination-minimal{
+	
+	>li {
+
+		>a, >span {
+			color:@body-text-color;
+
+			&:after{
+				background:@body-text-color;
+			}
+		}
+	}
+
+}

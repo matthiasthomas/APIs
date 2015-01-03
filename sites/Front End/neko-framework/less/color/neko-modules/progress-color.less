@@ -1,0 +1,62 @@
+/* PROGRESS BARS
+================================================== */
+.progress {
+  box-shadow:none;
+  background-color: @progress-bg;
+  .neko-border-darken(@light-bg-color);
+}
+
+.progress-bar{
+	box-shadow:none;
+	color: @progress-bar-color;
+	background-color: @progress-bar-bg;
+}
+
+
+/* colors */
+.main-color .progress {
+	border-color: @neko-component-border-main-color;
+}
+
+.light-main-color .progress {
+	border-color:@light-main-text-color;
+}
+
+.dark-main-color .progress {
+	border-color:@dark-main-text-color;
+}
+
+.dark-color .progress {
+	border-color:@dark-text-color;
+}
+
+.light-color .progress {
+	border-color:darken(@light-bg-color,10%);
+}
+
+
+
+// Variations
+// -------------------------
+.progress-bar-success {
+  .progress-bar-variant(@progress-bar-success-bg);
+}
+
+.progress-bar-info {
+  .progress-bar-variant(@progress-bar-info-bg);
+}
+
+.progress-bar-warning {
+  .progress-bar-variant(@progress-bar-warning-bg);
+}
+
+.progress-bar-danger {
+  .progress-bar-variant(@progress-bar-danger-bg);
+}
+
+
+.progress-striped .progress-bar,
+.progress-bar-striped {
+  #gradient > .striped();
+  background-size: 40px 40px;
+}

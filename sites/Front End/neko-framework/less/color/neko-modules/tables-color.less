@@ -1,0 +1,101 @@
+/* TABLES
+================================================== */
+/*** Bootstrap default customization ***/
+.table td{
+	background-color:@body-bg-color;
+	color:@body-text-color;	
+}
+.table>thead>tr>th,
+.table > thead > tr > th {
+	background-color: @main-bg-color;
+	color:@main-text-color;
+}
+
+
+
+.table,
+.table > thead > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+	border-color:@table-border-color;
+}
+
+/** colors **/
+.dark-color .table > thead > tr > td,
+.dark-color .table > tbody > tr > td,
+.dark-color .table > tfoot > tr > td,
+.dark-color .table > thead > tr > th,
+.dark-color .table
+{
+	.neko-border-darken (@dark-bg-color);
+}
+
+.light-color .table > thead > tr > td,
+.light-color .table > tbody > tr > td,
+.light-color .table > tfoot > tr > td,
+.light-color .table > thead > tr > th,
+.light-color .table
+{
+	.neko-border-darken (@light-bg-color);
+}
+
+
+.main-color .table > thead > tr > td,
+.main-color .table > tbody > tr > td,
+.main-color .table > tfoot > tr > td,
+.main-color .table > thead > tr > th,
+.main-color .table
+{
+	.neko-border-darken (@main-bg-color);
+}
+
+.main-color .table>thead>tr>th,
+.main-color .table > thead > tr > th {
+	color:@main-text-color;
+}
+
+.dark-main-color .table > thead > tr > td,
+.dark-main-color .table > tbody > tr > td,
+.dark-main-color .table > tfoot > tr > td,
+.dark-main-color .table > thead > tr > th,
+.dark-main-color .table
+{
+	.neko-border-darken (@dark-main-bg-color);
+}
+
+.light-main-color .table > thead > tr > td,
+.light-main-color .table > tbody > tr > td,
+.light-main-color .table > tfoot > tr > td,
+.light-main-color .table > thead > tr > th,
+.light-main-color .table
+{
+	.neko-border-darken (@light-main-bg-color);
+}
+
+
+// Bordered version
+//
+// Add borders all around the table and between all the columns.
+
+.table-bordered {
+  border-color: @table-border-color;
+  > thead,
+  > tbody,
+  > tfoot {
+    > tr {
+      > th,
+      > td {
+        border-color: @table-border-color;
+      }
+    }
+  }
+}
+
+
+
+
+
+
+/* END TABLES
+================================================== */

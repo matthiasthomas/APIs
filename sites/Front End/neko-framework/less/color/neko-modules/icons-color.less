@@ -1,0 +1,167 @@
+// Icons
+// --------------------------------------------------
+
+i:before {color:@main-bg-color;}
+
+.main-color i:before {color:@main-text-color;}
+.dark-main-color i:before {color:@dark-main-text-color;}
+.light-main-color i:before {color:@light-main-text-color;}
+.dark-color i:before {color:@dark-text-color;}
+.light-color i:before {color:@light-text-color;}
+
+
+/*** icon rounded/squared/circle colors ***/
+/*default*/
+i[class^="icon-"], i[class*=" icon-"]
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color: @main-bg-color;
+		color:@main-text-color;
+		.neko-border-darken (@main-bg-color);
+	}
+}
+
+/*sections*/
+
+.main-color i[class^="icon-"], .main-color i[class*=" icon-"]
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color: @dark-main-bg-color;
+		.neko-border-darken (@dark-main-bg-color);
+	}
+
+}
+
+/* variants */
+/* clear background on <i> */
+
+i[class^="icon-"], .main-color i[class*=" icon-"] {
+	&.rounded.main-color,
+	&.squared.main-color,
+	&.circle.main-color,
+
+	&.rounded.dark-main-color,
+	&.squared.dark-main-color,
+	&.circle.dark-main-color,
+
+	&.rounded.light-main-color,
+	&.squared.light-main-color,
+	&.circle.light-main-color,
+
+	&.rounded.light-color,
+	&.squared.light-color,
+	&.circle.light-color,
+
+	&.rounded.dark-color,
+	&.squared.dark-color,
+	&.circle.dark-color,
+
+	{
+		background:none;
+		color:white;
+
+	}
+	&.white:before{
+		color:white;
+	}
+
+}
+
+
+i[class^="icon-"].main-color,
+.main-color i[class*=" icon-"].main-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:@main-bg-color;
+		color:@main-text-color;
+		.neko-border-darken (@main-bg-color);
+	}
+}
+i[class^="icon-"].dark-main-color,
+.main-color i[class*=" icon-"].dark-main-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:@dark-main-bg-color;
+		color:@dark-main-text-color;
+		.neko-border-darken (@dark-main-bg-color);
+	}
+}
+i[class^="icon-"].light-main-color,
+.main-color i[class*=" icon-"].light-main-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:@light-main-bg-color;
+		color:@main-text-color;
+		.neko-border-darken (@light-main-bg-color);
+	}
+}
+i[class^="icon-"].light-color,
+.main-color i[class*=" icon-"].light-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:@light-bg-color;
+		color:@main-bg-color;
+		.neko-border-darken (@light-bg-color);
+	}
+}
+i[class^="icon-"].dark-color,
+.main-color i[class*=" icon-"].dark-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:@dark-bg-color;
+		color:@dark-text-color;
+		.neko-border-darken (@dark-bg-color);
+	}
+}
+
+/* Edge cases*/
+/* main */
+.main-color i[class*=" icon-"].main-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:@light-main-bg-color;
+	}
+}
+
+/* dark main */
+.dark-main-color i[class*=" icon-"].dark-main-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:lighten(@dark-main-bg-color, 5%);
+	}
+}
+
+/* light main*/
+.light-main-color i[class*=" icon-"].light-main-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:darken(@light-main-bg-color, 5%);
+	}
+}
+
+/* dark */
+.dark-color i[class*=" icon-"].dark-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:lighten(@dark-bg-color, 5%);
+	}
+}
+/* light */
+.light-color i[class*=" icon-"].light-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:darken(@light-bg-color, 5%);
+	}
+}
+
+/*** inverse icons ***/
+.main-color, .dark-main-color, .light-main-color, .light-color, .dark-color {
+	i.inverted {
+		&.circle, &.squared, &.rounded {	
+			&:before{
+				background-color:@main-text-color;
+				color:@main-bg-color;
+			}
+		}
+	}
+}

@@ -1,0 +1,429 @@
+html{
+	background-color: transparent;
+}
+
+main#content{
+	background-color:@body-bg-color;
+	&.light-color{
+		background-color:@light-bg-color;
+	}
+	&.dark-color{
+		background-color:@dark-bg-color;
+	}
+	&.main-color{
+		background-color:@main-bg-color;
+	}
+	&.dark-main-bg-color-color{
+		background-color:@dark-main-bg-color;
+	}
+	&.light-main-color{
+		background-color:@light-main-bg-color;
+	}
+}
+
+
+.menu-header {
+	border-color: rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.page-header{
+	border:none;
+}
+
+.heading:after {
+	background-color:@main-bg-color;
+}
+
+
+.main-color .heading:after {
+	color:@light-main-bg-color;
+}
+
+.heading:after, h1.large-heading:after {
+	background-color:@main-bg-color;
+}
+
+/* typo */
+
+p.lead {
+	color:@main-bg-color;
+}
+
+
+
+h1{
+	&.large, &.x-large{
+		text-shadow: 5px 5px 0px rgba(0, 0, 0, 0.25);
+		
+	}
+}
+
+
+h2 {
+	&.large, &.x-large{
+		text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.25);
+	}
+}
+
+
+h1, h2 {
+	&.large, &.x-large{
+		span, &.no-shadow, small.no-shadow{
+			text-shadow: none;
+		}
+	}
+}
+
+.neko-heading-icon-color(@color){
+	.heading:after {
+		color:@color;
+		opacity: 0.075;
+	}
+}
+.neko-heading-icon-color(@body-text-color);
+
+.main-color {
+	.neko-heading-icon-color(@main-text-color);
+}
+
+.light-main-color {
+	.neko-heading-icon-color(@light-main-text-color);
+}
+
+.dark-main-color {
+	.neko-heading-icon-color(@dark-main-text-color);
+}
+
+.dark-color {
+	.neko-heading-icon-color(@dark-text-color);
+}
+
+.light-color {
+	.neko-heading-icon-color(@light-text-color);
+}
+
+/* navbar */
+.scroll-header.menu-header.navbar-fixed-top {
+	background:white;
+}
+
+.menu-header .nav > li .neko-mega-menu.sub-menu {
+
+	h2{
+		color:@main-bg-color;
+	}
+	.col-md-3:not(:last-child) {
+		border-right-color:#eee;
+	}
+	.mega-inner{
+
+		ul > li > a:not(.btn) {
+
+			&:hover{
+				color:#111;
+			}
+		}
+	}
+}
+
+/*** header-1 ***/
+
+.header-1, .header-4  {
+	@media (min-width: @allUptoIpdLandscape) { 
+	.menu-header .nav > li .sub-menu {
+		background: @dark-bg-color;
+		h2,p{
+			color:@dark-text-color;
+		}
+		.col-md-3:not(:last-child) {
+			border-right-color:lighten(@dark-bg-color,10%);
+		}
+		.mega-inner{
+
+			ul > li > a:not(.btn) {
+
+				&:hover{
+					color:@dark-text-color;
+				}
+			}
+		}
+	}
+
+
+	.menu-header .nav > li .sub-menu > li .sub-menu {
+		background: @dark-bg-color;
+	}
+	}
+}
+
+.header-2 {
+	@media (min-width: @allUptoIpdLandscape) { 
+		.menu-header .nav > li .sub-menu {
+			h2, p{
+				color:@main-text-color;
+			}
+		}
+	}
+}
+
+.header-3 .menu-header {
+	border-color:lighten(@body-text-color,60%);
+}
+
+/* form */
+
+
+/** page header **/
+/** temp test **/
+.page-header {
+	padding-bottom: 0;
+	padding-top: 44px;
+
+	.container{
+
+		&:after {
+			content:' ';
+			display: block;
+			background:@body-text-color;
+			opacity:0.1;
+			height:3px;
+			width: 100%;
+			margin-top: 16px;
+		}
+	}
+
+	&.main-color {
+		background:none;
+		color:@body-text-color;
+		&:after {
+			background:@main-bg-color;
+		}
+	}
+
+	&.dark-main-color {
+		background:none;
+		color:@body-text-color;
+		&:after {
+			background:@dark-main-bg-color;
+		}
+	}
+}
+/*
+.page-header {
+	background-color:@body-text-color;
+	color:@body-bg-color;
+	}*/
+
+/* accordion */
+.panel-group {
+	border-color:#ddd;
+}
+
+
+	/** Blog **/
+
+	ul.entry-meta li {
+		background:none!important;
+		a {
+			border-right-color: @main-bg-color;
+		}
+	}
+
+
+	/***  miscellanious ***/
+	#neko-to-top {
+		border-color: @main-bg-color;
+		background:  @body-bg-color;
+		i:before{
+			color:  @main-bg-color;
+		}
+	}
+
+	/*** portfolio ***/
+
+
+/** Swiper **/	
+.swiper-tab .btn{
+	background-color:@light-bg-color;
+	color:@light-text-color;
+}
+
+.swiper-tab .btn-group .btn.active, .swiper-tab .btn-group .btn:hover {
+	color:@main-text-color;
+}
+
+/*** pricing tables ***/
+
+.pricing-table .pricing, .pricing-table p {
+	background:none;
+}
+.pricing-table .pricing {
+	border:none;
+}
+
+
+/* FULLPAGE
+================================================== */
+/** bullets menu ***/
+
+
+.fp-tooltip{
+	background-color: @dark-bg-color;
+	color:@dark-text-color;
+}
+
+#fp-nav {
+	background-color:@main-bg-color;
+}
+
+#fp-nav, .fp-slidesNav{
+	ul li a {
+
+		span {
+			border-color:@main-text-color;
+		}
+		&.active span{
+			background-color:@main-text-color;
+		}
+	}
+
+}
+/*#fp-nav span, .fp-slidesNav span {
+	border-color:white;
+	background:rgba(55,55,55,0.5);
+	border:none;
+}
+
+#fp-nav li .active span, .fp-slidesNav .active span {
+	background:@main-text-color;
+}*/
+
+/** slideshow nav **/
+.fp-controlArrow.fp-next, .fp-controlArrow.fp-prev{
+	border:none;
+	&:after{
+		color:@main-text-color;
+
+	}
+}
+
+
+#fullpage>div:first-child:after{
+	color: @main-bg-color;
+}
+
+
+
+/** sidebar **/
+.sb-slidebar {
+	background: #ffffff;
+}
+
+/* SideBar trigger */
+.sb-slide {
+	background:#f7f7f7;
+	@media (max-width: @screen-sm-min) {
+		background:#fff;
+	}
+	.si-icon-hamburger-cross{
+		background:@main-bg-color;
+	}
+	.menu-label{
+		color:#ccc;
+	}
+	.social-icons{
+		li a i:before {
+			color:#555;
+		}
+	}
+}
+
+.sb-menu {
+	opacity:1\9;
+}
+.navicon-line {
+	background: #555
+}
+
+.sb-menu li {
+	border-color: #ddd;
+	a {
+		color: #555;
+	}
+	&.active{
+		background-color:@main-bg-color;
+		border-color:@main-bg-color;
+		>a{
+			color:@main-text-color;
+		}
+	}
+	&:hover {
+		>a{
+			color:@main-bg-color;
+		}
+		&.active>a {
+			color:#fff;
+		}
+	}
+	a {
+		color:@body-text-color;
+	}
+	.sb-submenu{
+		background: #f7f7f7;
+		li {
+			border:none;
+			a{
+				color:#777;
+			}
+			&.active a, &.active:hover a{
+				color:@white;
+				background-color: lighten(@main-bg-color,15%);
+			} 
+			&:hover a{
+				color:@main-bg-color;
+			}
+		}
+
+	}
+}
+
+#sb-site .page-header{
+	border-color: #eee;
+}
+
+.navigation-dark #sb-site .page-header{
+	background-color: #333;
+	border:none;
+	h1, .breadcrumb > .active {
+		color:#ffffff;
+	}
+}
+
+/*** tocify (demo neko css framework) ***/
+
+
+.ln-doc-example {
+	background-color: #fff;
+	border-color: #ccc;
+	hr:after {
+		background: #fff;
+	}
+}
+
+.ln-doc-example:after {
+	color: #959595;
+}
+
+.tocify li.tocify-item {
+	border-bottom-color: #D7D7D7;
+	&.active a{
+		color:@main-bg-color;
+	}
+	> a {
+		color:@body-text-color;
+		&:hover{
+			color:@main-bg-color;
+		}
+	}
+
+}

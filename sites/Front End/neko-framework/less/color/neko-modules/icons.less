@@ -1,0 +1,316 @@
+/* ICONS
+================================================== */
+
+/* standard */
+i[class^="icon-"]:before,
+i[class*=" icon-"]:before
+{
+	font-family: @font-family-icon;
+	text-align: left;
+	padding: 0;
+	margin:0;
+	margin-right: 5px;
+	display:inline-block;
+	line-height:1em;
+	font-size: 14px;
+}
+
+/* sizes */
+
+i[class^="icon-"].x-large:before,
+i[class*=" icon-"].x-large:before
+{
+	font-size: 80px;
+}
+
+i[class^="icon-"].large:before,
+i[class*=" icon-"].large:before
+{
+	font-size: 40px;
+}
+
+
+i[class^="icon-"].medium:before,
+i[class*=" icon-"].medium:before
+{
+	font-size: 22px;
+}
+
+i[class^="icon-"].small:before,
+i[class*=" icon-"].small:before
+{
+	font-size: 10px;
+}
+
+i:before {color:@main-bg-color;}
+
+.main-color i:before {color:@main-text-color;}
+.dark-main-color i:before {color:@dark-main-text-color;}
+.light-main-color i:before {color:@light-main-text-color;}
+.dark-color i:before {color:@dark-text-color;}
+.light-color i:before {color:@light-text-color;}
+
+
+
+
+/*** icons sizes (for rounded, circle and square) ***/
+.icon-sizes(@height, @width, @line-height, @font-size){
+	&.rounded:before,&.squared:before,&.circle:before {
+		height:@height;
+		width:@width;
+		line-height: @line-height;
+		font-size: @font-size;
+	}
+}
+
+
+/*** icon squared ***/
+i[class^="icon-"].squared:before, i[class*=" icon-"].squared:before{
+	display:inline-block;
+	text-align: center;
+	margin-right: 0;
+}
+
+/*** icon circle ***/
+i[class^="icon-"].circle:before, i[class*=" icon-"].circle:before{
+	display:inline-block;
+	text-align: center;
+	margin-right: 0;
+	border-radius: 50%;
+
+}
+
+/*** icon rounded ***/
+i[class^="icon-"].rounded:before, i[class*=" icon-"].rounded:before{
+	display:inline-block;
+	text-align: center;
+	margin-right: 0;
+	border-radius: @border-radius-base;
+}
+
+
+
+/* standard */
+
+i[class^="icon-"], i[class*=" icon-"]{
+	.icon-sizes(40px; 40px; 40px; 14px;)
+}
+
+/* x-large */
+i[class^="icon-"].x-large, i[class*=" icon-"].x-large
+{
+	.icon-sizes(120px; 120px; 120px; 60px;)
+}
+
+/* large */
+i[class^="icon-"].large, i[class*=" icon-"].large
+{
+	.icon-sizes(75px; 75px; 75px; 40px;)
+}
+
+/* medium */
+i[class^="icon-"].medium, i[class*=" icon-"].medium
+{
+	.icon-sizes(56px; 56px; 56px; 22px;)
+}
+
+/* small */
+i[class^="icon-"].small, i[class*=" icon-"].small
+{
+	.icon-sizes(22px; 22px; 23px; 8px;)
+}
+
+/*target firefox only for better vertical align of icon*/
+/*@-moz-document url-prefix() {
+	i[class^="icon-"].rounded:before,
+	i[class*=" icon-"].rounded:before
+	{
+		line-height:22px;
+	}
+}
+*/
+/*target chrome only for better horizontal align of icon*/
+/*@media screen and (-webkit-min-device-pixel-ratio:0) {
+	i[class^="icon-"].rounded:before,
+	i[class*=" icon-"].rounded:before
+	{
+		padding-right: 1px;
+	}
+}
+*/
+
+/*** icon rounded/squared/circle colors ***/
+/*default*/
+i[class^="icon-"], i[class*=" icon-"]
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color: @main-bg-color;
+		color:@main-text-color;
+		.neko-border (@main-bg-color);
+	}
+}
+
+/*sections*/
+
+.main-color i[class^="icon-"], .main-color i[class*=" icon-"]
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color: @dark-main-bg-color;
+		.neko-border (@dark-main-bg-color);
+	}
+
+}
+
+/* variants */
+/* clear background on <i> */
+
+i[class^="icon-"], .main-color i[class*=" icon-"] {
+	&.rounded.main-color,
+	&.squared.main-color,
+	&.circle.main-color,
+
+	&.rounded.dark-main-color,
+	&.squared.dark-main-color,
+	&.circle.dark-main-color,
+
+	&.rounded.light-main-color,
+	&.squared.light-main-color,
+	&.circle.light-main-color,
+
+	&.rounded.light-color,
+	&.squared.light-color,
+	&.circle.light-color,
+
+	&.rounded.dark-color,
+	&.squared.dark-color,
+	&.circle.dark-color
+	{
+		background:none;
+		color:@white;
+
+	}
+
+}
+
+
+i[class^="icon-"].main-color,
+.main-color i[class*=" icon-"].main-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:@main-bg-color;
+		color:@main-text-color;
+		.neko-border (@main-bg-color);
+	}
+}
+i[class^="icon-"].dark-main-color,
+.main-color i[class*=" icon-"].dark-main-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:@dark-main-bg-color;
+		color:@dark-main-text-color;
+		.neko-border (@dark-main-bg-color);
+	}
+}
+i[class^="icon-"].light-main-color,
+.main-color i[class*=" icon-"].light-main-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:@light-main-bg-color;
+		color:@main-text-color;
+		.neko-border (@light-main-bg-color);
+	}
+}
+i[class^="icon-"].light-color,
+.main-color i[class*=" icon-"].light-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:@light-bg-color;
+		color:@main-bg-color;
+		.neko-border (@light-bg-color);
+	}
+}
+i[class^="icon-"].dark-color,
+.main-color i[class*=" icon-"].dark-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:@dark-bg-color;
+		color:@dark-text-color;
+		.neko-border (@dark-bg-color);
+	}
+}
+
+/* Edge cases*/
+/* main */
+.main-color i[class*=" icon-"].main-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:@light-main-bg-color;
+	}
+}
+
+/* dark main */
+.dark-main-color i[class*=" icon-"].dark-main-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:lighten(@dark-main-bg-color, 5%);
+	}
+}
+
+/* light main*/
+.light-main-color i[class*=" icon-"].light-main-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:darken(@light-main-bg-color, 5%);
+	}
+}
+
+/* dark */
+.dark-color i[class*=" icon-"].dark-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:lighten(@dark-bg-color, 5%);
+	}
+}
+/* light */
+.light-color i[class*=" icon-"].light-color
+{
+	&.rounded:before,&.squared:before,&.circle:before{
+		background-color:darken(@light-bg-color, 5%);
+	}
+}
+
+/*** icons animated ***/
+i.animated:before{
+	-webkit-transition: all 0.8s;
+	-moz-transition: all 0.8s;
+	-o-transition: all 0.8s;
+	-ms-transition: all 0.8s;
+	transition: all 0.8s;
+}
+
+i.animated:hover:before{
+	-moz-transform: rotate(360deg);
+	-webkit-transform: rotate(360deg);
+	-ms--transform: rotate(360deg);
+	transform: rotate(360deg);
+	-webkit-transition: all 0.2s;
+	-moz-transition: all 0.2s;
+	-o-transition: all 0.2s;
+	-ms-transition: all 0.2s;
+	transition: all 0.2s;
+}
+
+/*** inverse icons ***/
+.main-color, .dark-main-color, .light-main-color, .light-color, .dark-color {
+	i.inverted {
+		&.circle, &.squared, &.rounded {	
+			&:before{
+				background-color:@main-text-color;
+				color:@main-bg-color;
+			}
+		}
+	}
+}
+
+/* END ICONS
+================================================== */

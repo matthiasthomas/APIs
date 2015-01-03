@@ -1,0 +1,49 @@
+/* TESTIMONIALS
+================================================== */
+.box-testimonial {
+	.clearfix;
+	blockquote{
+		border-left-width: 1px;
+		border-radius: @border-radius-lg;
+	}
+	.avatar{
+		margin-left: @margin-default;
+		margin-right: @margin-sm;
+		float:left;
+	}
+	.box-arrow {
+		&:after, &:before {
+		left: @margin-default+40;
+		}
+
+	}
+}
+
+/** move this later if arrow need for another element **/
+
+.box-arrow {
+	position: relative;
+
+	&:after, &:before {
+		top: 100%;
+		left: 50%;
+		border: solid transparent;
+		content: " ";
+		height: 0;
+		width: 0;
+		position: absolute;
+		pointer-events: none;
+		margin-top: -1px;
+	}
+
+	&:after {
+		border-color: transparent;
+		border-width: 10px;
+		margin-left: -10px;
+	}
+	&:before {
+		border-color: transparent;
+		border-width: 11px;
+		margin-left: -11px;
+	}
+}
