@@ -65,6 +65,7 @@ if (true === config.hardDebug) {
 }
 
 app.use('/admin', express.static(__dirname + "/sites/Admin"));
+app.use('/', express.static(__dirname + "/sites/Front End"));
 
 /**
  * MIDDLEWARES

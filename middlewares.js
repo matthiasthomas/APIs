@@ -14,17 +14,17 @@ var middlewares = {
 	authenticate: function(config, models) {
 		return function(req, res, next) {
 
+			//If front is requesting available OPTIONS do it without auth
 			if (req.method === 'OPTIONS') {
 				next();
 				return;
 			}
 
+			//Check if requests an unsecuredPath, if so do it without auth
 			if (config.unsecuredPaths.indexOf(req.path) >= 0 || req.path == '/api' || req.path == '/api/') {
 				next();
 				return;
 			}
-
-			//console.log(req.headers['x-access-token']);
 
 			var token_key = req.headers['x-access-token'];
 			if (token_key && token_key !== 'null' && token_key !== null && token_key !== undefined) {
@@ -36,8 +36,6 @@ var middlewares = {
 						res.send(error);
 						return;
 					}
-
-					//console.log(token.key);
 
 					if (token) {
 						//Token has expired
