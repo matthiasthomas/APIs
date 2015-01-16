@@ -200,11 +200,14 @@ h1.x-large {
 	background-position: top right;
 }
 
+/*** City ***/
+
 .city {
 	background-image:url(../images/theme-pics/city.jpg);
 	background-position: center center;
 }
 
+/*** Team ***/
 
 .team-1 {
 	background-image:url(../images/team/team-corporate-1.jpg);
@@ -219,6 +222,20 @@ h1.x-large {
 	background-position: top right;
 }
 
+/*** History ***/
+.history-1 {
+	background-image: url(../images/index/balancoire.jpg)
+}
+
+/*** Parallax ***/
+.parallax-1{
+	background-image: url(../images/index/mit.jpg);
+}
+
+/*** Contact background image ***/
+.contact-image{
+	background-image: url(../images/index/contact.jpg);
+}
 
 /*** adjust some icons ***/
 

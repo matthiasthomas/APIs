@@ -21,7 +21,7 @@ var middlewares = {
 			}
 
 			//Check if requests an unsecuredPath, if so do it without auth
-			if (config.unsecuredPaths.indexOf(req.path) >= 0 || req.path == '/api' || req.path == '/api/') {
+			if (config.unsecuredPaths.indexOf(req.path) >= 0) {
 				next();
 				return;
 			}

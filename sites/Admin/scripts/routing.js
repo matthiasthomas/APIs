@@ -52,9 +52,9 @@ myApp.config(['$provide', '$routeProvider',
 			controller: 'RegistrationController',
 			publicAccess: true
 		}).
-		when('/index', {
+		/*when('/index', {
 			templateUrl: 'views/index.html',
-		}).
+		}).*/
 		when('/calendar', {
 			templateUrl: 'views/calendar.html',
 			resolve: {
