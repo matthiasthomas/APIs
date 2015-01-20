@@ -1,4 +1,4 @@
-userModule.controller('NewProjectController', ['$scope', '$rootScope', '$global', '$timeout', '$location', 'ProjectService',
+userModule.controller('AddProjectController', ['$scope', '$rootScope', '$global', '$timeout', '$location', 'ProjectService',
 	function($scope, $rootScope, $global, $timeout, $location, ProjectService) {
 		$scope.project = {};
 		$scope.project.contacts = [{
@@ -43,9 +43,7 @@ userModule.controller('NewProjectController', ['$scope', '$rootScope', '$global'
 		};
 
 		$scope.addProject = function() {
-			ProjectService.post({
-				project: $scope.project
-			}).success(function(data) {
+			ProjectService.post($scope.project).success(function(data) {
 				if (data.success) {
 					$location.path('/projects');
 				} else {

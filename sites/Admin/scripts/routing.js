@@ -33,9 +33,23 @@ myApp.config(['$provide', '$routeProvider',
 			templateUrl: 'views/project/projects.html',
 			controller: 'ProjectsController'
 		}).
-		when('/newProject', {
-			templateUrl: 'views/project/newProject.html',
-			controller: 'NewProjectController',
+		when('/addProject', {
+			templateUrl: 'views/project/editProject.html',
+			controller: 'AddProjectController',
+			resolve: {
+				lazyLoad: ['lazyLoad',
+					function(lazyLoad) {
+						return lazyLoad.load([
+							'bower_components/jquery-validation/dist/jquery.validate.js',
+							'bower_components/stepy/lib/jquery.stepy.js'
+						]);
+					}
+				]
+			}
+		}).
+		when('/editProject/:id', {
+			templateUrl: 'views/project/editProject.html',
+			controller: 'EditProjectController',
 			resolve: {
 				lazyLoad: ['lazyLoad',
 					function(lazyLoad) {

@@ -24,7 +24,8 @@ var ProjectModel = Db.model('Project', new mongoose.Schema({
 	archived: {
 		type: Boolean,
 		default: false
-	}
+	},
+	googleAnalyticsID: String
 }));
 
 exports.Project = ProjectModel;

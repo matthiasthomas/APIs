@@ -25,7 +25,7 @@
                                             <!--<th>Country</th>-->
                                             <th>Date of Creation</th>
                                             <th>Visits last month</th>
-                                            <th>Check it out!</th>
+                                            <th>Edit</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -35,16 +35,22 @@
                                             <!--<td><span class="flagicon"><img alt="" src="http://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/320px-Flag_of_France.svg.png" width="23" height="12" srcset="http://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/320px-Flag_of_France.svg.png 2x">&nbsp;</span>France</a></td>-->
                                             <td>{{ project.created }}</td>
                                             <td>NB</td>
-                                            <td><a href="#/project/{{ project._id }}"><i class='fa fa-external-link-square'></i></a></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <a class="btn btn-sm btn-primary" href="#/newProject">Add a Project</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                            <td>
+                                              <a class="btn btn-success btn-sm" href="#/project/{{ project._id }}">Show</a>
 
-    </div> <!-- container -->
+                                              <a class="btn btn-primary btn-sm" href="#/editProject/{{ project._id }}">Edit</a>
+                                              <a class="btn btn-danger btn-sm" confirm-click='' confirm-click-function='deleteProject(project._id)' confirm-click-class='btn btn-orange btn-sm'>Delete</a>
+                                              </td>
+                                          <td><a href="#/editProject/{{ project._id }}"><i class='fa fa-edit'></i></a></td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                              <a class="btn btn-sm btn-primary" href="#/addProject">Add a Project</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+  </div> <!-- container -->

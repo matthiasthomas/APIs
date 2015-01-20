@@ -1,0 +1,1 @@
+var akioo = angular.module('akioo', ['pascalprecht.translate', 'ngRoute', 'LocalStorageModule']);

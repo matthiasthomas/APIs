@@ -11,5 +11,15 @@ userModule.controller('ProjectsController', ['$scope', '$rootScope', '$global', 
 				});
 			}
 		});
+
+		$scope.deleteProject = function(id) {
+			ProjectService.delete(id).success(function(data) {
+				if (data.success) {
+					$scope.projects = $scope.projects.filter(function(project) {
+						return project._id !== id;
+					});
+				}
+			});
+		};
 	}
 ]);

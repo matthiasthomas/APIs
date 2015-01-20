@@ -11,18 +11,22 @@ module.exports.controller = function(app, config, projects, models, middlewares,
 			_id: req.params.project_id,
 			archived: false
 		}, function(error, project) {
-			if (error)
+			if (error) {
 				res.send(error);
+				return;
+			}
 
 			res.json({
 				success: true,
 				project: project
 			});
+			return;
 		});
 	})
 
 	// Update an existing project
 	.put(function(req, res) {
+		console.log(req.params);
 		models.Project.findById(req.params.project_id, function(error, project) {
 			if (error)
 				res.send(error);
@@ -93,8 +97,8 @@ module.exports.controller = function(app, config, projects, models, middlewares,
 
 		var project = new models.Project({
 			// Set project attributes
-			name: req.body.project.name,
-			contacts: req.body.project.contacts
+			name: req.body.name,
+			contacts: req.body.contacts
 		});
 
 		// Save the project and check for errors

@@ -1,12 +1,13 @@
 var bcrypt = require("bcrypt-nodejs");
 
-var config = {
+var profile = "DEV";
 
+var config = {
 	unsecuredPaths: ['/api/users/isLoggedIn', '/api/users/login', '/api', '/api/'],
 	smtpTransport: '',
 	server: {
 		address: '37.187.183.128',
-		port: '8080'
+		port: profile == "DEV" ? '8080' : '80'
 	},
 	hardDebug: false,
 	debug: true,
