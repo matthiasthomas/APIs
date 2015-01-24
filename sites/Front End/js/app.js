@@ -1,1 +1,1 @@
-var akioo = angular.module('akioo', ['pascalprecht.translate', 'ngRoute', 'LocalStorageModule']);
+var akioo = angular.module('akioo', ['pascalprecht.translate', 'ngRoute', 'LocalStorageModule', 'ProjectModule']);

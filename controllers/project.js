@@ -26,7 +26,6 @@ module.exports.controller = function(app, config, projects, models, middlewares,
 
 	// Update an existing project
 	.put(function(req, res) {
-		console.log(req.params);
 		models.Project.findById(req.params.project_id, function(error, project) {
 			if (error)
 				res.send(error);
@@ -34,6 +33,7 @@ module.exports.controller = function(app, config, projects, models, middlewares,
 			//Set project attributes
 			project.name = req.body.name;
 			project.contacts = req.body.contacts;
+			project.googleAnalyticsID = req.body.googleAnalyticsID;
 			project.updated = Date.now();
 
 			project.save(function(error) {
@@ -82,13 +82,16 @@ module.exports.controller = function(app, config, projects, models, middlewares,
 		models.Project.find({
 			archived: false
 		}).exec(function(error, projects) {
-			if (error)
+			if (error) {
 				res.send(error);
+				return;
+			}
 
 			res.json({
 				success: true,
 				projects: projects
 			});
+			return;
 		});
 	})
 
@@ -98,19 +101,23 @@ module.exports.controller = function(app, config, projects, models, middlewares,
 		var project = new models.Project({
 			// Set project attributes
 			name: req.body.name,
-			contacts: req.body.contacts
+			contacts: req.body.contacts,
+			googleAnalyticsID: req.body.googleAnalyticsID
 		});
 
 		// Save the project and check for errors
 		project.save(function(error, project) {
-			if (error)
+			if (error) {
 				res.send(error);
+				return;
+			}
 
 			res.json({
 				success: true,
 				message: 'Project was saved!',
 				project: project
 			});
+			return;
 		});
 
 	});

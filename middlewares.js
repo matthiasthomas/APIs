@@ -20,6 +20,11 @@ var middlewares = {
 				return;
 			}
 
+			if (req.method === 'GET' && (req.path.indexOf('/api/projects/') > -1)) {
+				next();
+				return;
+			}
+
 			//Check if requests an unsecuredPath, if so do it without auth
 			if (config.unsecuredPaths.indexOf(req.path) >= 0) {
 				next();

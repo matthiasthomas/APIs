@@ -89,7 +89,6 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Add a new role
 	.post(function(req, res) {
-		console.log(req.params);
 		var role = new models.Role({
 			// Set role attributes
 			name: req.body.name
