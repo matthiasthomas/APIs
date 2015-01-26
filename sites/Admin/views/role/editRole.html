@@ -1,0 +1,51 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a href="#/">Dashboard</a></li>
+    <li class="active">Edit a User</li>
+  </ol>
+
+  <h1> Edit a Role</h1>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+
+      <form action class="form-horizontal row-border" name="editUserForm">
+
+        <legend>General Information</legend>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Name</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id='name' name='name' ng-model='role.name' value='{{ role.name }}' required />
+          </div>
+        </div>
+
+        <legend>Permissions</legend>
+        <div ng-repeat='permission in role.permissions'>
+          <h6>Permission {{ $index + 1 }} <a ng-hide='$index == 0 && role.permissions.length == 1' ng-click='deletePermission($index)'><i class='fa fa-red fa-trash-o'></i></a></h6>
+          <div class="form-group">
+            <label class="control-label col-sm-3" for="subject">Subject</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id='subject' name='subject' ng-model='permission.subject' ng-required='' />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3" for="action">Action</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id='action' name='action' ng-model='permission.action' ng-required='' />
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <div class="col-md-3 col-md-offset-9">
+            <a class="btn btn-success" ng-click='addPermission()'>Add a Permission</a>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

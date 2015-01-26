@@ -1,6 +1,9 @@
 var bcrypt = require("bcrypt-nodejs");
 
-var profile = "DEV";
+var profile = process.argv[2];
+if (process.argv[0] == "forever") {
+	profile = process.argv[3];
+}
 
 var config = {
 	unsecuredPaths: ['/api/users/isLoggedIn', '/api/users/login', '/api', '/api/'],

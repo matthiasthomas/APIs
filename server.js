@@ -9,8 +9,9 @@ var config = require("./config.js").config;
 var modules = {
 	fs: require("fs"),
 	bcrypt: require("bcrypt-nodejs"),
-	crypto: require("crypto")
-		//mail: config.smtpTransport
+	crypto: require("crypto"),
+	rbac: require("mongoose-rbac")
+	//mail: config.smtpTransport
 };
 
 /**

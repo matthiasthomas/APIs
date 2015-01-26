@@ -1,7 +1,7 @@
 myApp.config(['localStorageServiceProvider',
 	function(localStorageServiceProvider) {
 		localStorageServiceProvider
-			.setPrefix('myApp');
+			.setPrefix('akioo');
 	}
 ]);
 

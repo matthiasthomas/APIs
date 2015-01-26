@@ -1,0 +1,42 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a href="#/">Dashboard</a></li>
+    <li class="active">Roles</li>
+  </ol>
+
+  <h1> Roles</h1>
+</div>
+
+
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <panel panel-class="panel-primary" data-heading="My Roles">
+        <table class="table table-bordered table-condensed">
+          <tr style="font-weight: bold">
+            <td style="width:20%">Name</td>
+            <td style="width:35%">Permissions</td>
+            <td style="width:20%"></td>
+          </tr>
+          <tr ng-repeat="role in roles">
+            <td>
+              <!-- editable username (text with validation) -->
+              <span>{{ role.name }}</span>
+            </td>
+            <td>
+              <ul ng-repeat='permission in permissions'>
+                <li>{{ permission }}</li>
+              </ul>
+            </td>
+            <td>
+              <a ng-show='(activeUser._role.name === "superhero")' class="btn btn-primary btn-sm" href="#/editRole/{{ role._id }}">Edit</a>
+              <a ng-show='(activeUser._role.name === "superhero")' class="btn btn-danger btn-sm" confirm-click='' confirm-click-function='deleteRole(role._id)' confirm-click-class='btn btn-orange btn-sm'>Delete</a>
+            </td>
+          </tr>
+        </table>
+        <!--<a ng-show='activeUser._role.name === "superhero"' class="btn btn-default" href="#/addRole">Add a new Role</a>-->
+        <a class="btn btn-default" href="#/addRole">Add a new Role</a>
+      </panel>
+    </div> 

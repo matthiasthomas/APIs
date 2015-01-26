@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
+var rbac = require('mongoose-rbac');
 var Db = require('./Db.js').Db;
 
-var UserModel = Db.model('User', new mongoose.Schema({
+var UserSchema = new mongoose.Schema({
 	email: String,
 	password: {
 		type: String
@@ -20,6 +21,11 @@ var UserModel = Db.model('User', new mongoose.Schema({
 		type: Boolean,
 		default: false
 	}
-}));
+});
+
+//To perform role base access control on routes
+UserSchema.plugin(rbac.plugin);
+
+var UserModel = Db.model('User', UserSchema);
 
 exports.User = UserModel;

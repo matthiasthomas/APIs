@@ -33,6 +33,10 @@ angular
                 iconClasses: 'fa fa-user',
                 url: '#/users'
             }, {
+                label: 'Roles',
+                iconClasses: 'fa fa-eye',
+                url: '#/roles'
+            }, {
                 label: 'Analytics',
                 iconClasses: 'fa fa-tachometer',
                 url: '#/analytics'

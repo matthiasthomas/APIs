@@ -10,6 +10,11 @@ myApp.config(['$provide', '$routeProvider',
 			controller: 'LoginController',
 			publicAccess: true
 		}).
+		when('/forgot', {
+			templateUrl: 'views/extras-forgotpassword.html',
+			controller: 'ForgotPasswordController',
+			publicAccess: true
+		}).
 		when('/messages/:messagesStatus', {
 			templateUrl: 'views/extras-inbox.html'
 		}).
@@ -28,6 +33,18 @@ myApp.config(['$provide', '$routeProvider',
 		when('/addUser', {
 			templateUrl: 'views/user/editUser.html',
 			controller: 'AddUserController'
+		}).
+		when('/roles', {
+			templateUrl: 'views/role/roles.html',
+			controller: 'RolesController'
+		}).
+		when('/editRole', {
+			templateUrl: 'views/role/editRole.html',
+			controller: 'EditRoleController'
+		}).
+		when('/addRole', {
+			templateUrl: 'views/role/editRole.html',
+			controller: 'AddRoleController'
 		}).
 		when('/projects', {
 			templateUrl: 'views/project/projects.html',
@@ -61,14 +78,14 @@ myApp.config(['$provide', '$routeProvider',
 				]
 			}
 		}).
-		when('/signup', {
-			templateUrl: 'views/extras-signupform.html',
-			controller: 'RegistrationController',
-			publicAccess: true
-		}).
-		/*when('/index', {
-			templateUrl: 'views/index.html',
-		}).*/
+		/*when('/signup', {
+				templateUrl: 'views/extras-signupform.html',
+				controller: 'RegistrationController',
+				publicAccess: true
+			}).*/
+			/*when('/index', {
+				templateUrl: 'views/index.html',
+			}).*/
 		when('/calendar', {
 			templateUrl: 'views/calendar.html',
 			resolve: {

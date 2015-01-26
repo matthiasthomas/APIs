@@ -23,13 +23,16 @@ userModule.controller('LoginController', ['$http', '$scope', '$rootScope', '$loc
 					console.log(data.message);
 				} else {
 					$rootScope.activeUser = data.user;
+					localStorageService.set("activeUser", data.user);
 					localStorageService.set('token', data.token);
 					//Set headers for all $http requests
 					$http.defaults.headers.common['x-access-token'] = localStorageService.get('token');
 					$rootScope.isLoggedIn = true;
 					console.log(data.message);
-					
-					$location.path('/');
+
+					setTimeout(function() {
+						$location.path('/');
+					}, 500);
 				}
 			});
 		};

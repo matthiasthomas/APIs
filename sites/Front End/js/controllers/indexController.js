@@ -11,7 +11,6 @@ akioo.controller('IndexController', ['$scope', '$translate', '$location', '$anch
 
 		ProjectService.get('54bfeae7dc82d70000cb83ee').success(function(data) {
 			if (data.success) {
-				console.log(data);
 				$scope.project = data.project;
 
 				(function(i, s, o, g, r, a, m) {

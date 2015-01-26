@@ -1,5 +1,10 @@
-userModule.controller('UsersController', ['$scope', '$rootScope', '$global', '$timeout', '$location', 'UserService', 'UsersProjectService', 'RoleService',
-	function($scope, $rootScope, $global, $timeout, $location, UserService, UsersProjectService, RoleService) {
+userModule.controller('UsersController', ['$scope', '$rootScope', '$global', '$timeout', '$location', 'UserService', 'UsersProjectService', 'RoleService', 'localStorageService',
+	function($scope, $rootScope, $global, $timeout, $location, UserService, UsersProjectService, RoleService, localStorageService) {
+
+		if (localStorageService.get('activeUser')) {
+			$rootScope.activeUser = localStorageService.get('activeUser');
+		}
+
 		UserService.all().success(function(data) {
 			$scope.users = data.users;
 			angular.forEach($scope.users, function(user) {
