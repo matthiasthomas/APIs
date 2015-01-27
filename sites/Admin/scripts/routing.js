@@ -6,12 +6,12 @@ myApp.config(['$provide', '$routeProvider',
 			controller: 'IndexController'
 		}).
 		when('/login', {
-			templateUrl: 'views/extras-login2.html',
+			templateUrl: 'views/user/login.html',
 			controller: 'LoginController',
 			publicAccess: true
 		}).
 		when('/forgot', {
-			templateUrl: 'views/extras-forgotpassword.html',
+			templateUrl: 'views/user/forgotpassword.html',
 			controller: 'ForgotPasswordController',
 			publicAccess: true
 		}).

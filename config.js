@@ -1,4 +1,5 @@
 var bcrypt = require("bcrypt-nodejs");
+var nodemailer = require('nodemailer');
 
 var profile = process.argv[2];
 if (process.argv[0] == "forever") {
@@ -7,7 +8,13 @@ if (process.argv[0] == "forever") {
 
 var config = {
 	unsecuredPaths: ['/api/users/isLoggedIn', '/api/users/login', '/api', '/api/'],
-	smtpTransport: '',
+	smtpTransport: nodemailer.createTransport("SMTP", {
+		service: "Gmail",
+		auth: {
+			user: "matthiasthomaslamotte@gmail.com",
+			pass: "g4CMaEtg9G:E32bwncr9{s"
+		}
+	}),
 	server: {
 		address: '37.187.183.128',
 		port: profile == "DEV" ? '8080' : '80'

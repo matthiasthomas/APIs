@@ -10,8 +10,8 @@ var modules = {
 	fs: require("fs"),
 	bcrypt: require("bcrypt-nodejs"),
 	crypto: require("crypto"),
-	rbac: require("mongoose-rbac")
-	//mail: config.smtpTransport
+	rbac: require("mongoose-rbac"),
+	mail: config.smtpTransport
 };
 
 /**

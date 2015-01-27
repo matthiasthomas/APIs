@@ -26,6 +26,9 @@ userModule.factory('UserService', ['$http', 'localStorageService',
 			},
 			delete: function(id) {
 				return $http.delete(myApp.globals.serverUrl + "api/users/" + id);
+			},
+			forgotPassword: function(email) {
+				return $http.post(myApp.globals.serverUrl + "api/users/forgot/" + email);
 			}
 		};
 	}

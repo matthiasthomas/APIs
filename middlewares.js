@@ -20,7 +20,8 @@ var middlewares = {
 				return;
 			}
 
-			if (req.method === 'GET' && (req.path.indexOf('/api/projects/') > -1)) {
+			//**** To replace with a better way of handling permissions ****//
+			if ((req.method === 'GET' && (req.path.indexOf('/api/projects/') > -1)) || (req.method === 'POST' && (req.path.indexOf('/api/users/forgot/') > -1))) {
 				next();
 				return;
 			}

@@ -1,6 +1,60 @@
 module.exports.controller = function(app, config, modules, models, middlewares, router) {
 
 	// --------------------------------------------
+	// Routes to /api/users/forgot
+	// --------------------------------------------
+	router.route('/users/forgot/:email')
+
+	.post(function(req, res) {
+		var email = req.params.email;
+		models.User.findOne({
+			email: email
+		}, function(error, user) {
+			if (error) {
+				res.send(error);
+				return;
+			}
+			if (user) {
+				//Create a new password
+				modules.crypto.randomBytes(12, function(err, randomKey) {
+					//The new pass for the user
+					var pass = randomKey.toString("hex");
+					//Hash the pass for the db
+					user.password = modules.bcrypt.hashSync(pass, config.salt);
+					user.save(function(error) {
+						if (error) {
+							res.send(error);
+							return;
+						}
+						//Send a mail to the user with it's new password
+						modules.mail.sendMail({
+							from: "Akioo <password@akioo.com>", // sender address
+							to: user.email + " <" + user.email + ">", // comma separated list of receivers
+							subject: "Password reset", // Subject line
+							text: "Your password has been reset. Try to connect with your new password: " + pass // plaintext body
+						}, function(error, response) {
+							if (error) {
+								res.send(error);
+								return;
+							}
+
+							res.json({
+								success: true
+							});
+						});
+					});
+				});
+			} else {
+				res.json({
+					success: false
+				});
+				return;
+			}
+		});
+	});
+
+
+	// --------------------------------------------
 	// Routes to /api/users/login
 	// --------------------------------------------
 	router.route('/users/login')
