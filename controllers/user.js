@@ -21,27 +21,28 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					var pass = randomKey.toString("hex");
 					//Hash the pass for the db
 					user.password = modules.bcrypt.hashSync(pass, config.salt);
-					user.save(function(error) {
+					user.save(function(error, user) {
 						if (error) {
 							res.send(error);
 							return;
 						}
-						
+
+						res.json({
+							success: true
+						});
+
 						//Send a mail to the user with it's new password
 						modules.mail.sendMail({
 							from: "Akioo <password@akioo.com>", // sender address
-							to: user.email + " <" + user.email + ">", // comma separated list of receivers
-							subject: "Password reset", // Subject line
+							to: user.email, // comma separated list of receivers
+							subject: "Akioo Password reset", // Subject line
 							text: "Your password has been reset. Try to connect with your new password: " + pass // plaintext body
-						}, function(error, response) {
+						}, function(error, info) {
 							if (error) {
-								res.send(error);
-								return;
+								console.log(error);
+							} else {
+								console.log('Message sent: ' + info.response);
 							}
-
-							res.json({
-								success: true
-							});
 						});
 					});
 				});

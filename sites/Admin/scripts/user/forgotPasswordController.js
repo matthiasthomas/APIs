@@ -14,6 +14,7 @@ userModule.controller('ForgotPasswordController', ['$http', '$scope', '$global',
 
 		$scope.sendRequest = function() {
 			UserService.forgotPassword($scope.email).success(function(data) {
+				console.log(data);
 				if (data.success) {
 					$scope.message = "Your new password has been sent to " + $scope.email;
 				} else {
