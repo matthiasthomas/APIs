@@ -26,6 +26,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 							res.send(error);
 							return;
 						}
+						
 						//Send a mail to the user with it's new password
 						modules.mail.sendMail({
 							from: "Akioo <password@akioo.com>", // sender address
