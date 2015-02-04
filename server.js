@@ -11,7 +11,8 @@ var modules = {
 	bcrypt: require("bcrypt-nodejs"),
 	crypto: require("crypto"),
 	rbac: require("mongoose-rbac"),
-	mail: config.smtpTransport
+	mail: config.smtpTransport,
+	q: require('q')
 };
 
 /**
@@ -23,7 +24,7 @@ modules.fs.readdirSync("./models").forEach(function(file) {
 		var fileName = file.substr(0, file.length - 3);
 		var fileExt = file.substr(-3);
 		if (fileExt == ".js") {
-			if (fileName != "db") {
+			if (fileName != "Db") {
 				models[fileName] = require("./models/" + file)[fileName];
 			}
 		}
@@ -32,7 +33,7 @@ modules.fs.readdirSync("./models").forEach(function(file) {
 			var fileName = subFile.substr(0, subFile.length - 3);
 			var fileExt = subFile.substr(-3);
 			if (fileExt == ".js") {
-				if (fileName != "db") {
+				if (fileName != "Db") {
 					if (models[file]) {
 						models[file][fileName] = require("./models/" + file + "/" + subFile)[fileName];
 					} else {

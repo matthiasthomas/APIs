@@ -1,6 +1,7 @@
 module.exports.controller = function(app, config, modules, models, middlewares, router) {
 
 	var Role = modules.rbac.Role;
+	var Permission = modules.rbac.Permission;
 
 	// --------------------------------------------
 	// Routes to /api/rbac/roles
@@ -25,17 +26,22 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	//Add a new role
 	.post(function(req, res) {
-		var role = req.body.role;
-		if (role) {
-			var newRole = new Role({
-				name: role.name,
-				permissions: role.permissions
-			});
-			newRole.save(function(error, savedRole) {
+		if (req.body.name && req.body.permissions) {
+			console.log(req.body.permissions);
+			var role = {};
+			role[req.body.name] = req.body.permissions;
+			console.log(role);
+			modules.rbac.init(role, function(err, newRole) {
+				if (err) {
+					res.send(err);
+					return;
+				}
+
+				console.log(newRole);
 				res.json({
 					success: true,
-					message: 'You\'re role has been saved!',
-					role: savedRole
+					message: "Everything went well, your role has been saved!",
+					role: newRole
 				});
 				return;
 			});

@@ -7,12 +7,16 @@
   <h1> Roles</h1>
 </div>
 
-
 <div class="container-fluid">
 
   <div class="row">
     <div class="col-md-12">
 
+      <div>
+        <a class="btn btn-sm btn-info" ng-click="updateModels();">Update Models</a>
+        <alert ng-show="alert.show" type="{{ alert.type }}" close="closeAlert()"><span ng-bind-html="alert.msg | safe_html"></span></alert>
+      </div>
+      
       <panel panel-class="panel-primary" data-heading="My Roles">
         <table class="table table-bordered table-condensed">
           <tr style="font-weight: bold">
@@ -26,8 +30,8 @@
               <span>{{ role.name }}</span>
             </td>
             <td>
-              <ul ng-repeat='permission in permissions'>
-                <li>{{ permission }}</li>
+              <ul ng-repeat='permission in role.permissions'>
+                <li>{{ permission.name }}</li>
               </ul>
             </td>
             <td>

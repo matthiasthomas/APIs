@@ -23,6 +23,7 @@ var myApp = angular
     'LocalStorageModule',
     'usersProjectModule',
     'pagesControllersModule',
+    'modelModule',
 
     //End Added
 

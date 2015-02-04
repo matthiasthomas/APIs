@@ -11,7 +11,8 @@
   <link rel="icon" type="image/png" href="akioo-icon.ico">
 
   <!-- prochtml:remove:dist -->
-  <link href="assets/less/styles.css" rel="stylesheet" media="all"> 
+  <!--<link href="assets/less/styles.less" rel="stylesheet/less" media="all"> -->
+  <link rel="stylesheet" type="text/css" href="assets/less/styles.css" media="all">
   <!-- /prochtml -->
 
 
@@ -33,70 +34,70 @@
       <script type="text/javascript" src="assets/plugins/misc/less.js"></script>
       <!-- /prochtml -->
 
-    </head>
+  </head>
 
-    <body class=""
-    ng-app="myApp"
-    ng-controller="MainController"
-    ng-class="{
-    'static-header': !style_fixedHeader,
-    'focusedform': style_fullscreen,
-    'layout-horizontal': style_layoutHorizontal,
-    'fixed-layout': style_layoutBoxed,
-    'collapse-leftbar': style_leftbarCollapsed && !style_leftbarShown,
-    'show-rightbar': style_rightbarCollapsed,
-    'show-leftbar': style_leftbarShown }"
-    ng-click="hideSearchBar();hideHeaderBar();"
-    ng-cloak>
+  <body class=""
+  ng-app="myApp"
+  ng-controller="MainController"
+  ng-class="{
+  'static-header': !style_fixedHeader,
+  'focusedform': style_fullscreen,
+  'layout-horizontal': style_layoutHorizontal,
+  'fixed-layout': style_layoutBoxed,
+  'collapse-leftbar': style_leftbarCollapsed && !style_leftbarShown,
+  'show-rightbar': style_rightbarCollapsed,
+  'show-leftbar': style_leftbarShown }"
+  ng-click="hideSearchBar();hideHeaderBar();"
+  ng-cloak>
 
-    <div ng-include=" 'views/templates/headerbar.html' "></div>
+  <div ng-include=" 'views/templates/headerbar.html' "></div>
 
-    <div ng-include=" 'views/templates/header.html' "></div>
+  <div ng-include=" 'views/templates/header.html' "></div>
 
-    <nav class="navbar navbar-default ng-hide" role="navigation" ng-show="style_layoutHorizontal">
+  <nav class="navbar navbar-default ng-hide" role="navigation" ng-show="style_layoutHorizontal">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
           <i class="fa fa-reorder"></i>
-        </button>
-      </div>
-      <div class="collapse navbar-collapse navbar-ex1-collapse" ng-class="{'large-icons-nav': style_layoutHorizontalLargeIcons}" id="horizontal-navbar">
-        <ul ng-controller="NavigationController" id="top-nav" class="nav navbar-nav">
-          <li ng-repeat="item in menu"
-          ng-if="!item.hideOnHorizontal"
-          ng-class="{ hasChild: (item.children!==undefined),
-          active: item.selected,
-          open: (item.children!==undefined) && item.open }"
-          ng-include="'templates/nav_renderer_horizontal.html'"
-          ></li>
-        </ul>
-      </div>
-    </nav>
+      </button>
+  </div>
+  <div class="collapse navbar-collapse navbar-ex1-collapse" ng-class="{'large-icons-nav': style_layoutHorizontalLargeIcons}" id="horizontal-navbar">
+    <ul ng-controller="NavigationController" id="top-nav" class="nav navbar-nav">
+      <li ng-repeat="item in menu"
+      ng-if="!item.hideOnHorizontal"
+      ng-class="{ hasChild: (item.children!==undefined),
+      active: item.selected,
+      open: (item.children!==undefined) && item.open }"
+      ng-include="'templates/nav_renderer_horizontal.html'"
+      ></li>
+  </ul>
+</div>
+</nav>
 
-    <div id="page-container" class="clearfix">
+<div id="page-container" class="clearfix">
 
-      <!-- BEGIN SIDEBAR -->
-      <div ng-include=" 'views/templates/sidebar.html' "></div>
-      <!-- END SIDEBAR MENU -->
+  <!-- BEGIN SIDEBAR -->
+  <div ng-include=" 'views/templates/sidebar.html' "></div>
+  <!-- END SIDEBAR MENU -->
 
-      <!-- BEGIN RIGHTBAR -->
-      <div ng-include=" 'views/templates/rightbar.html' "></div>
-      <!-- END RIGHTBAR -->
-      
-      <div id="page-content" class="clearfix" fit-height>
-        <div id="wrap" ng-view="" class="mainview-animation">
-        </div> <!--wrap -->
-      </div> <!-- page-content -->
+  <!-- BEGIN RIGHTBAR -->
+  <div ng-include=" 'views/templates/rightbar.html' "></div>
+  <!-- END RIGHTBAR -->
+  
+  <div id="page-content" class="clearfix" fit-height>
+    <div id="wrap" ng-view="" class="mainview-animation">
+    </div> <!--wrap -->
+</div> <!-- page-content -->
 
-      <footer role="contentinfo">
-        <div class="clearfix">
-          <ul class="list-unstyled list-inline pull-left">
-            <li>Akioo</li>
-          </ul>
-          <button class="pull-right btn btn-default btn-xs hidden-print" back-to-top style="padding: 1px 10px;"><i class="fa fa-angle-up"></i></button>
-        </div>
-      </footer>
+<footer role="contentinfo">
+    <div class="clearfix">
+      <ul class="list-unstyled list-inline pull-left">
+        <li>Akioo</li>
+    </ul>
+    <button class="pull-right btn btn-default btn-xs hidden-print" back-to-top style="padding: 1px 10px;"><i class="fa fa-angle-up"></i></button>
+</div>
+</footer>
 
-    </div> <!-- page-container -->
+</div> <!-- page-container -->
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -289,5 +290,10 @@
     <script src="scripts/pages/indexController.js"></script>
     <!-- End Pages Controllers Module -->
 
-  </body>
-  </html>
+    <!-- Model Module -->
+    <script src="scripts/model/modelModule.js"></script>
+    <script src="scripts/model/modelService.js"></script>
+    <!-- End Model Module -->
+
+</body>
+</html>
