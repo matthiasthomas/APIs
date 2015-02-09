@@ -23,7 +23,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 				// If it's effectively .js
 				if (fileExt == ".js") {
 					//And that it's not the db model
-					if (fileName != "Db") {
+					if (fileName != "Db" && fileName != "Permission") {
 						//Add it's name to the modelsNames array
 						modelsNames.push(fileName);
 					}
@@ -39,7 +39,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					// If it's a js file
 					if (fileExt == ".js") {
 						// And it's not a db model
-						if (fileName != "Db") {
+						if (fileName != "Db" && fileName != "Permission") {
 							// Add it's name to the modelsNames array => projectName.modelName (ex: akioo.user)
 							modelsNames.push(file + "." + fileName);
 						}

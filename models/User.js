@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var rbac = require('mongoose-rbac');
+var permissionManager = require('../permissionManager.js');
 var Db = require('./Db.js').Db;
 
 var UserSchema = new mongoose.Schema({
@@ -24,7 +24,7 @@ var UserSchema = new mongoose.Schema({
 });
 
 //To perform role base access control on routes
-UserSchema.plugin(rbac.plugin);
+UserSchema.plugin(permissionManager.plugin);
 
 var UserModel = Db.model('User', UserSchema);
 

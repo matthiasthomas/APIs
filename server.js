@@ -10,7 +10,7 @@ var modules = {
 	fs: require("fs"),
 	bcrypt: require("bcrypt-nodejs"),
 	crypto: require("crypto"),
-	rbac: require("mongoose-rbac"),
+	permissionManager: require('./permissionManager.js'),
 	mail: config.smtpTransport,
 	q: require('q')
 };

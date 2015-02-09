@@ -51,7 +51,7 @@ userModule.controller('AddRoleController', ['$scope', '$location', 'RoleService'
 			$scope.role.permissions = permissionsArray;
 			RoleService.post($scope.role).success(function(data) {
 				if (data.success) {
-					$location.path = "/roles";
+					$location.path("/roles");
 				} else {
 					console.log(data);
 				}

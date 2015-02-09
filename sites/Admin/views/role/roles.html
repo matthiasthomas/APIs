@@ -20,9 +20,8 @@
       <panel panel-class="panel-primary" data-heading="My Roles">
         <table class="table table-bordered table-condensed">
           <tr style="font-weight: bold">
-            <td style="width:20%">Name</td>
-            <td style="width:35%">Permissions</td>
-            <td style="width:20%"></td>
+            <td >Name</td>
+            <td >Actions</td>
           </tr>
           <tr ng-repeat="role in roles">
             <td>
@@ -30,13 +29,9 @@
               <span>{{ role.name }}</span>
             </td>
             <td>
-              <ul ng-repeat='permission in role.permissions'>
-                <li>{{ permission.name }}</li>
-              </ul>
-            </td>
-            <td>
-              <a ng-show='(activeUser._role.name === "superhero")' class="btn btn-primary btn-sm" href="#/editRole/{{ role._id }}">Edit</a>
-              <a ng-show='(activeUser._role.name === "superhero")' class="btn btn-danger btn-sm" confirm-click='' confirm-click-function='deleteRole(role._id)' confirm-click-class='btn btn-orange btn-sm'>Delete</a>
+              <a class="btn btn-info btn-sm" href="#/showRole/{{ role._id }}">Show</a>
+              <a class="btn btn-success btn-sm" href="#/editRole/{{ role._id }}">Edit</a>
+              <a class="btn btn-danger btn-sm" confirm-click='' confirm-click-function='deleteRole(role._id)' confirm-click-class='btn btn-orange btn-sm'>Delete</a>
             </td>
           </tr>
         </table>

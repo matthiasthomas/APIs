@@ -1,0 +1,67 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+  <li><a href="#/roles">Roles</a></li>
+    <li class="active">Show a Role</li>
+  </ol>
+
+  <h1> Show Role {{ role.name }}</h1>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+
+      <form action class="form-horizontal" name="editUserForm">
+
+        <legend>General Information</legend>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Name</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id='name' name='name' ng-model='role.name' disabled="" />
+          </div>
+        </div>
+
+        <legend>Permissions</legend>
+        <div class="col-md-12" >
+
+          <div class="form-group col-md-6">
+            <label class="control-label">
+              <strong>Subjects</strong>
+            </label>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="control-label">
+              <strong>Actions</strong>
+            </label>
+          </div>
+
+          <div ng-repeat='permission in role.permissions'>
+
+            <div class="form-group col-md-6">
+              <h7>{{ permission.subject }}</h7>
+            </div>
+
+            <div class="form-group col-md-6">
+
+              <div ng-repeat='action in permission.actions'>
+
+                <div class="checkbox disabled">
+                  <label>
+                    <input type="checkbox" checked disabled> {{ action }}
+                  </label>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

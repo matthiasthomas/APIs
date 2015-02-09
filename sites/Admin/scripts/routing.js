@@ -38,13 +38,17 @@ myApp.config(['$provide', '$routeProvider',
 			templateUrl: 'views/role/roles.html',
 			controller: 'RolesController'
 		}).
-		when('/editRole', {
+		when('/editRole/:id', {
 			templateUrl: 'views/role/editRole.html',
 			controller: 'EditRoleController'
 		}).
 		when('/addRole', {
 			templateUrl: 'views/role/editRole.html',
 			controller: 'AddRoleController'
+		}).
+		when('/showRole/:id', {
+			templateUrl: 'views/role/showRole.html',
+			controller: 'ShowRoleController'
 		}).
 		when('/projects', {
 			templateUrl: 'views/project/projects.html',
@@ -65,24 +69,24 @@ myApp.config(['$provide', '$routeProvider',
 			}
 		}).
 		when('/editProject/:id', {
-			templateUrl: 'views/project/editProject.html',
-			controller: 'EditProjectController',
-			resolve: {
-				lazyLoad: ['lazyLoad',
-					function(lazyLoad) {
-						return lazyLoad.load([
-							'bower_components/jquery-validation/dist/jquery.validate.js',
-							'bower_components/stepy/lib/jquery.stepy.js'
-						]);
-					}
-				]
-			}
-		}).
-		/*when('/signup', {
-				templateUrl: 'views/extras-signupform.html',
-				controller: 'RegistrationController',
-				publicAccess: true
-			}).*/
+				templateUrl: 'views/project/editProject.html',
+				controller: 'EditProjectController',
+				resolve: {
+					lazyLoad: ['lazyLoad',
+						function(lazyLoad) {
+							return lazyLoad.load([
+								'bower_components/jquery-validation/dist/jquery.validate.js',
+								'bower_components/stepy/lib/jquery.stepy.js'
+							]);
+						}
+					]
+				}
+			}).
+			/*when('/signup', {
+					templateUrl: 'views/extras-signupform.html',
+					controller: 'RegistrationController',
+					publicAccess: true
+				}).*/
 			/*when('/index', {
 				templateUrl: 'views/index.html',
 			}).*/
