@@ -3,6 +3,7 @@ roleModule.controller('ShowRoleController', ['$scope', 'RoleService', '$routePar
 		var roleId = $routeParams.id;
 		var permissions = [];
 		RoleService.get(roleId).success(function(data) {
+			console.log(data);
 			if (data.success) {
 				var testArray = [];
 				data.role.permissions.forEach(function(permission) {

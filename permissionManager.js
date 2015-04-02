@@ -1,9 +1,12 @@
 var mongoose = require('mongoose'),
   async = require('async');
+var Role = require('./models/Role.js').Role;
+var UsersProject = require('./models/UsersProject.js').UsersProject;
+var Project = require('./models/Project.js').Project;
 
 function resolveRole(role, done) {
   if (typeof role === 'string') {
-    mongoose.model('Role').findOne({
+    Role.findOne({
       name: role
     }, function(err, role) {
       if (err) return done(err);
@@ -12,6 +15,20 @@ function resolveRole(role, done) {
     });
   } else {
     done(null, role);
+  }
+}
+
+function resolveProject(project, done) {
+  if (typeof project === 'string') {
+    Project.findOne({
+      name: project
+    }, function(error, project) {
+      if (error) return done(error);
+      if (!project) return done(new Error("Unknown project"));
+      done(null, project);
+    });
+  } else {
+    done(null, project);
   }
 }
 
@@ -24,6 +41,30 @@ function plugin(schema, options) {
       ref: 'Role'
     }]
   });
+
+  // Added by Matthias 12/02/2015
+  schema.methods.hasAccess = function(project, done) {
+    var obj = this;
+    //If he is a superhero he can access any project he wants
+    obj.hasRole('superhero', function(error, success){
+      if(error) return done(error);
+      if(success) return done(null, success);
+
+      resolveProject(project, function(error, project) {
+        UsersProject.find({
+          _project: project._id,
+          _user: obj._id,
+          archived: false
+        }, function(error, usersProject) {
+          if (error) return done(error, false);
+          if (usersProject.length === 0) return done(null, false);
+
+          return done(null, true);
+        });
+      });
+    });
+  };
+  // End Added
 
   schema.methods.hasRole = function(role, done) {
     var obj = this;
@@ -148,7 +189,6 @@ function plugin(schema, options) {
 }
 
 function init(roleModel, permissionModel, rolesAndPermissions, done) {
-  console.log("I'm here now");
   var count = Object.keys(rolesAndPermissions).length,
     roles = [],
     promise = new mongoose.Promise(done);
@@ -169,9 +209,7 @@ function init(roleModel, permissionModel, rolesAndPermissions, done) {
       name: name
     });
     roles.push(role);
-    console.log('Saving role now');
     role.save(function(err, role) {
-      console.log('role saved');
       if (err) return promise.error(err);
       // Create role's permissions if they do not exist
       permissionModel.findOrCreate(rolesAndPermissions[role.name], function(err) {

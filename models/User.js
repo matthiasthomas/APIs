@@ -7,11 +7,11 @@ var UserSchema = new mongoose.Schema({
 	password: {
 		type: String
 	},
-	_role: {
+	roles: [{
 		type: String,
 		required: true,
 		ref: 'Role'
-	},
+	}],
 	created: {
 		type: Date,
 		default: Date.now

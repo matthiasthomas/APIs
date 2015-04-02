@@ -41,14 +41,33 @@
           </span>
         </div>
 
-        <div class="form-group">
-          <label class="col-sm-2 control-label">Role</label>
-          <div class="col-sm-9">
-            <select ng-model='user._role' required ng-options='role as role.name for role in roles' required></select>
+        <div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Projects</label>
+            <div class="col-sm-5">
+              <h4>Roles he/she has</h4>
+              <div class="scroll-200">
+                <div ng-repeat='role in rolesHeHas' class="checkbox">
+                  <label>
+                    <input type="checkbox" checked="checked" ng-click='removeRole($index)'> {{ role.name }}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-5">
+              <h4>Roles he/she hasn't</h4>
+              <div class="scroll-200">
+                <div ng-repeat='role in rolesHeHasnt' class="checkbox">
+                  <label>
+                    <input type="checkbox" ng-click='addRole($index)'> {{ role.name }}
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         
-        <div ng-show='user._role.name === "administrator"'>
+        <div>
           <div class="form-group">
             <label class="col-sm-2 control-label">Projects</label>
             <div class="col-sm-5">

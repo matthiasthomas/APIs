@@ -2,7 +2,10 @@ var mongoose = require('mongoose');
 var Db = require('./Db.js').Db;
 
 var ProjectModel = Db.model('Project', new mongoose.Schema({
-	name: String,
+	name: {
+		type: String,
+		unique: true
+	},
 	contacts: [{
 		label: String,
 		address: String,

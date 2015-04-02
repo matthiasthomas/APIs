@@ -8,37 +8,74 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 	// Get a role from its id
 	.get(function(req, res) {
 		var roleId = req.params.id;
-		models.Role.findById(roleId).populate('permissions').exec(function(error, role) {
-			if (error) {
-				res.send(error);
-				return;
-			}
+		models.Role.findOne({
+			_id: roleId,
+			archived: false
+		}).populate('permissions').exec(function(error, role) {
+			if (error) return res.send(error);
 
-			res.json({
+			return res.json({
 				success: true,
 				role: role
 			});
-			return;
 		});
 	})
 
 	.put(function(req, res) {
 		var roleId = req.params.id;
-		console.log(req.params);
 		var name = req.body.name;
 		var permissions = req.body.permissions;
-		console.log(roleId);
 		models.Role.findById(roleId, function(error, role) {
 			if (error) {
 				res.send(error);
 				return;
 			}
 
-			res.json({
-				success: true,
-				message: "The role has been updated!",
-				role: role
+			//The only way for now is to delete the role first
+			role.remove(function(error, role) {
+				var roleObj = {};
+				roleObj[req.body.name] = req.body.permissions;
+				modules.permissionManager.init(models.Role, models.Permission, roleObj, function(err, newRole) {
+					if (err) {
+						res.send(err);
+						return;
+					}
+
+					res.json({
+						success: true,
+						message: "The role has been updated!",
+						role: role
+					});
+					return;
+				});
 			});
+		});
+	})
+
+	.delete(function(req, res) {
+		var roleId = req.params.id;
+		models.Role.findById(roleId, function(error, role) {
+			if (error) {
+				res.send(error);
+				return;
+			}
+
+			if (role) {
+				role.archived = true;
+				role.save(function(error, role) {
+					if (error) {
+						res.send(error);
+						return;
+					}
+
+					res.json({
+						success: true,
+						message: "The role has been removed"
+					});
+				});
+			} else {
+				res.send("This role has already been removed");
+			}
 		});
 	});
 
@@ -49,7 +86,9 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	//Get all available roles
 	.get(function(req, res) {
-		models.Role.find().populate('permissions').exec(function(error, roles) {
+		models.Role.find({
+			archived: false
+		}).populate('permissions').exec(function(error, roles) {
 			if (error) {
 				res.send(error);
 				return;
@@ -73,7 +112,6 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 					return;
 				}
 
-				console.log('SUCCESS');
 				res.json({
 					success: true,
 					message: "Everything went well, your role has been saved!",

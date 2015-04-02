@@ -1,7 +1,7 @@
 module.exports.controller = function(app, config, projects, models, middlewares, router) {
 
 	// --------------------------------------------
-	// Routes to /api/projects/:project_id 
+	// Routes to /api/projects/:project_id
 	// --------------------------------------------
 	router.route('/projects/:project_id')
 
@@ -86,6 +86,12 @@ module.exports.controller = function(app, config, projects, models, middlewares,
 				res.send(error);
 				return;
 			}
+
+			projects.filter(function(project){
+				req.mydata.user.hasAccess(project, function(error, success){
+					return success;
+				});
+			});
 
 			res.json({
 				success: true,

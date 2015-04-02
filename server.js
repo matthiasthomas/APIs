@@ -66,6 +66,7 @@ if (true === config.hardDebug) {
 	app.use(morgan('combined', {}));
 }
 
+app.use('/olympe', express.static(__dirname + "/sites/olympe"));
 app.use('/admin', express.static(__dirname + "/sites/Admin"));
 app.use('/', express.static(__dirname + "/sites/Front End"));
 

@@ -9,8 +9,10 @@ userModule.controller('ShowUserController', ['$scope', '$q', 'UserService', '$ro
 		var firstDeferred = $q.defer();
 		var promise = firstDeferred.promise;
 
+		//Get the user
 		UserService.get(userId).success(function(data) {
 			if (data.success) {
+				//Go to promise.then
 				firstDeferred.resolve(data);
 			} else {
 				firstDeferred.reject(data);
@@ -21,16 +23,6 @@ userModule.controller('ShowUserController', ['$scope', '$q', 'UserService', '$ro
 		//Once we retrieved our user from first promise
 			.then(function(first) {
 				$scope.user = first.user;
-				//Get the roles, once we've our user
-				RoleService.all().success(function(data) {
-					$scope.roles = data.roles;
-					//Little twik to make things work
-					angular.forEach(data.roles, function(role) {
-						if (role._id === $scope.user._role._id) {
-							$scope.user._role = role;
-						}
-					});
-				});
 				var secondDeferred = $q.defer();
 				//Create our second deferred which will get usersProjects for active user
 				UsersProjectService.getByUser($scope.user._id).success(function(data) {

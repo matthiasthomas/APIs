@@ -32,6 +32,19 @@ roleModule.controller('RolesController', ['$scope', 'RoleService', 'ModelService
 			});
 		};
 
+		$scope.deleteRole = function(id) {
+			RoleService.delete(id).success(function(data) {
+				if (data.success) {
+					console.log(data.message);
+					$scope.roles = $scope.roles.filter(function(role) {
+						return role._id != id;
+					});
+				} else {
+					console.log(data);
+				}
+			});
+		};
+
 		$scope.closeAlert = function(index) {
 			$scope.alert = {
 				show: false

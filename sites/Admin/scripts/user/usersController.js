@@ -1,7 +1,7 @@
 userModule.controller('UsersController', ['$scope', '$rootScope', '$global', '$timeout', '$location', 'UserService', 'UsersProjectService', 'RoleService', 'localStorageService',
 	function($scope, $rootScope, $global, $timeout, $location, UserService, UsersProjectService, RoleService, localStorageService) {
 
-		if (localStorageService.get('activeUser')) {
+		if (localStorageService.get('activeUser') && !$rootScope.activeUser) {
 			$rootScope.activeUser = localStorageService.get('activeUser');
 		}
 

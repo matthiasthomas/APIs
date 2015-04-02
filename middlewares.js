@@ -70,7 +70,28 @@ var middlewares = {
 									return;
 								}
 
-								models.Role.findOne({
+								req.mydata = {};
+								req.mydata.user = token._user;
+								var roles = [];
+								token._user.roles.forEach(function(roleId, index) {
+									models.Role.findOne({
+										_id: roleId,
+										archived: false
+									}, function(error, role) {
+										if (error) return res.send(error);
+
+										if (role) {
+											roles.push(role.name);
+										}
+
+										if (index == (token._user.roles.length - 1)) {
+											req.mydata.user.roles = roles;
+											next();
+										}
+									});
+								});
+
+								/*models.Role.findOne({
 									_id: token._user._role,
 									archived: false
 								}).exec(function(error, role) {
@@ -80,7 +101,7 @@ var middlewares = {
 									req.mydata.user = JSON.parse(JSON.stringify(token._user));
 									req.mydata.user._role = role;
 									next(); //Everything's fine, go to next middleware
-								});
+								});*/
 							});
 						}
 					} else {

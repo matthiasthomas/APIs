@@ -11,7 +11,7 @@ roleModule.factory('RoleService', ['$http',
 				return $http.put(myApp.globals.serverUrl + "api/rbac/roles/" + id, role);
 			},
 			delete: function(id) {
-				return $http.delete(myApp.globals.serverUrl + "api/roles/" + id);
+				return $http.delete(myApp.globals.serverUrl + "api/rbac/roles/" + id);
 			},
 			all: function() {
 				return $http.get(myApp.globals.serverUrl + "api/rbac/roles");

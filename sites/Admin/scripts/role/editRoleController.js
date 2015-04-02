@@ -1,5 +1,5 @@
-userModule.controller('EditRoleController', ['$scope', 'RoleService', 'ModelService', '$routeParams',
-	function($scope, RoleService, ModelService, $routeParams) {
+userModule.controller('EditRoleController', ['$scope', 'RoleService', 'ModelService', '$routeParams', '$location',
+	function($scope, RoleService, ModelService, $routeParams, $location) {
 		var roleId = $routeParams.id;
 		var permissions = [];
 		$scope.role = {
@@ -9,6 +9,7 @@ userModule.controller('EditRoleController', ['$scope', 'RoleService', 'ModelServ
 
 		RoleService.get(roleId).success(function(data) {
 			if (data.success) {
+				$scope.role._id = data.role._id;
 				$scope.role.name = data.role.name;
 				permissions = data.role.permissions;
 
@@ -35,6 +36,7 @@ userModule.controller('EditRoleController', ['$scope', 'RoleService', 'ModelServ
 						});
 
 						var filteredArray = [];
+						console.log($scope.role);
 						$scope.role.permissions.forEach(function(rolePermission) {
 							permissions.forEach(function(permission) {
 								if (rolePermission.subject == permission.subject) {
@@ -75,7 +77,7 @@ userModule.controller('EditRoleController', ['$scope', 'RoleService', 'ModelServ
 			$scope.role.permissions = permissionsArray;
 			RoleService.put($scope.role._id, $scope.role).success(function(data) {
 				if (data.success) {
-					$location.path("/showRole/" + $scope.role._id);
+					$location.path("/roles");
 				} else {
 					console.log(data);
 				}

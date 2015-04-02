@@ -21,7 +21,11 @@
       <div class="col-md-12">
         <label class="col-sm-3 control-label">Role</label>
         <div class="col-sm-9">
-          {{ user._role.name }}
+          <ul>
+            <li ng-repeat="role in user.roles">
+              <span>{{ role.name }}</span>
+            </li>
+          </ul>
         </div>
       </div>
 
