@@ -1,11 +1,31 @@
-userModule.controller('AddRoleController', ['$scope', '$location', 'RoleService', 'ModelService',
-	function($scope, $location, RoleService, ModelService) {
+userModule.controller('AddRoleController', ['$scope', '$location', 'RoleService', 'ProjectService', 'ModelService', 'localStorageService',
+	function($scope, $location, RoleService, ProjectService, ModelService, localStorageService) {
 		$scope.role = {
 			name: "",
-			permissions: []
+			permissions: [],
+			projects: []
 		};
 
+		$scope.isSuperhero = false;
+		if (RoleService.hasRole(localStorageService.get('activeUser'), 'superhero')) {
+			$scope.isSuperhero = true;
+		}
+
 		$scope.checked = false;
+
+		ProjectService.all().success(function(data) {
+			if (data.success) {
+				data.projects.forEach(function(project) {
+					$scope.role.projects.push({
+						_id: project._id,
+						name: project.name,
+						checked: false
+					});
+				});
+			} else {
+				console.log(data);
+			}
+		});
 
 		ModelService.all().success(function(data) {
 			if (data.success) {
@@ -35,16 +55,19 @@ userModule.controller('AddRoleController', ['$scope', '$location', 'RoleService'
 
 		$scope.saveRole = function() {
 			var permissionsArray = [];
+			$scope.role.projects = $scope.role.projects.filter(function(project) {
+				return (project.checked);
+			});
 			// Now loop through the permissions of our role
 			$scope.role.permissions.forEach(function(permission) {
 				// Loop thourhg the actions of the permission
 				permission.actions.forEach(function(action) {
 					//If one of this actions is checked
 					if (action.checked) {
-						permissionsArray.push([
-							action.name,
-							permission.subject
-						]);
+						permissionsArray.push({
+							subject: permission.subject,
+							action: action.name
+						});
 					}
 				});
 			});

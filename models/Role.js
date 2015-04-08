@@ -18,6 +18,10 @@ var RoleSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Permission'
 	}],
+	projects: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Project'
+	}],
 	created: {
 		type: Date,
 		default: Date.now
@@ -83,7 +87,8 @@ RoleSchema.methods.canAny = function(actionsAndSubjects, done) {
 RoleSchema.pre('save', function(done) {
 	var that = this;
 	Db.model('Role').findOne({
-		name: that.name
+		name: that.name,
+		archived: false
 	}, function(err, role) {
 		if (err) {
 			done(err);

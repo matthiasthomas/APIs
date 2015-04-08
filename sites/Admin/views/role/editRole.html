@@ -21,6 +21,27 @@
           </div>
         </div>
 
+        <div ng-hide="isSuperhero">
+          <legend>Associated Projects</legend>
+          <div class="form-group">
+            <div class="col-md-12">
+              <div class="form-group col-md-6">
+                <label class="control-label">
+                  <strong>Projects</strong>
+                </label>
+              </div>
+              <div ng-repeat='project in role.projects'>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" ng-model="project.checked">
+                    {{ project.name }}
+                  </label> 
+                </div>  
+              </div>         
+            </div>
+          </div>
+        </div>
+
         <legend>Permissions</legend>
         <div class="col-md-12" >
 
@@ -63,7 +84,7 @@
         </div>
 
         <div class="form-group">
-        <a class="btn btn-md btn-success" ng-click="saveRole();">Save Role</a>
+          <a class="btn btn-md btn-success" ng-click="saveRole();">Save Role</a>
         </div>
 
       </form>

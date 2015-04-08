@@ -70,38 +70,16 @@ var middlewares = {
 									return;
 								}
 
-								req.mydata = {};
-								req.mydata.user = token._user;
-								var roles = [];
-								token._user.roles.forEach(function(roleId, index) {
-									models.Role.findOne({
-										_id: roleId,
-										archived: false
-									}, function(error, role) {
-										if (error) return res.send(error);
-
-										if (role) {
-											roles.push(role.name);
-										}
-
-										if (index == (token._user.roles.length - 1)) {
-											req.mydata.user.roles = roles;
-											next();
-										}
-									});
-								});
-
-								/*models.Role.findOne({
-									_id: token._user._role,
-									archived: false
-								}).exec(function(error, role) {
-									if (error)
-										res.send(error);
+								models.User.populate(token._user, [{
+									path: 'roles'
+								}, {
+									path: 'projects'
+								}], function(error, user) {
+									if (error) return res.send(error);
 									req.mydata = {};
-									req.mydata.user = JSON.parse(JSON.stringify(token._user));
-									req.mydata.user._role = role;
-									next(); //Everything's fine, go to next middleware
-								});*/
+									req.mydata.user = user;
+									next();
+								});
 							});
 						}
 					} else {

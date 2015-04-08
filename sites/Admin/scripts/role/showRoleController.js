@@ -2,26 +2,31 @@ roleModule.controller('ShowRoleController', ['$scope', 'RoleService', '$routePar
 	function($scope, RoleService, $routeParams) {
 		var roleId = $routeParams.id;
 		var permissions = [];
+
 		RoleService.get(roleId).success(function(data) {
-			console.log(data);
 			if (data.success) {
-				var testArray = [];
+				// Loop once for the subjects
 				data.role.permissions.forEach(function(permission) {
-					testArray = permissions.filter(function(element) {
-						return element.subject == permission.subject;
+					var count = 0;
+					permissions.forEach(function(permission2) {
+						if (permission2.subject == permission.subject) {
+							count++;
+						}
 					});
-					if (testArray.length > 0) {
-						permissions.forEach(function(permission1) {
-							if (permission1.subject == permission.subject) {
-								permission1.actions.push(permission.action);
-							}
-						});
-					} else {
+					if (count < 1) {
 						permissions.push({
 							subject: permission.subject,
-							actions:  [permission.action]
+							actions: []
 						});
 					}
+				});
+				// Loop a second time for the actions
+				data.role.permissions.forEach(function(permissionToPush) {
+					permissions.forEach(function(permission) {
+						if (permissionToPush.subject == permission.subject) {
+							permission.actions.push(permissionToPush.action);
+						}
+					});
 				});
 				$scope.role = data.role;
 				$scope.role.permissions = permissions;

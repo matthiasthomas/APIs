@@ -1,4 +1,4 @@
-module.exports.controller = function(app, config, projects, models, middlewares, router) {
+module.exports.controller = function(app, config, modules, models, middlewares, router) {
 
 	// --------------------------------------------
 	// Routes to /api/projects/:project_id
@@ -79,25 +79,45 @@ module.exports.controller = function(app, config, projects, models, middlewares,
 
 	// Get all projects
 	.get(function(req, res) {
-		models.Project.find({
-			archived: false
-		}).exec(function(error, projects) {
-			if (error) {
-				res.send(error);
-				return;
-			}
-
-			projects.filter(function(project){
-				req.mydata.user.hasAccess(project, function(error, success){
-					return success;
+		// If user is a superhero just return the projects
+		req.mydata.user.hasRole('superhero', function(error, success) {
+			if (error) return res.send(error);
+			if (success) {
+				models.Project.find({
+					archived: false
+				}, function(error, projects) {
+					if (error) return res.send(error);
+					return res.json({
+						success: true,
+						projects: projects
+					});
 				});
-			});
-
-			res.json({
-				success: true,
-				projects: projects
-			});
-			return;
+				// If the user is no superhero
+			} else {
+				// Get the project to which the user has an access
+				models.Project.find({
+					archived: false,
+					_id: {
+						$in: req.mydata.user.projects
+					}
+				}).exec(function(error, projects) {
+					if (error) return res.send(error);
+					// Check if the user has the right to get the projects
+					req.mydata.user.can('Read', 'Project', function(error, can) {
+						if (error) return res.send(error);
+						if (!can) {
+							res.status = 403;
+							return res.json({
+								message: "Unauthorized"
+							});
+						}
+						return res.json({
+							success: true,
+							projects: projects
+						});
+					});
+				});
+			}
 		});
 	})
 

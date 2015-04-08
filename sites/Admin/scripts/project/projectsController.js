@@ -4,7 +4,6 @@ userModule.controller('ProjectsController', ['$scope', '$rootScope', '$global', 
 			if (!data.success) {
 				console.log(data);
 			} else {
-				console.log(data);
 				$scope.projects = data.projects;
 				angular.forEach($scope.projects, function(project) {
 					project.created = new Date(project.created);

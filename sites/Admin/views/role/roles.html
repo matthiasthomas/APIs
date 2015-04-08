@@ -29,9 +29,11 @@
               <span>{{ role.name }}</span>
             </td>
             <td>
-              <a class="btn btn-info btn-sm" href="#/showRole/{{ role._id }}">Show</a>
-              <a class="btn btn-success btn-sm" href="#/editRole/{{ role._id }}">Edit</a>
-              <a class="btn btn-danger btn-sm" confirm-click='' confirm-click-function='deleteRole(role._id)' confirm-click-class='btn btn-orange btn-sm'>Delete</a>
+              <div ng-hide="role.name == 'administrator' || role.name == 'superhero'">
+                <a class="btn btn-info btn-sm" href="#/showRole/{{ role._id }}">Show</a>
+                <a class="btn btn-success btn-sm" href="#/editRole/{{ role._id }}">Edit</a>
+                <a class="btn btn-danger btn-sm" confirm-click='' confirm-click-function='deleteRole(role._id)' confirm-click-class='btn btn-orange btn-sm'>Delete</a>
+              </div>
             </td>
           </tr>
         </table>

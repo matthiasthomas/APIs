@@ -43,11 +43,11 @@
 
         <div>
           <div class="form-group">
-            <label class="col-sm-2 control-label">Projects</label>
+            <label class="col-sm-2 control-label">Roles</label>
             <div class="col-sm-5">
-              <h4>Roles he/she has</h4>
+              <h4>Roles s/he has</h4>
               <div class="scroll-200">
-                <div ng-repeat='role in rolesHeHas' class="checkbox">
+                <div ng-repeat='role in rolesUserHas' class="checkbox">
                   <label>
                     <input type="checkbox" checked="checked" ng-click='removeRole($index)'> {{ role.name }}
                   </label>
@@ -55,9 +55,9 @@
               </div>
             </div>
             <div class="col-sm-5">
-              <h4>Roles he/she hasn't</h4>
+              <h4>Roles s/he hasn't</h4>
               <div class="scroll-200">
-                <div ng-repeat='role in rolesHeHasnt' class="checkbox">
+                <div ng-repeat='role in rolesUserHasNot' class="checkbox">
                   <label>
                     <input type="checkbox" ng-click='addRole($index)'> {{ role.name }}
                   </label>
@@ -71,21 +71,21 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">Projects</label>
             <div class="col-sm-5">
-              <h4>Administrating</h4>
+              <h4>Has access to</h4>
               <div class="scroll-200">
-                <div ng-repeat='project in administratingProjects' class="checkbox">
+                <div ng-repeat='project in projectsUserHasAccessTo' class="checkbox">
                   <label>
-                    <input type="checkbox" checked="checked" ng-click='notAdministratingThisProject($index)'> {{ project.name }}
+                    <input type="checkbox" checked="checked" ng-click='removeAccessToThisProject($index)'> {{ project.name }}
                   </label>
                 </div>
               </div>
             </div>
             <div class="col-sm-5">
-              <h4>Not Administrating</h4>
+              <h4>Hasn't access to</h4>
               <div class="scroll-200">
-                <div ng-repeat='project in notAdministratingProjects' class="checkbox">
+                <div ng-repeat='project in projectsUserHasNotAccessTo' class="checkbox">
                   <label>
-                    <input type="checkbox" ng-click='administratingThisProject($index)'> {{ project.name }}
+                    <input type="checkbox" ng-click='addAccessToThisProject($index)'> {{ project.name }}
                   </label>
                 </div>
               </div>

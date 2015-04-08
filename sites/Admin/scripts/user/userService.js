@@ -7,8 +7,9 @@ userModule.factory('UserService', ['$http', 'localStorageService',
 			logout: function(inputs) {
 				return $http.get(myApp.globals.serverUrl + "api/users/logout");
 			},
-			register: function(user) {
-				return $http.post(myApp.globals.serverUrl + "api/users", user);
+			//inputs: { user: user, projects: projects, roles: roles }
+			register: function(inputs) {
+				return $http.post(myApp.globals.serverUrl + "api/users", inputs);
 			},
 			isLoggedIn: function() {
 				return $http.post(myApp.globals.serverUrl + "api/users/isLoggedIn", {

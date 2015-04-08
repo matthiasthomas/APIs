@@ -12,7 +12,10 @@
       <a href="#/login" style="font-size: 14px"><i class="fa fa-sign-in"></i> Log in</a>
     </li>
     <li class="dropdown" ng-show="isLoggedIn">
-      <a href="#" class="dropdown-toggle username"><span class="hidden-xs">Matt Smith</span><img src="assets/demo/avatar/dangerfield.png" alt="Dangerfield" /></a>
+      <a ng-controller="IndexController" href="#" class="dropdown-toggle username">
+        <span class="hidden-xs">{{ activeUser.email }}</span>
+        <!--<img src="assets/demo/avatar/dangerfield.png" alt="Dangerfield" />-->
+      </a>
       <ul class="dropdown-menu userinfo arrow">
         <li class="userlinks">
           <ul class="dropdown-menu">

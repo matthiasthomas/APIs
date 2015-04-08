@@ -43,7 +43,7 @@ PermissionSchema.statics.findOrCreate = function(params, callback) {
 				next(err);
 			});
 		}, function(err) {
-			callback.apply(null, [err].concat(permissions));
+			callback(err, permissions);
 		});
 	} else {
 		findOrCreateOne(params, callback);

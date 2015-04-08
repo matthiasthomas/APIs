@@ -1,55 +1,64 @@
-userModule.controller('AddUserController', ['$scope', '$q', '$routeParams', '$rootScope', '$global', '$timeout', '$location', 'UserService', 'RoleService', 'UsersProjectService', 'ProjectService',
-	function($scope, $q, $routeParams, $rootScope, $global, $timeout, $location, UserService, RoleService, UsersProjectService, ProjectService) {
+userModule.controller('AddUserController', ['$scope', '$q', '$routeParams', '$rootScope', '$global', '$timeout', '$location', 'UserService', 'RoleService', 'ProjectService', 'localStorageService',
+	function($scope, $q, $routeParams, $rootScope, $global, $timeout, $location, UserService, RoleService, ProjectService, localStorageService) {
 		$scope.user = {
 			email: '',
 			password: ''
 		};
 
-		$scope.administratingProjects = [];
-		$scope.notAdministratingProjects = [];
+		if (localStorageService.get('activeUser') && !$scope.activeUser) {
+			$scope.activeUser = localStorageService.get('activeUser');
+		}
+
+		$scope.projectsUserHasAccessTo = [];
+		$scope.projectsUserHasNotAccessTo = [];
+		$scope.rolesUserHas = [];
+		$scope.rolesUserHasNot = [];
 
 		ProjectService.all().success(function(data) {
 			$scope.projects = data.projects;
-			$scope.notAdministratingProjects = $scope.projects;
+			$scope.projectsUserHasNotAccessTo = $scope.projects;
 		});
 
 		RoleService.all().success(function(data) {
+			if (!RoleService.hasRole($rootScope.activeUser, 'superhero')) {
+				data.roles = data.roles.filter(function(element) {
+					return (element.name !== 'superhero');
+				});
+			}
 			$scope.roles = data.roles;
+			$scope.rolesUserHasNot = $scope.roles;
 		});
 
-		$scope.administratingThisProject = function(index) {
-			$scope.administratingProjects.push($scope.notAdministratingProjects[index]);
-			$scope.notAdministratingProjects.splice(index, 1);
+		$scope.addRole = function(index) {
+			$scope.rolesUserHas.push($scope.rolesUserHasNot[index]);
+			$scope.rolesUserHasNot.splice(index, 1);
 		};
 
-		$scope.notAdministratingThisProject = function(index) {
-			$scope.notAdministratingProjects.push($scope.administratingProjects[index]);
-			$scope.administratingProjects.splice(index, 1);
+		$scope.removeRole = function(index) {
+			$scope.rolesUserHasNot.push($scope.rolesUserHas[index]);
+			$scope.rolesUserHas.splice(index, 1);
+		};
+
+		$scope.addAccessToThisProject = function(index) {
+			$scope.projectsUserHasAccessTo.push($scope.projectsUserHasNotAccessTo[index]);
+			$scope.projectsUserHasNotAccessTo.splice(index, 1);
+		};
+
+		$scope.removeAccessToThisProject = function(index) {
+			$scope.projectsUserHasNotAccessTo.push($scope.projectsUserHasAccessTo[index]);
+			$scope.projectsUserHasAccessTo.splice(index, 1);
 		};
 
 		$scope.saveUser = function() {
-			//Because we're using the same template for add and edit
-			$scope.user._role = $scope.user._role._id;
 			console.log($scope.user);
-			UserService.register($scope.user).success(function(data) {
+			UserService.register({
+				user: $scope.user,
+				projects: $scope.projectsUserHasAccessTo,
+				roles: $scope.rolesUserHas
+			}).success(function(data) {
 				console.log(data);
 				if (data.success) {
-					//Theere is no administrating projects
-					if ($scope.administratingProjects.length > 0) {
-						var deferred = $q.defer();
-						angular.forEach($scope.administratingProjects, function(project) {
-							UsersProjectService.post({
-								_project: project._id,
-								_user: data.user._id
-							}).success(function(data) {
-								console.log(data);
-							});
-						});
-						$location.path('/users');
-						//redirect directly
-					} else {
-						$location.path('/users');
-					}
+					$location.path('/users');
 				} else {
 					console.log(data.message);
 				}

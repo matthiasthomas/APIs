@@ -8,11 +8,11 @@ userModule.controller('EditUserController', ['$scope', '$q', 'localStorageServic
 		}
 
 		//Declare useful variables
-		$scope.administratingProjects = [];
-		$scope.notAdministratingProjects = [];
+		$scope.projectsUserHasAccessTo = [];
+		$scope.projectsUserHasNotAccessTo = [];
 
-		var administratingProjectsNew = [];
-		var notAdministratingProjectsNew = [];
+		var projectsUserHasAccessToNew = [];
+		var projectsUserHasNotAccessToNew = [];
 
 		var userInit = {};
 		$scope.rolesHeHas = [];
@@ -32,18 +32,18 @@ userModule.controller('EditUserController', ['$scope', '$q', 'localStorageServic
 			}
 		});
 
-		$scope.administratingThisProject = function(index) {
-			$scope.administratingProjects.push($scope.notAdministratingProjects[index]);
-			administratingProjectsNew.push($scope.notAdministratingProjects[index]);
-			deleteObjectFromArray($scope.notAdministratingProjects[index], notAdministratingProjectsNew);
-			$scope.notAdministratingProjects.splice(index, 1);
+		$scope.addAccessToThisProject = function(index) {
+			$scope.projectsUserHasAccessTo.push($scope.projectsUserHasNotAccessTo[index]);
+			projectsUserHasAccessToNew.push($scope.projectsUserHasNotAccessTo[index]);
+			deleteObjectFromArray($scope.projectsUserHasNotAccessTo[index], projectsUserHasNotAccessToNew);
+			$scope.projectsUserHasNotAccessTo.splice(index, 1);
 		};
 
-		$scope.notAdministratingThisProject = function(index) {
-			$scope.notAdministratingProjects.push($scope.administratingProjects[index]);
-			notAdministratingProjectsNew.push($scope.administratingProjects[index]);
-			deleteObjectFromArray($scope.administratingProjects[index], administratingProjectsNew);
-			$scope.administratingProjects.splice(index, 1);
+		$scope.removeAccessToThisProject = function(index) {
+			$scope.projectsUserHasNotAccessTo.push($scope.projectsUserHasAccessTo[index]);
+			projectsUserHasNotAccessToNew.push($scope.projectsUserHasAccessTo[index]);
+			deleteObjectFromArray($scope.projectsUserHasAccessTo[index], projectsUserHasAccessToNew);
+			$scope.projectsUserHasAccessTo.splice(index, 1);
 		};
 
 		deleteObjectFromArray = function(object, array) {
@@ -129,23 +129,23 @@ userModule.controller('EditUserController', ['$scope', '$q', 'localStorageServic
 			.then(function(third) {
 				//If our user has projects
 				if ($scope.usersProjects.length > 0) {
-					$scope.notAdministratingProjects = third.projects;
-					$scope.administratingProjects = third.projects;
+					$scope.projectsUserHasNotAccessTo = third.projects;
+					$scope.projectsUserHasAccessTo = third.projects;
 
 					angular.forEach($scope.usersProjects, function(usersProject) {
-						$scope.notAdministratingProjects = $scope.notAdministratingProjects.filter(function(obj) {
+						$scope.projectsUserHasNotAccessTo = $scope.projectsUserHasNotAccessTo.filter(function(obj) {
 							return obj._id !== usersProject._project._id;
 						});
 					});
-					angular.forEach($scope.notAdministratingProjects, function(project) {
-						$scope.administratingProjects = $scope.administratingProjects.filter(function(obj) {
+					angular.forEach($scope.projectsUserHasNotAccessTo, function(project) {
+						$scope.projectsUserHasAccessTo = $scope.projectsUserHasAccessTo.filter(function(obj) {
 							return obj._id !== project._id;
 						});
 					});
-					//Else we set the notAdministratingProjects as all of the projects and the other one is empty
+					//Else we set the projectsUserHasNotAccessTo as all of the projects and the other one is empty
 				} else {
-					$scope.notAdministratingProjects = third.projects;
-					$scope.administratingProjects = [];
+					$scope.projectsUserHasNotAccessTo = third.projects;
+					$scope.projectsUserHasAccessTo = [];
 				}
 			})
 			.catch(function(error) {
@@ -169,7 +169,7 @@ userModule.controller('EditUserController', ['$scope', '$q', 'localStorageServic
 
 			UserService.put($scope.user).success(function(data) {
 				if (data.success) {
-					angular.forEach(administratingProjectsNew, function(project) {
+					angular.forEach(projectsUserHasAccessToNew, function(project) {
 						UsersProjectService.post({
 							_user: $scope.user._id,
 							_project: project._id
@@ -178,7 +178,7 @@ userModule.controller('EditUserController', ['$scope', '$q', 'localStorageServic
 						});
 					});
 
-					angular.forEach(notAdministratingProjectsNew, function(project) {
+					angular.forEach(projectsUserHasNotAccessToNew, function(project) {
 						UsersProjectService.deleteByUserAndProject($scope.user._id, project._id).success(function(data) {
 							console.log(data);
 						});

@@ -69,27 +69,19 @@ myApp.config(['$provide', '$routeProvider',
 			}
 		}).
 		when('/editProject/:id', {
-				templateUrl: 'views/project/editProject.html',
-				controller: 'EditProjectController',
-				resolve: {
-					lazyLoad: ['lazyLoad',
-						function(lazyLoad) {
-							return lazyLoad.load([
-								'bower_components/jquery-validation/dist/jquery.validate.js',
-								'bower_components/stepy/lib/jquery.stepy.js'
-							]);
-						}
-					]
-				}
-			}).
-			/*when('/signup', {
-					templateUrl: 'views/extras-signupform.html',
-					controller: 'RegistrationController',
-					publicAccess: true
-				}).*/
-			/*when('/index', {
-				templateUrl: 'views/index.html',
-			}).*/
+			templateUrl: 'views/project/editProject.html',
+			controller: 'EditProjectController',
+			resolve: {
+				lazyLoad: ['lazyLoad',
+					function(lazyLoad) {
+						return lazyLoad.load([
+							'bower_components/jquery-validation/dist/jquery.validate.js',
+							'bower_components/stepy/lib/jquery.stepy.js'
+						]);
+					}
+				]
+			}
+		}).
 		when('/calendar', {
 			templateUrl: 'views/calendar.html',
 			resolve: {

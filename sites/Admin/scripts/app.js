@@ -21,7 +21,6 @@ var myApp = angular
     'projectModule',
     'roleModule',
     'LocalStorageModule',
-    'usersProjectModule',
     'pagesControllersModule',
     'modelModule',
 

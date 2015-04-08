@@ -1,4 +1,4 @@
-module.exports.controller = function(app, config, moduleForProjects, models, middlewares, router) {
+module.exports.controller = function(app, config, modules, models, middlewares, router) {
 
 	// --------------------------------------------
 	// Routes to /api/moduleForProjects/:moduleForProject_id 

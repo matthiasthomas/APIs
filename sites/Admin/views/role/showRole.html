@@ -1,6 +1,6 @@
 <div id="page-heading">
   <ol class="breadcrumb">
-  <li><a href="#/roles">Roles</a></li>
+    <li><a href="#/roles">Roles</a></li>
     <li class="active">Show a Role</li>
   </ol>
 
@@ -21,35 +21,59 @@
           </div>
         </div>
 
-        <legend>Permissions</legend>
-        <div class="col-md-12" >
-
-          <div class="form-group col-md-6">
-            <label class="control-label">
-              <strong>Subjects</strong>
-            </label>
+        <div ng-hide="role.name == 'superhero'">
+          <legend>Associated Projects</legend>
+          <div class="form-group">
+            <div class="col-md-12">
+              <div class="form-group col-md-6">
+                <label class="control-label">
+                  <strong>Projects</strong>
+                </label>
+              </div>
+              <div ng-repeat='project in role.projects'>
+                <div class="checkbox disabled">
+                  <label>
+                    <input type="checkbox" checked disabled>
+                    {{ project.name }}
+                  </label> 
+                </div>  
+              </div>         
+            </div>
           </div>
+        </div>
 
-          <div class="form-group col-md-6">
-            <label class="control-label">
-              <strong>Actions</strong>
-            </label>
-          </div>
-
-          <div ng-repeat='permission in role.permissions'>
+        <div ng-hide="role.name == 'superhero' || role.name == 'administrator'">
+          <legend>Permissions</legend>
+          <div class="col-md-12" >
 
             <div class="form-group col-md-6">
-              <h7>{{ permission.subject }}</h7>
+              <label class="control-label">
+                <strong>Subjects</strong>
+              </label>
             </div>
 
             <div class="form-group col-md-6">
+              <label class="control-label">
+                <strong>Actions</strong>
+              </label>
+            </div>
 
-              <div ng-repeat='action in permission.actions'>
+            <div ng-repeat='permission in role.permissions'>
 
-                <div class="checkbox disabled">
-                  <label>
-                    <input type="checkbox" checked disabled> {{ action }}
-                  </label>
+              <div class="form-group col-md-6">
+                <h7>{{ permission.subject }}</h7>
+              </div>
+
+              <div class="form-group col-md-6">
+
+                <div ng-repeat='action in permission.actions'>
+
+                  <div class="checkbox disabled">
+                    <label>
+                      <input type="checkbox" checked disabled> {{ action }}
+                    </label>
+                  </div>
+
                 </div>
 
               </div>
@@ -57,9 +81,7 @@
             </div>
 
           </div>
-
         </div>
-
       </form>
 
     </div>

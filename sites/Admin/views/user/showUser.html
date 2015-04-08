@@ -1,6 +1,6 @@
 <div id="page-heading">
   <ol class="breadcrumb">
-    <li><a href="#/">Dashboard</a></li>
+    <li><a href="#/users">Users</a></li>
     <li class="active">Show a User</li>
   </ol>
 
@@ -19,7 +19,7 @@
       </div>
 
       <div class="col-md-12">
-        <label class="col-sm-3 control-label">Role</label>
+        <label class="col-sm-3 control-label">Roles</label>
         <div class="col-sm-9">
           <ul>
             <li ng-repeat="role in user.roles">
@@ -29,18 +29,15 @@
         </div>
       </div>
 
-      <div ng-show='user._role.name === "administrator"'>
+      <div ng-show='!isSuperhero'>
         <div class="col-md-12">
-          <label class="col-sm-3 control-label">Projects</label>
-          <div class="col-sm-4">
-            <h4>Administrating</h4>
-            <div class="scroll-200">
-              <div ng-repeat='project in administratingProjects'>
-                <label>
-                  {{ project.name }}
-                </label>
-              </div>
-            </div>
+        <label class="col-sm-3 control-label">Projects</label>
+          <div class="col-sm-9">
+            <ul>
+              <li ng-repeat="project in user.projects">
+                <span>{{ project.name }}</span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

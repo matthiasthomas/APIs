@@ -61,7 +61,13 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 		//Look for a user with this email
 		models.User.findOne({
 			email: req.body.email
-		}).populate('roles', 'name').exec(function(error, user) {
+		}).populate({
+			path: 'roles',
+			select: '_id name'
+		}).populate({
+			path: 'projects',
+			select: '_id name'
+		}).exec(function(error, user) {
 			if (error) return res.send(error);
 
 			//If we didn't find any user with this email
@@ -183,86 +189,51 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get a user from its id
 	.get(function(req, res) {
-		if (req.mydata.user.roles.indexOf('superhero') > -1) {
-			models.User.findOne({
-				_id: req.params.user_id,
-				archived: false
-			}).select('-password').populate('roles', 'name').exec(function(error, user) {
-				if (error) return res.send(error);
-
-				return res.json({
-					success: true,
-					user: user
-				});
-			});
-		} else if (req.mydata.user.roles.indexOf('administrator') > -1) {
-			//First let's find all of the usersProjects documents for our user
-			models.UsersProject.find({
-				archived: false,
-				_user: req.mydata.user._id
-			}, function(error, usersProjects) {
-				var usersArray = [];
-				//Now loop through this usersProjects
-				usersProjects.forEach(function(usersProject, index, array) {
-					// And find all of the usersProjects documents associated to the user's project
-					models.UsersProject.find({
-						archived: false,
-						_project: usersProject._project
-							// Here we use lean() to get an array of plain javascript objects, no need for class instance objects
-							//  here, as we need to modify the results anyway
-					}).populate('_user').lean().exec(function(error, usersProjects2) {
-						if (error) return res.send(error);
-						//Loop through all users which are bound to the projects of the admin user
-						usersProjects2.forEach(function(usersProject2, index2, array2) {
-							if (error) return res.send(error);
-
-							usersProject2._user.password = "";
-							//Check that we don't push the same user twice
-							var found = false;
-							usersArray.forEach(function(user) {
-								//If the same mail is found twice we found it
-								if (usersProject2._user.email === user.email) {
-									found = true;
-								}
-							});
-
-							//If the address wasn't found
-							if (!found) { //||  (usersArray.length === 0)) {
-								usersArray.push(usersProject2._user);
-							}
-
-							//Once we've looped through everything
-							if ((index2 === (usersProjects2.length - 1)) && (index === (usersProjects.length - 1))) {
-
-								usersArray = usersArray.filter(function(user) {
-									return user._id == req.params.user_id;
-								});
-
-								var wantedUser = {};
-								if (usersArray.length > 0) {
-									wantedUser = usersArray[0];
-									return res.json({
-										success: true,
-										user: wantedUser
-									});
-								} else {
-									return res.json({
-										success: false,
-										message: 'User wasn\'t found'
-									});
-								}
-							}
-						});
+		models.User.findOne({
+			archived: false,
+			_id: req.params.user_id
+		}).populate('projects', 'name').populate('roles', 'name').exec(function(error, user) {
+			if (error) return res.send(error);
+			if (!user) return res.send(new Error("Couln't find user with this id"));
+			modules.async.parallel({
+				isSuperHero: function(callback) {
+					req.mydata.user.hasRole("superhero", function(error, success) {
+						if (error) callback(error);
+						callback(null, success);
 					});
-				});
+				},
+				isAdmin: function(callback) {
+					req.mydata.user.hasRole("administrator", function(error, success) {
+						if (error) callback(error);
+						callback(null, success);
+					});
+				},
+				hasAccessToAny: function(callback) {
+					req.mydata.user.hasAccessToAny(user.projects, function(error, success) {
+						if (error) callback(error);
+						callback(null, success);
+					});
+				},
+				isActiveUser: function(callback) {
+					var success = false;
+					if (req.mydata.user._id.equals(req.params.user_id)) success = true;
+					callback(null, success);
+				}
+			}, function(error, results) {
+				if (results.isSuperHero || (results.isAdmin && results.hasAccessToAny) || results.isActiveUser) {
+					res.json({
+						success: true,
+						user: user
+					});
+				} else {
+					res.status(403);
+					res.json({
+						status: 403,
+						message: "Unauthorized"
+					});
+				}
 			});
-		} else {
-			res.status = 403;
-			return res.json({
-				'status': 403,
-				'message': 'You cannot access this content'
-			});
-		}
+		});
 	})
 
 	// Update an existing user
@@ -391,94 +362,39 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get all users
 	.get(function(req, res) {
-		var projectsUserHasAccessTo = [];
-		var usersProjectsArr = [];
-		var users = [];
-		var found;
-		//Get all the projects
-		models.Project.find({
-			archived: false
-		}).select('name').exec(function(error, projects) {
+		// Check if s/he is a superhero
+		req.mydata.user.hasRole("superhero", function(error, success) {
 			if (error) return res.send(error);
-			if (projects && projects.length > 0) {
-				//Loop through the projects
-				projects.forEach(function(project, index) {
-					// And check if the user has access to it
-					req.mydata.user.hasAccess(project, function(error, success) {
-						console.log(req.mydata.user.email + 'has access to ' + project.name);
-						if (error) return res.send(error);
-						// if s/he does, add it to the array
-						if (success) projectsUserHasAccessTo.push(project);
-
-						//Once we've looped through all the projects
-						if (index == (projects.length - 1)) {
-							console.log('Finished looping over projects');
-							if (projectsUserHasAccessTo && projectsUserHasAccessTo.length > 0) {
-								console.log("There are " + projectsUserHasAccessTo.length + " in projectsUserHasAccessTo");
-								// Loop through the projects the user has access to
-								projectsUserHasAccessTo.forEach(function(project, index1) {
-									console.log("In " + project.name + ": ");
-									// Find the usersProjects associated to it
-									models.UsersProject.find({
-										_project: project._id,
-										archived: false
-									}).populate('_user').exec(function(error, usersProjects) {
-										console.log("usersProjects.length => " + usersProjects.length);
-										if (error) return res.send(error);
-										if (usersProjects && usersProjects.length > 0) usersProjectsArr.push(usersProjects);
-										console.log("usersProjectsArr.length => " + usersProjectsArr.length);
-										if (index1 == (projectsUserHasAccessTo.length - 1)) {
-											console.log("Finished looping through projectsUserHasAccessTo");
-											if (usersProjectsArr && usersProjectsArr.length > 0) {
-												console.log("There are " + usersProjectsArr.length + " in usersProjectsArr");
-												// Loop through those usersProjects (with their populated user)
-												usersProjectsArr.forEach(function(usersProject, index2) {
-													console.log("Viewing user: " + usersProject._user.email);
-													// Remove the password before sending it
-													usersProject._user.password = '';
-													// Check if user doesn't already exist in users array
-													found = false;
-													users.forEach(function(user) {
-														if (user.email === usersProject._user.email) {
-															found = true;
-														}
-													});
-													if (!found) users.push(usersProject._user);
-
-													if (index2 == (usersProjects.length - 1)) {
-														console.log('Finished looping through usersProjects');
-														console.log('There are ' + users.length + "users to see");
-														return res.json({
-															success: true,
-															users: users
-														});
-													}
-												});
-											} else {
-												console.log("There are no usersProjects in usersProjectsArr");
-												return res.json({
-													success: true,
-													users: users
-												});
-											}
-										}
-									});
-								});
-							} else {
-								console.log("There are no projects in projectsUserHasAccessTo");
-								return res.json({
-									success: true,
-									users: users
-								});
-							}
-						}
+			// If s/he is
+			if (success) {
+				models.User.find({
+					archived: false
+				}).populate('projects', 'name').populate('roles', 'name').exec(function(error, users) {
+					if (error) return res.send(error);
+					return res.json({
+						success: true,
+						users: users
 					});
 				});
-			} else  {
-				console.log('No projects at all');
-				return res.json({
-					success: true,
-					users: users
+				// If s/he isn't a superhero
+			} else {
+				//check if user can get the users (Read User)
+				req.mydata.user.can('Read', 'User', function(error, success) {
+					if (error) return res.send(error);
+					if (!success) return res.send(new Error("Unauthorized"));
+
+					models.User.find({
+						archived: false,
+						projects: {
+							$in: req.mydata.user.projects
+						}
+					}).populate('projects', 'name').populate('roles', 'name').exec(function(error, users) {
+						if (error) return res.send(error);
+						return res.json({
+							success: true,
+							users: users
+						});
+					});
 				});
 			}
 		});
@@ -486,62 +402,73 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Add a new user
 	.post(function(req, res) {
-		if (req.mydata.user._role.name === 'superhero') {
-			models.User.find({
-				email: req.body.email
-			}, function(error, users) {
-				if (error) return res.send(error);
+		// First check if the user that is going to be added has the role superhero,
+		// Or administrator, if s/he does, check the activeUser's role, if it's a superhero
+		// or an admin of the site, it's ok
+		var user = req.body.user;
+		var projects = req.body.projects;
+		var roles = req.body.roles;
 
-				// Users with the same email were found
-				if (users.length > 0) {
-					return res.send({
-						success: false,
-						message: 'This email already exists in our database'
-					});
-
-					// We couldn't find any user with the same email
-				} else {
-					//Check if role was sent.
-					//!\\ Attention Faille //!\\
-					models.Role.findOne({
-						name: 'guest'
-					}, function(error, role) {
-						var _role = '';
-						if (!req.body._role) {
-							_role = role._id;
-						} else {
-							_role = req.body._role;
-						}
-
-						var user = new models.User({
-							// Set user attributes
-							email: req.body.email,
-							password: req.body.password,
-							_role: _role
-						});
-
-						// Hash the password with the salt
-						user.password = modules.bcrypt.hashSync(user.password, config.salt);
-
-						// Save the user and check for errors
-						user.save(function(error) {
-							if (error) return res.send(error);
-
-							return res.json({
-								success: true,
-								message: 'User was saved!',
-								user: user
-							});
-						});
-					});
+		modules.async.parallel({
+			userToAddIsSuperhero: function(callback) {
+				var found = false;
+				for (var j = 0; j < projects.length; j++) {
+					projects[j] = projects[j]._id;
 				}
-			});
-		} else {
-			res.status = 403;
-			return res.json({
-				status: 403,
-				message: 'You cannot add a user'
-			});
-		}
+				for (var i = 0; i < roles.length; i++) {
+					if (roles[i].name === 'superhero') found = true;
+					roles[i] = roles[i]._id;
+				}
+				callback(null, found);
+			},
+			activeUserHasAccess: function(callback) {
+				req.mydata.user.hasAccessToAll(projects, function(error, success) {
+					if (error) return res.send(error);
+					callback(null, success);
+				});
+			},
+			activeUserIsSuperhero: function(callback) {
+				req.mydata.user.hasRole('superhero', function(error, success) {
+					if (error) callback(error);
+					callback(null, success);
+				});
+			}
+		}, function(error, results) {
+			if (error) return res.send(error);
+
+			if ((!results.userToAddIsSuperhero && results.activeUserHasAccess) || results.activeUserIsSuperhero) {
+				console.log('roles');
+				console.log(roles);
+				console.log('projects');
+				console.log(projects);
+				var userObj = new models.User({
+					// Set user attributes
+					email: user.email,
+					password: user.password,
+					roles: roles,
+					projects: projects
+				});
+				// Hash the password with the salt
+				userObj.password = modules.bcrypt.hashSync(userObj.password, config.salt);
+				// Save the user and check for errors
+				userObj.save(function(error) {
+					if (error) return res.send(error);
+
+					return res.json({
+						success: true,
+						message: 'User was saved!',
+						user: user
+					});
+				});
+
+
+			} else {
+				res.status = 403;
+				return res.json({
+					status: 403,
+					message: 'Unauthorized!'
+				});
+			}
+		});
 	});
 };
