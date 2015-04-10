@@ -9,16 +9,17 @@ var smtpTransport = nodemailer.createTransport({
 	}
 });
 
-var profile = process.argv[2];
-if (process.argv[0] == "forever") {
-	profile = process.argv[3];
-}
+process.argv.forEach(function(arg) {
+	if (arg == "PROD" ||  arg == "DEV") {
+		profile = arg;
+	}
+});
 
 var config = {
 	unsecuredPaths: ['/api/users/isLoggedIn', '/api/users/login', '/api', '/api/'],
 	smtpTransport: smtpTransport,
 	server: {
-		address: '176.31.167.154',
+		address: profile == "DEV" ? '127.0.0.1' : '176.31.167.154',
 		port: profile == "DEV" ? '8080' : '80'
 	},
 	hardDebug: false,
