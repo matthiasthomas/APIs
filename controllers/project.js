@@ -1,6 +1,43 @@
 module.exports.controller = function(app, config, modules, models, middlewares, router) {
 
 	// --------------------------------------------
+	// Routes to /api/projects/getByUser
+	// --------------------------------------------
+	router.route('/projects/getForActiveUser')
+
+	.get(function(req, res) {
+		// If user is a superhero just return the projects
+		var query = {
+			archived: false
+		};
+
+		// If the user is no superhero get the project to which the user has an access
+		if (!req.mydata.isSuperhero) {
+			query._id = {
+				$in: req.mydata.user.projects
+			};
+		}
+
+		models.Project.find(query).populate('modules', 'name').exec(function(error, projects) {
+			if (error) return res.send(error);
+			// Check if the user has the right to read the projects
+			req.mydata.user.can('Read', 'Project', function(error, can) {
+				if (error) return res.send(error);
+				if (!can) {
+					res.status = 403;
+					return res.json({
+						message: "Unauthorized"
+					});
+				}
+				return res.json({
+					success: true,
+					projects: projects
+				});
+			});
+		});
+	});
+
+	// --------------------------------------------
 	// Routes to /api/projects/:project_id
 	// --------------------------------------------
 	router.route('/projects/:project_id')
@@ -10,7 +47,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 		models.Project.findOne({
 			_id: req.params.project_id,
 			archived: false
-		}, function(error, project) {
+		}).populate('modules', 'name').exec(function(error, project) {
 			if (error) {
 				res.send(error);
 				return;
@@ -34,6 +71,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 			project.name = req.body.name;
 			project.contacts = req.body.contacts;
 			project.googleAnalyticsID = req.body.googleAnalyticsID;
+			project.modules = req.body.modules;
 			project.updated = Date.now();
 
 			project.save(function(error) {
@@ -79,45 +117,24 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get all projects
 	.get(function(req, res) {
-		// If user is a superhero just return the projects
-		req.mydata.user.hasRole('superhero', function(error, success) {
+		models.Project.find({
+			archived: false
+		}).populate('modules', 'name').exec(function(error, projects) {
 			if (error) return res.send(error);
-			if (success) {
-				models.Project.find({
-					archived: false
-				}, function(error, projects) {
-					if (error) return res.send(error);
+			// Check if the user has the right to read the projects
+			req.mydata.user.can('Read', 'Project', function(error, can) {
+				if (error) return res.send(error);
+				if (!can) {
+					res.status = 403;
 					return res.json({
-						success: true,
-						projects: projects
+						message: "Unauthorized"
 					});
+				}
+				return res.json({
+					success: true,
+					projects: projects
 				});
-				// If the user is no superhero
-			} else {
-				// Get the project to which the user has an access
-				models.Project.find({
-					archived: false,
-					_id: {
-						$in: req.mydata.user.projects
-					}
-				}).exec(function(error, projects) {
-					if (error) return res.send(error);
-					// Check if the user has the right to get the projects
-					req.mydata.user.can('Read', 'Project', function(error, can) {
-						if (error) return res.send(error);
-						if (!can) {
-							res.status = 403;
-							return res.json({
-								message: "Unauthorized"
-							});
-						}
-						return res.json({
-							success: true,
-							projects: projects
-						});
-					});
-				});
-			}
+			});
 		});
 	})
 
@@ -128,7 +145,8 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 			// Set project attributes
 			name: req.body.name,
 			contacts: req.body.contacts,
-			googleAnalyticsID: req.body.googleAnalyticsID
+			googleAnalyticsID: req.body.googleAnalyticsID,
+			modules: req.body.modules
 		});
 
 		// Save the project and check for errors
@@ -145,6 +163,6 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 			});
 			return;
 		});
-
 	});
+
 };

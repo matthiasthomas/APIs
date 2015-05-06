@@ -19,6 +19,10 @@ var ProjectModel = Db.model('Project', new mongoose.Schema({
 			}
 		}]
 	}],
+	modules: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Module'
+	}],
 	created: {
 		type: Date,
 		default: Date.now

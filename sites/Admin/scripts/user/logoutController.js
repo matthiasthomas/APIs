@@ -10,8 +10,7 @@ userModule.controller('LogoutController', ['$scope', '$rootScope', 'UserService'
 					localStorageService.remove('token');
 					localStorageService.remove('activeUser');
 					$rootScope.isLoggedIn = false;
-					console.log(data.message);
-					$location.path('/');
+					$location.path('/login');
 				}
 			});
 		};

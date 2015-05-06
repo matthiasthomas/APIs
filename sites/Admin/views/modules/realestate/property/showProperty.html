@@ -1,0 +1,91 @@
+ <div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a href="#/modules/realestate/properties">Properties</a></li>
+    <li class="active">Edit a Property</li>
+</ol>
+
+<h1> Edit Property {{ property.title}}</h1>
+</div>
+<div class="container">
+    <fieldset disabled>
+        <div class="col-md-12">
+
+            <div class="col-md-6 col-sm-0">
+                <ui-gmap-google-map center='map.center' zoom='map.zoom' options='map.options'>
+                <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id"></ui-gmap-marker>
+            </ui-gmap-google-map>
+        </div>
+
+        <div class="col-md-6 col-sm-12">
+            <h1>List a New Property</h1>
+            <form role="form">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                        <div class="form-group">
+                            <input type="text" placeholder="Title" class="form-control" ng-model='property.title'>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                <input class="form-control" placeholder="Price" type="number" ng-model='property.price'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select class="form-control" ng-options="type._id as type.name for type in propertyTypes" ng-model="property._propertyType">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" placeholder="Description" rows="5" ng-model='property.description'></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                        <div class="form-group">
+                            <label>Region</label>
+                            <input class="form-control" type="text" id="address" placeholder="Enter a Location" autocomplete="off" ng-model='property.region.title' googleplace="">
+                            <p class="help-block">You can drag the marker to property position</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            <label>Bedrooms</label>
+                            <input type="number" class="form-control" ng-model='property.bedrooms'>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="property.projects.length > 1" class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+                        <label>Projects to which it belongs</label>
+                        <div ng-repeat="project in property.projects" class="checkbox" ng-show="project.checked">
+                            <label>
+                                <input type="checkbox" checked="checked"> {{ project.name }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                            <label>Image Gallery</label>
+                            <div>
+                                <strong>The ticked image is the main image...</strong>
+                            </div>
+                            <!-- For files in property.images (already on the server) -->
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-repeat='image in property.images'>
+                                <label>
+                                    <input ng-checked="image._id == property.mainImage._id" type="radio" name="mainImage" value="{{ $index }}">
+                                    <img ng-src="{{ image.s }}" style="max-height:200px">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</fieldset>
+</div>

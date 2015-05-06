@@ -196,38 +196,33 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 			if (error) return res.send(error);
 			if (!user) return res.send(new Error("Couln't find user with this id"));
 			modules.async.parallel({
-				isSuperHero: function(callback) {
-					req.mydata.user.hasRole("superhero", function(error, success) {
-						if (error) callback(error);
-						callback(null, success);
-					});
-				},
 				isAdmin: function(callback) {
 					req.mydata.user.hasRole("administrator", function(error, success) {
-						if (error) callback(error);
-						callback(null, success);
+						if (error) return callback(error);
+						return callback(null, success);
 					});
 				},
 				hasAccessToAny: function(callback) {
 					req.mydata.user.hasAccessToAny(user.projects, function(error, success) {
-						if (error) callback(error);
-						callback(null, success);
+						if (error) return callback(error);
+						return callback(null, success);
 					});
 				},
 				isActiveUser: function(callback) {
 					var success = false;
 					if (req.mydata.user._id.equals(req.params.user_id)) success = true;
-					callback(null, success);
+					return callback(null, success);
 				}
 			}, function(error, results) {
-				if (results.isSuperHero || (results.isAdmin && results.hasAccessToAny) || results.isActiveUser) {
-					res.json({
+				if (req.mydata.isSuperhero || (results.isAdmin && results.hasAccessToAny) || results.isActiveUser) {
+					user.password = "";
+					return res.json({
 						success: true,
 						user: user
 					});
 				} else {
 					res.status(403);
-					res.json({
+					return res.json({
 						status: 403,
 						message: "Unauthorized"
 					});
@@ -238,74 +233,32 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Update an existing user
 	.put(function(req, res) {
-		models.User.findById(req.params.user_id).populate('roles').exec(function(error, user) {
-			if (error)
-				res.send(error);
+		// If s/he is a superhero
+		var query = {
+			archived: false,
+			_id: req.params.user_id
+		};
+		// If s/he isn't a superhero, look for users associated to its projects
+		if (!req.mydata.isSuperhero) {
+			query.projects = {
+				$in: req.mydata.user.projects
+			};
+		}
+		models.User.findOne(query, function(error, user) {
+			if (error) return res.send(error);
+			if (!user) return res.send(new Error("Unauthorized"));
 
-			//Set user attributes
+			if (req.body.password !== "") user.password = req.body.password;
 			user.email = req.body.email;
-			if (req.body.password && req.body.password !== '') {
-				user.password = modules.bcrypt.hashSync(req.body.password, config.salt);
-			}
-			console.log(req.body.roles);
-			user.updated = Date.now();
-			var oldRoles = user.roles;
+			user.projects = req.body.projects;
 			user.roles = req.body.roles;
-			console.log(user.roles);
 
-			var deferred = modules.q.defer();
-			var promise = deferred.promise;
-
-			//Remove the old roles
-			oldRoles.forEach(function(oldRole, index) {
-				user.removeRole(oldRole.name, function(error) {
-					if (error) return res.send(error);
-
-					if (index == (oldRoles.length - 1)) {
-						console.log("finished removing roles");
-						console.log(user.roles);
-						deferred.resolve();
-					}
-				});
-			});
-
-			var deferred2 = modules.q.defer();
-			var promise2 = deferred2.promise;
-
-			promise.then(function() {
-				console.log("Welcome to promise");
-				//Add the new roles
-				console.log(user.roles);
-				user.roles.forEach(function(newRole, index) {
-					console.log("newRole " + index + ": ");
-					console.log(newRole);
-					models.Role.findOne(newRole, function(error, role) {
-						if (error) return res.send(error);
-
-						console.log(role.name);
-						user.addRole(role.name, function(error) {
-							if (error) return res.send(error);
-
-							console.log("role " + role.name + " added!");
-							if (index == (user.roles.length - 1)) {
-								console.log("finished adding roles");
-								deferred2.resolve();
-							}
-						});
-					});
-				});
-			});
-
-			promise2.then(function() {
-				console.log("Welcome to promise2");
-				user.save(function(error) {
-					if (error) return res.send(error);
-
-					return res.json({
-						success: true,
-						message: 'User was updated',
-						user: user
-					});
+			user.save(function(error, user) {
+				if (error) return res.send(error);
+				user.password = "";
+				return res.json({
+					success: true,
+					user: user
 				});
 			});
 		});
@@ -362,41 +315,27 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get all users
 	.get(function(req, res) {
-		// Check if s/he is a superhero
-		req.mydata.user.hasRole("superhero", function(error, success) {
+		// If s/he is a superhero
+		var query = {
+			archived: false
+		};
+		// If s/he isn't a superhero, look for users associated to its projects
+		if (!req.mydata.isSuperhero) {
+			query.projects = {
+				$in: req.mydata.user.projects
+			};
+		}
+		models.User.find(query).populate('projects', 'name').populate('roles', 'name').exec(function(error, users) {
 			if (error) return res.send(error);
-			// If s/he is
-			if (success) {
-				models.User.find({
-					archived: false
-				}).populate('projects', 'name').populate('roles', 'name').exec(function(error, users) {
-					if (error) return res.send(error);
-					return res.json({
-						success: true,
-						users: users
-					});
+			//check if user can get the users (Read User)
+			req.mydata.user.can('Read', 'User', function(error, success) {
+				if (error) return res.send(error);
+				if (!success) return res.send(new Error("Unauthorized"));
+				return res.json({
+					success: true,
+					users: users
 				});
-				// If s/he isn't a superhero
-			} else {
-				//check if user can get the users (Read User)
-				req.mydata.user.can('Read', 'User', function(error, success) {
-					if (error) return res.send(error);
-					if (!success) return res.send(new Error("Unauthorized"));
-
-					models.User.find({
-						archived: false,
-						projects: {
-							$in: req.mydata.user.projects
-						}
-					}).populate('projects', 'name').populate('roles', 'name').exec(function(error, users) {
-						if (error) return res.send(error);
-						return res.json({
-							success: true,
-							users: users
-						});
-					});
-				});
-			}
+			});
 		});
 	})
 
@@ -405,53 +344,35 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 		// First check if the user that is going to be added has the role superhero,
 		// Or administrator, if s/he does, check the activeUser's role, if it's a superhero
 		// or an admin of the site, it's ok
-		var user = req.body.user;
-		var projects = req.body.projects;
-		var roles = req.body.roles;
-
 		modules.async.parallel({
 			userToAddIsSuperhero: function(callback) {
 				var found = false;
-				for (var j = 0; j < projects.length; j++) {
-					projects[j] = projects[j]._id;
-				}
-				for (var i = 0; i < roles.length; i++) {
-					if (roles[i].name === 'superhero') found = true;
-					roles[i] = roles[i]._id;
+				for (var i = 0; i < req.body.roles.length; i++) {
+					if (req.body.roles[i].name === 'superhero') found = true;
 				}
 				callback(null, found);
 			},
 			activeUserHasAccess: function(callback) {
-				req.mydata.user.hasAccessToAll(projects, function(error, success) {
+				req.mydata.user.hasAccessToAll(req.body.projects, function(error, success) {
 					if (error) return res.send(error);
-					callback(null, success);
-				});
-			},
-			activeUserIsSuperhero: function(callback) {
-				req.mydata.user.hasRole('superhero', function(error, success) {
-					if (error) callback(error);
 					callback(null, success);
 				});
 			}
 		}, function(error, results) {
 			if (error) return res.send(error);
 
-			if ((!results.userToAddIsSuperhero && results.activeUserHasAccess) || results.activeUserIsSuperhero) {
-				console.log('roles');
-				console.log(roles);
-				console.log('projects');
-				console.log(projects);
+			if ((!results.userToAddIsSuperhero && results.activeUserHasAccess) || req.mydata.isSuperhero) {
 				var userObj = new models.User({
 					// Set user attributes
-					email: user.email,
-					password: user.password,
-					roles: roles,
-					projects: projects
+					email: req.body.email,
+					password: req.body.password,
+					roles: req.body.roles,
+					projects: req.body.projects
 				});
 				// Hash the password with the salt
 				userObj.password = modules.bcrypt.hashSync(userObj.password, config.salt);
 				// Save the user and check for errors
-				userObj.save(function(error) {
+				userObj.save(function(error, user) {
 					if (error) return res.send(error);
 
 					return res.json({

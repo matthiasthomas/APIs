@@ -1,5 +1,5 @@
-roleModule.controller('RolesController', ['$scope', 'RoleService', 'ModelService', 'pinesNotifications',
-	function($scope, RoleService, ModelService, pinesNotifications) {
+roleModule.controller('RolesController', ['$scope', 'UserService', 'RoleService', 'ModelService', 'pinesNotifications',
+	function($scope, UserService, RoleService, ModelService, pinesNotifications) {
 		RoleService.all().success(function(data) {
 			if (data.success) {
 				$scope.roles = data.roles;
@@ -7,6 +7,11 @@ roleModule.controller('RolesController', ['$scope', 'RoleService', 'ModelService
 				console.log(data);
 			}
 		});
+
+		$scope.activeUser = UserService.activeUser();
+		$scope.hasRole = function(user, role) {
+			return RoleService.hasRole(user, role);
+		};
 
 		$scope.addedModels = [];
 		$scope.updateModels = function() {

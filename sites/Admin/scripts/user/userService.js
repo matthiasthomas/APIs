@@ -7,9 +7,8 @@ userModule.factory('UserService', ['$http', 'localStorageService',
 			logout: function(inputs) {
 				return $http.get(myApp.globals.serverUrl + "api/users/logout");
 			},
-			//inputs: { user: user, projects: projects, roles: roles }
-			register: function(inputs) {
-				return $http.post(myApp.globals.serverUrl + "api/users", inputs);
+			register: function(user) {
+				return $http.post(myApp.globals.serverUrl + "api/users", user);
 			},
 			isLoggedIn: function() {
 				return $http.post(myApp.globals.serverUrl + "api/users/isLoggedIn", {
@@ -30,6 +29,13 @@ userModule.factory('UserService', ['$http', 'localStorageService',
 			},
 			forgotPassword: function(email) {
 				return $http.post(myApp.globals.serverUrl + "api/users/forgot/" + email);
+			},
+			activeUser: function() {
+				if (localStorageService.get('activeUser')) {
+					return localStorageService.get('activeUser');
+				} else {
+					return null;
+				}
 			}
 		};
 	}

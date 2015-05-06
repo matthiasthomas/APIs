@@ -7,13 +7,15 @@ var config = require("./config.js").config;
  * MODULES
  **/
 var modules = {
+	mongoose: require('mongoose'),
 	async: require('async'),
 	fs: require("fs"),
 	bcrypt: require("bcrypt-nodejs"),
 	crypto: require("crypto"),
 	permissionManager: require('./permissionManager.js'),
 	mail: config.smtpTransport,
-	q: require('q')
+	q: require('q'),
+	sharp: require('sharp')
 };
 
 /**
@@ -51,6 +53,7 @@ modules.fs.readdirSync("./models").forEach(function(file) {
  * EXPRESS
  **/
 var express = require("express");
+var multer = require('multer');
 var errorhandler = require('errorhandler');
 var bodyParser = require('body-parser');
 var router = express.Router();
@@ -67,15 +70,24 @@ if (true === config.hardDebug) {
 	app.use(morgan('combined', {}));
 }
 
+app.use('/uploads', express.static(__dirname + "/uploads"));
 app.use('/olympe', express.static(__dirname + "/sites/olympe"));
+app.use('/olympe_original', express.static(__dirname + "/sites/olympe_original"));
 app.use('/admin', express.static(__dirname + "/sites/Admin"));
 app.use('/', express.static(__dirname + "/sites/Front End"));
+app.use('/mapEx', express.static(__dirname + "/sites/mapEx"));
 
 /**
  * MIDDLEWARES
  **/
 var middlewares = require("./middlewares.js");
+// Header and authentication
 app.all("*", middlewares.header, middlewares.authenticate(config, models));
+
+// Multipart form (for file upload)
+app.use(multer({
+	dest: './uploads/'
+}));
 
 /**
  * CONTROLLERS

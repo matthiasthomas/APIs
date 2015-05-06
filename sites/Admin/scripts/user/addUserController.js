@@ -2,41 +2,41 @@ userModule.controller('AddUserController', ['$scope', '$q', '$routeParams', '$ro
 	function($scope, $q, $routeParams, $rootScope, $global, $timeout, $location, UserService, RoleService, ProjectService, localStorageService) {
 		$scope.user = {
 			email: '',
-			password: ''
+			password: '',
+			projects: [],
+			roles: []
 		};
 
-		if (localStorageService.get('activeUser') && !$scope.activeUser) {
-			$scope.activeUser = localStorageService.get('activeUser');
-		}
+		$scope.activeUser = UserService.activeUser();
 
 		$scope.projectsUserHasAccessTo = [];
 		$scope.projectsUserHasNotAccessTo = [];
-		$scope.rolesUserHas = [];
-		$scope.rolesUserHasNot = [];
+		$scope.rolesHeHas = [];
+		$scope.rolesHeHasnt = [];
 
-		ProjectService.all().success(function(data) {
+		ProjectService.getForActiveUser().success(function(data) {
 			$scope.projects = data.projects;
 			$scope.projectsUserHasNotAccessTo = $scope.projects;
 		});
 
 		RoleService.all().success(function(data) {
-			if (!RoleService.hasRole($rootScope.activeUser, 'superhero')) {
+			if (!RoleService.hasRole(UserService.activeUser(), 'superhero')) {
 				data.roles = data.roles.filter(function(element) {
 					return (element.name !== 'superhero');
 				});
 			}
 			$scope.roles = data.roles;
-			$scope.rolesUserHasNot = $scope.roles;
+			$scope.rolesHeHasnt = $scope.roles;
 		});
 
 		$scope.addRole = function(index) {
-			$scope.rolesUserHas.push($scope.rolesUserHasNot[index]);
-			$scope.rolesUserHasNot.splice(index, 1);
+			$scope.rolesHeHas.push($scope.rolesHeHasnt[index]);
+			$scope.rolesHeHasnt.splice(index, 1);
 		};
 
 		$scope.removeRole = function(index) {
-			$scope.rolesUserHasNot.push($scope.rolesUserHas[index]);
-			$scope.rolesUserHas.splice(index, 1);
+			$scope.rolesHeHasnt.push($scope.rolesHeHas[index]);
+			$scope.rolesHeHas.splice(index, 1);
 		};
 
 		$scope.addAccessToThisProject = function(index) {
@@ -51,11 +51,12 @@ userModule.controller('AddUserController', ['$scope', '$q', '$routeParams', '$ro
 
 		$scope.saveUser = function() {
 			console.log($scope.user);
-			UserService.register({
-				user: $scope.user,
-				projects: $scope.projectsUserHasAccessTo,
-				roles: $scope.rolesUserHas
-			}).success(function(data) {
+			if ($scope.projectsUserHasAccessTo.length === 0) {
+				$scope.projectsUserHasAccessTo.push($scope.projectsUserHasNotAccessTo[0]);
+			}
+			$scope.user.projects = $scope.projectsUserHasAccessTo;
+			$scope.user.roles = $scope.rolesHeHas;
+			UserService.register($scope.user).success(function(data) {
 				console.log(data);
 				if (data.success) {
 					$location.path('/users');

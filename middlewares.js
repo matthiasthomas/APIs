@@ -5,7 +5,6 @@ getRole = function(user) {
 	}).exec(function(error, role) {
 		if (error)
 			res.send(error);
-
 		return role;
 	});
 };
@@ -16,20 +15,27 @@ var middlewares = {
 
 			//If front is requesting available OPTIONS do it without auth
 			if (req.method === 'OPTIONS') {
-				next();
-				return;
+				return next();
+			}
+
+			// If the path doesn't concern the API, let go
+			if (req.path.indexOf('/api') < 0) {
+				return next();
 			}
 
 			//**** To replace with a better way of handling permissions ****//
-			if ((req.method === 'GET' && (req.path.indexOf('/api/projects/') > -1)) || (req.method === 'POST' && (req.path.indexOf('/api/users/forgot/') > -1))) {
-				next();
-				return;
-			}
+			var unsecuredPathsWithParams = ['/api/realestate/properties/getForProject/', '/api/users/forgot/', '/api/realestate/properties/'];
+			var found = false;
+			unsecuredPathsWithParams.forEach(function(path) {
+				if (req.path.indexOf(path) > -1 && req.path.indexOf('getForActiveUser') < 0) {
+					found = true;
+				}
+			});
+			if (found) return next();
 
 			//Check if requests an unsecuredPath, if so do it without auth
 			if (config.unsecuredPaths.indexOf(req.path) >= 0) {
-				next();
-				return;
+				return next();
 			}
 
 			var token_key = req.headers['x-access-token'];
@@ -39,8 +45,7 @@ var middlewares = {
 					archived: false
 				}).populate('_user').exec(function(error, token) {
 					if (error) {
-						res.send(error);
-						return;
+						return res.send(error);
 					}
 
 					if (token) {
@@ -50,25 +55,20 @@ var middlewares = {
 							token.archived = true;
 							token.save(function(error) {
 								if (error) {
-									res.send(error);
-									return;
+									return res.send(error);
 								}
 
 								res.status(403);
-								res.json({
+								return res.json({
 									"status": 403,
 									"message": "Token Expired"
 								});
-								return;
 							});
 						} else {
 							//If the user is still active, we update its token for as long as he sends new requests
 							token.updated = Date.now();
 							token.save(function(error) {
-								if (error) {
-									res.send(error);
-									return;
-								}
+								if (error) return res.send(error);
 
 								models.User.populate(token._user, [{
 									path: 'roles'
@@ -78,26 +78,28 @@ var middlewares = {
 									if (error) return res.send(error);
 									req.mydata = {};
 									req.mydata.user = user;
-									next();
+									req.mydata.user.hasRole('superhero', function(error, success) {
+										if (error) return res.send(error);
+										req.mydata.isSuperhero = success;
+										return next();
+									});
 								});
 							});
 						}
 					} else {
 						res.status(403);
-						res.json({
+						return res.json({
 							'status': 403,
 							'message': 'Invalid token'
 						});
-						return;
 					}
 				});
 			} else {
 				res.status(403);
-				res.json({
+				return res.json({
 					'status': 403,
 					'message': 'Invalid token'
 				});
-				return;
 			}
 		};
 	},
@@ -105,7 +107,7 @@ var middlewares = {
 		res.header("Access-Control-Allow-Origin", "*");
 		res.header("Access-Control-Allow-Methods", "GET,OPTIONS,PUT,POST,DELETE");
 		res.header("Access-Control-Allow-Headers", "Content-Type,x-access-token");
-		next();
+		return next();
 	}
 };
 

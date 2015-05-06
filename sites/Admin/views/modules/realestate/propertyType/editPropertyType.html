@@ -1,0 +1,48 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a href="#/modules/realestate/propertyTypes">Property Types</a></li>
+    <li class="active">Edit a Property Type</li>
+  </ol>
+
+  <h1> Edit Property Type {{ propertyType.name }}</h1>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+
+      <form action class="form-horizontal">
+
+        <legend>General Information</legend>
+        <div class="form-group">
+          <label class="col-md-3 control-label">Name</label>
+          <div class="col-md-9">
+            <input type="text" class="form-control" id='name' name='name' ng-model='propertyType.name' required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-3 control-label">Description</label>
+          <div class="col-md-9">
+            <textarea class="form-control" rows='4' id='details' name='details' ng-model='propertyType.description'></textarea>
+          </div>
+        </div>
+
+        <div ng-show="propertyType.projects.length > 1" class="form-group">
+          <label class="col-md-3 control-label">Projects to which it belongs</label>
+          <div ng-repeat="project in propertyType.projects" class="checkbox col-md-9 col-md-offset-3">
+            <label>
+              <input type="checkbox" ng-model="project.checked"> {{ project.name }}
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group col-md-3">
+          <a class="btn btn-md btn-success" ng-click="savePropertyType();">Save Property Type</a>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

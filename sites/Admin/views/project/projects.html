@@ -1,58 +1,54 @@
-        <div id="page-heading">
-            <ol class="breadcrumb">
-                <li><a href="#/">Dashboard</a></li>
-                <li class="active">Projects</li>
-            </ol>
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a href="#/">Dashboard</a></li>
+    <li class="active">Projects</li>
+  </ol>
 
-            <h1>Projects</h1>
+  <h1>Projects</h1>
+</div>
+
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-sky">
+        <div class="panel-heading">
+          <h4>Projects</h4>
+
         </div>
+        <div class="panel-body">
+          <div class="table-flipscroll">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th style="padding-right:100px">Project</th>
+                  <th>ID</th>
+                  <th>Date of Creation</th>
+                  <th>Visits last month</th>
+                  <th ng-show="hasRole(activeUser, 'superhero')">Edit</th>
+                </tr>
+              </thead>
+              <tbody>
 
-        <div class="container-fluid">
+                <tr ng-repeat="project in projects">
+                  <td align="left">{{ project.name }}</td>
+                  <td>{{ project._id }}</td>
+                  <td>{{ project.created }}</td>
+                  <td>NB</td>
+                  <td ng-show="hasRole(activeUser, 'superhero')">
+                    <a class="btn btn-success btn-sm" href="#/showProject/{{ project._id }}">Show</a>
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="panel panel-sky">
-                        <div class="panel-heading">
-                            <h4>Projects</h4>
-
-                        </div>
-                        <div class="panel-body">
-                            <div class="table-flipscroll">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th style="padding-right:100px">Project</th>
-                                            <th>ID</th>
-                                            <!--<th>Country</th>-->
-                                            <th>Date of Creation</th>
-                                            <th>Visits last month</th>
-                                            <th>Edit</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        <tr ng-repeat="project in projects">
-                                            <td align="left">{{ project.name }}</td>
-                                            <td>{{ project._id }}</td>
-                                            <!--<td><span class="flagicon"><img alt="" src="http://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/320px-Flag_of_France.svg.png" width="23" height="12" srcset="http://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/320px-Flag_of_France.svg.png 2x">&nbsp;</span>France</a></td>-->
-                                            <td>{{ project.created }}</td>
-                                            <td>NB</td>
-                                            <td>
-                                              <a class="btn btn-success btn-sm" href="#/project/{{ project._id }}">Show</a>
-
-                                              <a class="btn btn-primary btn-sm" href="#/editProject/{{ project._id }}">Edit</a>
-                                              <a class="btn btn-danger btn-sm" confirm-click='' confirm-click-function='deleteProject(project._id)' confirm-click-class='btn btn-orange btn-sm'>Delete</a>
-                                              </td>
-                                          <td><a href="#/editProject/{{ project._id }}"><i class='fa fa-edit'></i></a></td>
-                                      </tr>
-                                  </tbody>
-                              </table>
-                              <a class="btn btn-sm btn-primary" href="#/addProject">Add a Project</a>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+                    <a class="btn btn-primary btn-sm" href="#/editProject/{{ project._id }}">Edit</a>
+                    <a class="btn btn-danger btn-sm" confirm-click='' confirm-click-function='deleteProject(project._id)' confirm-click-class='btn btn-orange btn-sm'>Delete</a>
+                    <a href="#/"><i class='fa fa-edit'></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <a ng-show="hasRole(activeUser, 'superhero')" class="btn btn-sm btn-primary" href="#/addProject">Add a Project</a>
           </div>
+        </div>
       </div>
-
-  </div> <!-- container -->
+    </div>
+  </div>
+</div>

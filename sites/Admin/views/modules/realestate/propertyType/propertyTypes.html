@@ -1,0 +1,55 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a href="#/">Dashboard</a></li>
+    <li class="active">Property Types</li>
+  </ol>
+
+  <h1>Property Types</h1>
+</div>
+
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-sky">
+        <div class="panel-heading">
+          <h4>Property Types</h4>
+
+        </div>
+        <div class="panel-body">
+          <div class="table-flipscroll">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th style="padding-right:100px">Property Type</th>
+                  <th>Date of Creation</th>
+                  <th ng-show="activeUser.projects.length > 1 || hasRole(activeUser, 'superhero')">Projects</th>
+                  <th>Edit</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr ng-repeat="propertyType in propertyTypes">
+                  <td align="left">{{ propertyType.name }}</td>
+                  <td>{{ propertyType.created }}</td>
+                  <td ng-show="activeUser.projects.length > 1 || hasRole(activeUser, 'superhero')">
+                  <ul>
+                    <li ng-repeat="project in propertyType.projects">{{ project.name }}</li>
+                  </ul>
+                  </td>
+                  <td>
+                    <a class="btn btn-success btn-sm" href="#/modules/realestate/showPropertyType/{{ propertyType._id }}">Show</a>
+
+                    <a class="btn btn-primary btn-sm" href="#/modules/realestate/editPropertyType/{{ propertyType._id }}">Edit</a>
+                    <a class="btn btn-danger btn-sm" confirm-click='' confirm-click-function='deletePropertyType(propertyType._id)' confirm-click-class='btn btn-orange btn-sm'>Delete</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <a class="btn btn-sm btn-primary" href="#/modules/realestate/addPropertyType">Add a Property Type</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

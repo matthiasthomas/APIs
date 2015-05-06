@@ -1,7 +1,12 @@
-roleModule.controller('ShowRoleController', ['$scope', 'RoleService', '$routeParams',
-	function($scope, RoleService, $routeParams) {
+roleModule.controller('ShowRoleController', ['$scope', 'RoleService', 'UserService', '$routeParams',
+	function($scope, RoleService, UserService, $routeParams) {
 		var roleId = $routeParams.id;
 		var permissions = [];
+
+		$scope.activeUser = UserService.activeUser();
+		$scope.hasRole = function(user, role) {
+			return RoleService.hasRole(user, role);
+		};
 
 		RoleService.get(roleId).success(function(data) {
 			if (data.success) {

@@ -9,14 +9,14 @@ userModule.controller('EditRoleController', ['$scope', 'RoleService', 'ProjectSe
 			projects: []
 		};
 
-		$scope.isSuperhero = false;
-		if (RoleService.hasRole(localStorageService.get('activeUser'), 'superhero')) {
-			$scope.isSuperhero = true;
-		}
+		$scope.activeUser = UserService.activeUser();
+		$scope.hasRole = function(user, role) {
+			return RoleService.hasRole(user, role);
+		};
 
 		async.parallel({
 			getProjects: function(callback) {
-				ProjectService.all().success(function(data) {
+				ProjectService.getForActiveUser().success(function(data) {
 					if (!data.success) return callback(data);
 					callback(null, data.projects);
 				});
@@ -89,7 +89,7 @@ userModule.controller('EditRoleController', ['$scope', 'RoleService', 'ProjectSe
 		$scope.saveRole = function() {
 			var permissionsArray = [];
 			$scope.role.projects = $scope.role.projects.filter(function(project) {
-				return (project.checked);
+				return (project.checked || $scope.role.projects.length === 1);
 			});
 			// Now loop through the permissions of our role
 			$scope.role.permissions.forEach(function(permission) {

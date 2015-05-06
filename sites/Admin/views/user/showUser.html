@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <div ng-show='!isSuperhero'>
+      <div ng-show='!isSuperhero && (user.projects.length > 1 || hasRole(activeUser, "superhero"))'>
         <div class="col-md-12">
         <label class="col-sm-3 control-label">Projects</label>
           <div class="col-sm-9">

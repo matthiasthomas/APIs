@@ -1,0 +1,57 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a href="#/">Dashboard</a></li>
+    <li class="active">Agents</li>
+  </ol>
+
+  <h1>Agents</h1>
+</div>
+
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-sky">
+        <div class="panel-heading">
+          <h4>Agents</h4>
+
+        </div>
+        <div class="panel-body">
+          <div class="table-flipscroll">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th style="padding-right:100px">Agent</th>
+                  <th>Date of Creation</th>
+                  <th ng-show="activeUser.projects.length > 1 || hasRole(activeUser, 'superhero')">Projects</th>
+                  <th>Profile Picture</th>
+                  <th>Edit</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr ng-repeat="agent in agents">
+                  <td align="left">{{ agent.name.first }} {{ agent.name.last }}</td>
+                  <td>{{ agent.created }}</td>
+                  <td ng-show="activeUser.projects.length > 1 || hasRole(activeUser, 'superhero')">
+                  <ul>
+                    <li ng-repeat="project in agent.projects">{{ project.name }}</li>
+                  </ul>
+                  </td>
+                  <td><img ng-src="{{ agent._image.s }}"></td>
+                  <td>
+                    <a class="btn btn-success btn-sm" href="#/modules/realestate/showAgent/{{ agent._id }}">Show</a>
+
+                    <a class="btn btn-primary btn-sm" href="#/modules/realestate/editAgent/{{ agent._id }}">Edit</a>
+                    <a class="btn btn-danger btn-sm" confirm-click='' confirm-click-function='deleteAgent(agent._id)' confirm-click-class='btn btn-orange btn-sm'>Delete</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <a class="btn btn-sm btn-primary" href="#/modules/realestate/addAgent">Add a Agent</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

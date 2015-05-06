@@ -20,13 +20,19 @@
       <panel panel-class="panel-primary" data-heading="My Roles">
         <table class="table table-bordered table-condensed">
           <tr style="font-weight: bold">
-            <td >Name</td>
+            <td>Name</td>
+            <td ng-show="activeUser.projects.length > 1 || hasRole(activeUser, 'superhero')">Projects</td>
             <td >Actions</td>
           </tr>
           <tr ng-repeat="role in roles">
             <td>
               <!-- editable username (text with validation) -->
               <span>{{ role.name }}</span>
+            </td>
+            <td ng-show="activeUser.projects.length > 1 || hasRole(activeUser, 'superhero')">
+              <ul>
+                <li ng-repeat="project in role.projects">{{ project.name }}</li>
+              </ul>
             </td>
             <td>
               <div ng-hide="role.name == 'administrator' || role.name == 'superhero'">

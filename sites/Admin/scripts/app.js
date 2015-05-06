@@ -23,6 +23,9 @@ var myApp = angular
     'LocalStorageModule',
     'pagesControllersModule',
     'modelModule',
+    'modulesModule',
+    'angularFileUpload',
+    'uiGmapgoogle-maps',
 
     //End Added
 

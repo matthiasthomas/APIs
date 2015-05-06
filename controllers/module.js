@@ -7,7 +7,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get a module from its id
 	.get(function(req, res) {
-		models.module.findOne({
+		models.Module.findOne({
 			_id: req.params.module_id,
 			archived: false
 		}, function(error, module) {
@@ -23,7 +23,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Update an existing module
 	.put(function(req, res) {
-		models.module.findById(req.params.module_id, function(error, module) {
+		models.Module.findById(req.params.module_id, function(error, module) {
 			if (error)
 				res.send(error);
 
@@ -49,7 +49,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Delete a given module
 	.delete(function(req, res) {
-		models.module.findById(req.params.module_id, function(error, module) {
+		models.Module.findById(req.params.module_id, function(error, module) {
 			if (error)
 				res.send(error);
 
@@ -77,7 +77,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Get all modules
 	.get(function(req, res) {
-		models.module.find({
+		models.Module.find({
 			archived: false
 		}).exec(function(error, modules) {
 			if (error)
@@ -92,7 +92,7 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	// Add a new module
 	.post(function(req, res) {
-		var module = new models.module({
+		var module = new models.Module({
 			// Set module attributes
 			name: req.body.name,
 			details: req.body.details,

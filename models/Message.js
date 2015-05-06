@@ -3,7 +3,7 @@ var Db = require('./Db.js').Db;
 
 var MessageModel = Db.model('Message', new mongoose.Schema({
 	_user: {
-		type: String,
+		type: mongoose.Schema.Types.ObjectId,
 		required: true,
 		ref: 'User'
 	},

@@ -18,6 +18,70 @@ myApp.config(['$provide', '$routeProvider',
 		when('/messages/:messagesStatus', {
 			templateUrl: 'views/extras-inbox.html'
 		}).
+		when('/modules/realestate/agents', {
+			templateUrl: 'views/modules/realestate/agent/agents.html',
+			controller: 'ModulesRealestateAgentsController'
+		}).
+		when('/modules/realestate/addAgent', {
+			templateUrl: 'views/modules/realestate/agent/editAgent.html',
+			controller: 'ModulesRealestateAddAgentController'
+		}).
+		when('/modules/realestate/editAgent', {
+			templateUrl: 'views/modules/realestate/agent/editAgent.html',
+			controller: 'ModulesRealestateEditAgentController'
+		}).
+		when('/modules/realestate/showAgent', {
+			templateUrl: 'views/modules/realestate/agent/showAgent.html',
+			controller: 'ModulesRealestateEditAgentController'
+		}).
+		when('/modules/realestate/propertyTypes', {
+			templateUrl: 'views/modules/realestate/propertyType/propertyTypes.html',
+			controller: 'ModulesRealestatePropertyTypesController'
+		}).
+		when('/modules/realestate/addPropertyType', {
+			templateUrl: 'views/modules/realestate/propertyType/editPropertyType.html',
+			controller: 'ModulesRealestateAddPropertyTypeController'
+		}).
+		when('/modules/realestate/editPropertyType/:id', {
+			templateUrl: 'views/modules/realestate/propertyType/editPropertyType.html',
+			controller: 'ModulesRealestateEditPropertyTypeController'
+		}).
+		when('/modules/realestate/showPropertyType/:id', {
+			templateUrl: 'views/modules/realestate/propertyType/showPropertyType.html',
+			controller: 'ModulesRealestateEditPropertyTypeController'
+		}).
+		when('/modules/realestate/properties', {
+			templateUrl: 'views/modules/realestate/property/properties.html',
+			controller: 'ModulesRealestatePropertiesController'
+		}).
+		when('/modules/realestate/addProperty', {
+			templateUrl: 'views/modules/realestate/property/editProperty.html',
+			controller: 'ModulesRealestateAddPropertyController'
+		}).
+		when('/modules/realestate/showProperty/:id', {
+			templateUrl: 'views/modules/realestate/property/showProperty.html',
+			controller: 'ModulesRealestateEditPropertyController'
+		}).
+		when('/modules/realestate/editProperty/:id', {
+			templateUrl: 'views/modules/realestate/property/editProperty.html',
+			controller: 'ModulesRealestateEditPropertyController'
+		}).
+		when('/modules', {
+			templateUrl: 'views/module/modules.html',
+			controller: 'ModulesController'
+		}).
+		when('/showModule/:id', {
+			templateUrl: 'views/module/showModule.html',
+			controller: 'ShowModuleController'
+		}).
+		when('/editModule/:id', {
+			templateUrl: 'views/module/editModule.html',
+			controller: 'EditModuleController'
+		}).
+		when('/addModule', {
+			templateUrl: 'views/module/editModule.html',
+			controller: 'AddModuleController'
+		}).
 		when('/users', {
 			templateUrl: 'views/user/users.html',
 			controller: 'UsersController'
@@ -53,6 +117,10 @@ myApp.config(['$provide', '$routeProvider',
 		when('/projects', {
 			templateUrl: 'views/project/projects.html',
 			controller: 'ProjectsController'
+		}).
+		when('/showProject/:id', {
+			templateUrl: 'views/project/showProject.html',
+			controller: 'ShowProjectController'
 		}).
 		when('/addProject', {
 			templateUrl: 'views/project/editProject.html',
@@ -205,7 +273,7 @@ myApp.run(['$http', 'localStorageService', '$rootScope', '$location', '$route', 
 		});
 
 		$rootScope.$on('$routeChangeStart', function(event, nextLoc, currentLoc) {
-			console.log('start: ', $location.path());
+			//console.log('start: ', $location.path());
 			progressLoader.start();
 			progressLoader.set(50);
 
@@ -218,13 +286,13 @@ myApp.run(['$http', 'localStorageService', '$rootScope', '$location', '$route', 
 					} else {
 						$rootScope.isLoggedIn = true;
 					}
-					console.log('isLoggedIn: ' + $rootScope.isLoggedIn);
+					//console.log('isLoggedIn: ' + $rootScope.isLoggedIn);
 				});
 			}
 		});
 
 		$rootScope.$on('$routeChangeSuccess', function(e) {
-			console.log('success: ', $location.path());
+			//console.log('success: ', $location.path());
 			progressLoader.end();
 		});
 	}

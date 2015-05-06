@@ -2,8 +2,8 @@
  * Forza v1.0.0 (c) by Ndevr Studios and The Red Team
  * Powered by Bootstrap v3.2 and FontAwesome 4.1
  */
-/*! normalize.css v3.0.1 | MIT License | git.io/normalize */
-html {
+ /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
+ html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -4991,7 +4991,7 @@ i.visible-print {
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
  */
 /* FONT PATH
- * -------------------------- */
+* -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
   src: url('../fonts/font-awesome/fonts/fontawesome-webfont.eot?v=4.1.0');
@@ -5007,6 +5007,9 @@ i.visible-print {
   line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+.fa-red {
+  color: red;
 }
 /* makes the font 33% larger relative to the icon container */
 .fa-lg {
@@ -5170,7 +5173,7 @@ i.visible-print {
   color: #ffffff;
 }
 /* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
-   readers do not read off random characters that represent icons */
+readers do not read off random characters that represent icons */
 .fa-glass:before {
   content: "\f000";
 }
@@ -15522,7 +15525,7 @@ fieldset[disabled] .jqvmap-zoomout.active {
  * Reference:
  * http://code.google.com/p/google-code-prettify/source/browse/trunk/src/prettify.css
  */
-.pln {
+ .pln {
   color: #48484C;
 }
 .str {
@@ -15613,7 +15616,7 @@ li.L9 {
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
-.colorpicker-saturation {
+ .colorpicker-saturation {
   width: 100px;
   height: 100px;
   background-image: url('../plugins/form-colorpicker/img/bootstrap-colorpicker/saturation.png');
@@ -15831,3 +15834,17 @@ li.L9 {
   border-left: 0;
 }
 /*# sourceMappingURL=styles.css.map */
+
+/* Matthias Edit */
+.angular-google-map-container { 
+  padding-bottom: 130%;
+}
+
+.drop-zone{
+  border: dotted 3px lightgray;
+  opacity: 0.75;
+}
+
+.drop-zone-in{
+  border-color: green;
+}

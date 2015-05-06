@@ -1,0 +1,48 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a href="#/">Dashboard</a></li>
+    <li class="active">Properties</li>
+  </ol>
+
+  <h1> Properties</h1>
+</div>
+
+
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <panel panel-class="panel-primary" data-heading="My Properties">
+        <table class="table table-bordered table-condensed">
+          <tr style="font-weight: bold">
+            <td style="width:20%">Title</td>
+            <td style="width:30%">Region</td>
+            <td style="width:20%">Price</td>
+            <td style="width:10%">Main Image</td>
+            <td style="width:20%">Actions</td>
+          </tr>
+          <tr ng-repeat="property in properties">
+            <td>
+              <span>{{ property.title }}</span>
+            </td>
+            <td>
+              <span>{{ property.region.title  }}</span>
+            </td>
+            <td>
+              <span>{{ property.price | currency : '€' }}</span>
+            </td>
+            <td>
+              <img ng-src="{{ property.mainImage.s }}">
+            </td>
+            <td>
+              <a class="btn btn-success btn-sm" href="#/modules/realestate/showProperty/{{ property._id }}">Show</a>
+
+              <a class="btn btn-primary btn-sm" href="#/modules/realestate/editProperty/{{ property._id }}">Edit</a>
+              <a class="btn btn-danger btn-sm" confirm-click='' confirm-click-function='deleteProperty(property._id)' confirm-click-class='btn btn-orange btn-sm'>Delete</a>
+            </td>
+          </tr>
+        </table>
+        <a class="btn btn-default" href="#/modules/realestate/addProperty">Add a new Property</a>
+      </panel>
+    </div> 

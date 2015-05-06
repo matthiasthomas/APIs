@@ -1,0 +1,71 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li>
+      <a href="#/modules/realestate/agents">Agents</a>
+    </li>
+    <li class="active">Edit an Agent</li>
+  </ol>
+
+  <h1>Edit Agent {{ agent.name.first }} {{ agent.name.last }}</h1>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+
+      <form action class="form-horizontal">
+
+        <legend>General Information</legend>
+        <div class="form-group">
+          <label class="col-md-3 control-label">Name</label>
+          <div class="col-md-9">
+            <input type="text" placeholder="First name" class="form-control" id='firstName' name='firstName' ng-model='agent.name.first' required />
+            <input type="text" placeholder="Last name" class="form-control" id="lastName" name="lastName" ng-model="agent.name.last" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-3 control-label">Phone</label>
+          <div class="col-md-9">
+            <input type="text" placeholder="Phone" class="form-control" id="phone" name="phone" ng-model="agent.phone" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-3 control-label">Email</label>
+          <div class="col-md-9">
+            <input type="text" placeholder="Email" class="form-control" id="email" name="email" ng-model="agent.email" required />
+          </div>
+        </div>
+
+        <div ng-show="activeUser().projects.length >
+          1 || hasRole(activeUser(), 'superhero')" class="form-group">
+          <label class="col-md-3 control-label">Projects to which it belongs</label>
+          <div ng-repeat="project in agent.projects" class="checkbox col-md-9 col-md-offset-3">
+            <label>
+              <input type="checkbox" ng-model="project.checked">{{ project.name }}</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-3 control-label">Profile Picture</label>
+          <input class="col-md-9" type="file" nv-file-select uploader="uploader" />
+          <div class="col-md-12" ng-repeat='file in uploader.queue'>
+            <div class="col-md-6 col-md-offset-3">
+              <div ng-show="uploader.isHTML5" ng-thumb="{ file: file._file, height: 100 }"></div>
+            </div>
+            <div ng-show="uploader.isHTML5" class="progress col-md-3" style="margin-bottom: 0;">
+              <div class="progress-bar" role="progressbar" ng-style="{ 'width': file.progress + '%' }" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group col-md-3">
+          <a class="btn btn-md btn-success" ng-click="addAgent();">Save Agent</a>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

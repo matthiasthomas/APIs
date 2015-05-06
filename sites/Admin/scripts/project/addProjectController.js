@@ -1,6 +1,7 @@
-userModule.controller('AddProjectController', ['$scope', '$rootScope', '$global', '$timeout', '$location', 'ProjectService',
-	function($scope, $rootScope, $global, $timeout, $location, ProjectService) {
+projectModule.controller('AddProjectController', ['$scope', '$rootScope', '$global', '$timeout', '$location', 'ProjectService', 'ModuleService',
+	function($scope, $rootScope, $global, $timeout, $location, ProjectService, ModuleService) {
 		$scope.project = {};
+		$scope.project.modules = [];
 		$scope.project.contacts = [{
 			label: '',
 			address: '',
@@ -12,6 +13,22 @@ userModule.controller('AddProjectController', ['$scope', '$rootScope', '$global'
 				type: ''
 			}]
 		}];
+
+		$scope.modules = [];
+
+		ModuleService.all().success(function(data) {
+			if (data.success) {
+				data.modules.forEach(function(module) {
+					$scope.modules.push({
+						_id: module._id,
+						name: module.name,
+						checked: false
+					});
+				});
+			} else {
+				console.log(data);
+			}
+		});
 
 		$scope.addPhone = function(i) {
 			$scope.project.contacts[i].phones.push({
@@ -43,6 +60,13 @@ userModule.controller('AddProjectController', ['$scope', '$rootScope', '$global'
 		};
 
 		$scope.addProject = function() {
+			$scope.modules.forEach(function(module) {
+				if (module.checked) {
+					$scope.project.modules.push({
+						_id: module._id
+					});
+				}
+			});
 			ProjectService.post($scope.project).success(function(data) {
 				if (data.success) {
 					$location.path('/projects');

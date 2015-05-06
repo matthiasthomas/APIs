@@ -4,7 +4,7 @@ var Db = require('./Db.js').Db;
 var TokenSchema = new mongoose.Schema({
 	key: String,
 	_user: {
-		type: String,
+		type: mongoose.Schema.Types.ObjectId,
 		required: true,
 		ref: 'User'
 	},

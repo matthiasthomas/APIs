@@ -88,6 +88,7 @@ function plugin(schema, options) {
   };
 
   schema.methods.hasAccessToAny = function(projects, done) {
+    console.log(projects);
     var obj = this;
     var hasAccess = false,
       count = 0;

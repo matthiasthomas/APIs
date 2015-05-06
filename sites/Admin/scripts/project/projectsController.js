@@ -1,6 +1,12 @@
-userModule.controller('ProjectsController', ['$scope', '$rootScope', '$global', '$timeout', '$location', 'ProjectService',
-	function($scope, $rootScope, $global, $timeout, $location, ProjectService) {
-		ProjectService.all().success(function(data) {
+projectModule.controller('ProjectsController', ['$scope', '$rootScope', '$global', '$timeout', '$location', 'ProjectService', 'RoleService', 'UserService',
+	function($scope, $rootScope, $global, $timeout, $location, ProjectService, RoleService, UserService) {
+
+		$scope.activeUser = UserService.activeUser();
+		$scope.hasRole = function(user, role) {
+			return RoleService.hasRole(user, role);
+		};
+
+		ProjectService.getForActiveUser().success(function(data) {
 			if (!data.success) {
 				console.log(data);
 			} else {

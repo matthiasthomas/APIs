@@ -104,8 +104,22 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 
 	//Get all available roles
 	.get(function(req, res) {
-		// First of all check if user is superhero
-		req.mydata.user.hasRole('superhero', function(error, isSuperhero) {
+		// If user is a superhero, return everything
+		var query = {
+			archived: false
+		};
+		// If s/he can read Role but is not a superhero, we have to check which projects
+		// s/he can access and return the associated roles (+the default admin role)
+		if (!req.mydata.isSuperhero) {
+			query.$or = [{
+				name: 'administrator'
+			}, {
+				projects: {
+					$in: req.mydata.user.projects
+				}
+			}];
+		}
+		models.Role.find(query).populate('permissions projects').exec(function(error, roles) {
 			if (error) return res.send(error);
 			// Now check if user can read roles
 			req.mydata.user.can('read', 'Role', function(error, can) {
@@ -117,33 +131,9 @@ module.exports.controller = function(app, config, modules, models, middlewares, 
 						message: "Unauthorized"
 					});
 				}
-				var query;
-				// If user is a superhero, return everything
-				if (isSuperhero) {
-					query = {
-						archived: false
-					};
-				}
-				// If s/he can read Role but is not a superhero, we have to check which projects
-				// s/he can access and return the associated roles (+the default admin role)
-				else if (can) {
-					query = {
-						archived: false,
-						$or: [{
-							name: 'administrator'
-						}, {
-							projects: {
-								$in: req.mydata.user.projects
-							}
-						}]
-					};
-				}
-				models.Role.find(query).populate('permissions').exec(function(error, roles) {
-					if (error) return res.send(error);
-					return res.json({
-						success: true,
-						roles: roles
-					});
+				return res.json({
+					success: true,
+					roles: roles
 				});
 			});
 		});

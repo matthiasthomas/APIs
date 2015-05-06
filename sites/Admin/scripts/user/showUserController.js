@@ -2,6 +2,10 @@ userModule.controller('ShowUserController', ['$scope', '$q', 'UserService', 'Rol
 	function($scope, $q, UserService, RoleService, $routeParams, ProjectService) {
 		var userId = $routeParams.id;
 		$scope.isSuperhero = false;
+		$scope.activeUser = UserService.activeUser();
+		$scope.hasRole = function(user, role) {
+			return RoleService.hasRole(user, role);
+		};
 
 		//Get the user
 		UserService.get(userId).success(function(data) {

@@ -1,9 +1,14 @@
-'use strict'
+"use strict"
 
 angular
     .module('theme.navigation-controller', [])
-    .controller('NavigationController', ['$scope', '$location', '$timeout', '$global',
-        function($scope, $location, $timeout, $global) {
+    .controller('NavigationController', ['$scope', '$location', '$timeout', '$global', 'localStorageService', 'RoleService', 'UserService',
+        function($scope, $location, $timeout, $global, localStorageService, RoleService, UserService) {
+            $scope.isSuperhero = false;
+            if (UserService.activeUser() && RoleService.hasRole(UserService.activeUser(), 'superhero')) {
+                $scope.isSuperhero = true;
+            }
+
             $scope.menu = [{
                 label: 'Dashboard',
                 iconClasses: 'fa fa-home',
@@ -47,7 +52,24 @@ angular
             }, {
                 label: 'My Modules',
                 iconClasses: 'fa fa-code-fork',
-                url: '#/mymodules'
+                children: [{
+                    label: 'Real Estate',
+                    iconClasses: 'fa fa-home',
+                    children: [{
+                        label: 'Properties',
+                        url: '#/modules/realestate/properties'
+                    }, {
+                        label: 'Property Types',
+                        url: '#/modules/realestate/propertyTypes'
+                    }, {
+                        label: 'Agents',
+                        url: '#/modules/realestate/agents'
+                    }]
+                }]
+            }, {
+                label: 'Modules',
+                iconClasses: 'fa fa-code-fork',
+                url: '#/modules'
             }];
 
             var setParent = function(children, parent) {
@@ -83,7 +105,7 @@ angular
                 }
                 for (var i = $scope.openItems.length - 1; i >= 0; i--) {
                     $scope.openItems[i].open = false;
-                };
+                }
                 $scope.openItems = [];
                 var parentRef = item;
                 while (parentRef !== null) {
@@ -97,21 +119,21 @@ angular
                     $scope.selectedFromNavMenu = true;
                     for (var j = $scope.selectedItems.length - 1; j >= 0; j--) {
                         $scope.selectedItems[j].selected = false;
-                    };
+                    }
                     $scope.selectedItems = [];
-                    var parentRef = item;
+                    parentRef = item;
                     while (parentRef !== null) {
                         parentRef.selected = true;
                         $scope.selectedItems.push(parentRef);
                         parentRef = parentRef.parent;
                     }
-                };
+                }
             };
 
             $scope.$watch(function() {
                 return $location.path();
             }, function(newVal, oldVal) {
-                if ($scope.selectedFromNavMenu == false) {
+                if ($scope.selectedFromNavMenu === false) {
                     var item = $scope.findItemByUrl($scope.menu, newVal);
                     if (item)
                         $timeout(function() {
@@ -125,12 +147,12 @@ angular
             $scope.showSearchBar = function($e) {
                 $e.stopPropagation();
                 $global.set('showSearchCollapsed', true);
-            }
+            };
             $scope.$on('globalStyles:changed:showSearchCollapsed', function(event, newVal) {
                 $scope.style_showSearchCollapsed = newVal;
             });
             $scope.goToSearch = function() {
-                $location.path('/extras-search')
+                $location.path('/extras-search');
             };
         }
-    ])
+    ]);

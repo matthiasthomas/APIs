@@ -1,6 +1,7 @@
-userModule.controller('EditProjectController', ['$scope', '$rootScope', '$routeParams', '$global', '$timeout', '$location', 'ProjectService',
-	function($scope, $rootScope, $routeParams, $global, $timeout, $location, ProjectService) {
+projectModule.controller('EditProjectController', ['$scope', '$rootScope', '$routeParams', '$global', '$timeout', '$location', 'ProjectService', 'ModuleService',
+	function($scope, $rootScope, $routeParams, $global, $timeout, $location, ProjectService, ModuleService) {
 		$scope.project = {};
+		$scope.project.modules = [];
 		$scope.project.contacts = [{
 			label: '',
 			address: '',
@@ -12,11 +13,37 @@ userModule.controller('EditProjectController', ['$scope', '$rootScope', '$routeP
 				type: ''
 			}]
 		}];
+		$scope.modules = [];
 		var projectId = $routeParams.id;
 
 		ProjectService.get(projectId).success(function(data) {
 			if (data.success) {
 				$scope.project = data.project;
+				ModuleService.all().success(function(data) {
+					if (data.success) {
+						data.modules.forEach(function(module) {
+							var found = false;
+							$scope.project.modules.forEach(function(projectModule) {
+								if (module._id == projectModule._id) found = true;
+							});
+							if (found) {
+								$scope.modules.push({
+									_id: module._id,
+									name: module.name,
+									checked: true
+								});
+							} else {
+								$scope.modules.push({
+									_id: module._id,
+									name: module.name,
+									checked: false
+								});
+							}
+						});
+					} else {
+						console.log(data);
+					}
+				});
 			} else {
 				console.log(data);
 			}
@@ -52,6 +79,15 @@ userModule.controller('EditProjectController', ['$scope', '$rootScope', '$routeP
 		};
 
 		$scope.addProject = function() {
+			$scope.project.modules = [];
+			$scope.modules.forEach(function(module) {
+				if (module.checked) {
+					$scope.project.modules.push({
+						_id: module._id,
+						name: module.name
+					});
+				}
+			});
 			ProjectService.put($scope.project._id, $scope.project).success(function(data) {
 				if (data.success) {
 					$location.path('/projects');

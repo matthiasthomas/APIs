@@ -15,6 +15,9 @@ projectModule.factory('ProjectService', ['$http',
 			},
 			all: function() {
 				return $http.get(myApp.globals.serverUrl + "api/projects");
+			},
+			getForActiveUser: function() {
+				return $http.get(myApp.globals.serverUrl + "api/projects/getForActiveUser");
 			}
 		};
 	}

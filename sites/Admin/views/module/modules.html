@@ -1,0 +1,49 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a href="#/">Dashboard</a></li>
+    <li class="active">Modules</li>
+  </ol>
+
+  <h1>Modules</h1>
+</div>
+
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-sky">
+        <div class="panel-heading">
+          <h4>Modules</h4>
+
+        </div>
+        <div class="panel-body">
+          <div class="table-flipscroll">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th style="padding-right:100px">Module</th>
+                  <th>Date of Creation</th>
+                  <th>Edit</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr ng-repeat="module in modules">
+                  <td align="left">{{ module.name }}</td>
+                  <td>{{ module.created }}</td>
+                  <td>
+                    <a class="btn btn-success btn-sm" href="#/showModule/{{ module._id }}">Show</a>
+
+                    <a class="btn btn-primary btn-sm" href="#/editModule/{{ module._id }}">Edit</a>
+                    <a class="btn btn-danger btn-sm" confirm-click='' confirm-click-function='deleteModule(module._id)' confirm-click-class='btn btn-orange btn-sm'>Delete</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <a class="btn btn-sm btn-primary" href="#/addModule">Add a Module</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

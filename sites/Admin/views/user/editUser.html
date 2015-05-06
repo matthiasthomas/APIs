@@ -1,6 +1,6 @@
 <div id="page-heading">
   <ol class="breadcrumb">
-    <li><a href="#/">Dashboard</a></li>
+    <li><a href="#/users">Users</a></li>
     <li class="active">Edit a User</li>
   </ol>
 
@@ -47,7 +47,7 @@
             <div class="col-sm-5">
               <h4>Roles s/he has</h4>
               <div class="scroll-200">
-                <div ng-repeat='role in rolesUserHas' class="checkbox">
+                <div ng-repeat='role in rolesHeHas' class="checkbox">
                   <label>
                     <input type="checkbox" checked="checked" ng-click='removeRole($index)'> {{ role.name }}
                   </label>
@@ -57,7 +57,7 @@
             <div class="col-sm-5">
               <h4>Roles s/he hasn't</h4>
               <div class="scroll-200">
-                <div ng-repeat='role in rolesUserHasNot' class="checkbox">
+                <div ng-repeat='role in rolesHeHasnt' class="checkbox">
                   <label>
                     <input type="checkbox" ng-click='addRole($index)'> {{ role.name }}
                   </label>
@@ -67,7 +67,7 @@
           </div>
         </div>
         
-        <div>
+        <div ng-show="projectsUserHasAccessTo.length + projectsUserHasNotAccessTo.length > 1">
           <div class="form-group">
             <label class="col-sm-2 control-label">Projects</label>
             <div class="col-sm-5">

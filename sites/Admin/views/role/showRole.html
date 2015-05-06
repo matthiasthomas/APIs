@@ -21,7 +21,7 @@
           </div>
         </div>
 
-        <div ng-hide="role.name == 'superhero'">
+        <div ng-show="hasRole(activeUser, 'superhero') || activerUser.projects.length > 1">
           <legend>Associated Projects</legend>
           <div class="form-group">
             <div class="col-md-12">

@@ -1,0 +1,49 @@
+<div id="page-heading">
+  <ol class="breadcrumb">
+    <li><a href="#/modules">Modules</a></li>
+    <li class="active">Edit a Module</li>
+  </ol>
+
+  <h1> Edit Module {{ module.name }}</h1>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+
+      <form action class="form-horizontal" name="editUserForm">
+        <fieldset disabled>
+          <legend>General Information</legend>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Name</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id='name' name='name' ng-model='module.name' required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Details</label>
+            <div class="col-sm-6">
+              <textarea class="form-control" rows='4' id='details' name='details' ng-model='module.details'></textarea>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Fixed cost</label>
+            <div class="col-md-6">
+              <input type="number" class="form-control" id="fixedCost" name="fixedCost" ng-model='module.fixedCost'>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Cost per month</label>
+            <div class="col-md-6">
+              <input type="number" class="form-control" id="costPerMonth" name="costPerMonth" ng-model='module.costPerMonth'>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+
+    </div>
+  </div>
+</div>
